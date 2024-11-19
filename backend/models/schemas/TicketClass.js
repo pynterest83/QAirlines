@@ -1,6 +1,6 @@
 // models/TicketClass.js
 const { DataTypes } = require('sequelize');
-const sequelize = require('../db');
+const sequelize = require('../../db');
 
 const TicketClass = sequelize.define('TicketClass', {
     ClassName: {

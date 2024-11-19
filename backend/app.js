@@ -4,19 +4,19 @@ const app = express();
 const sequelize = require('./db');
 
 // Import models
-const Aircraft = require('./models/Aircraft');
-const Airport = require('./models/Airport');
-const Flight = require('./models/Flight');
-const FlightSeat = require('./models/FlightSeat');
-const Passenger = require('./models/Passenger');
-const Seat = require('./models/Seat');
-const Ticket = require('./models/Ticket');
-const TicketClass = require('./models/TicketClass');
-const Promotion = require('./models/Promotion');
-const Users = require('./models/Users');
+const Aircraft = require('./models/schemas/Aircraft');
+const Airport = require('./models/schemas/Airport');
+const Flight = require('./models/schemas/Flight');
+const FlightSeat = require('./models/schemas/FlightSeat');
+const Passenger = require('./models/schemas/Passenger');
+const Seat = require('./models/schemas/Seat');
+const Ticket = require('./models/schemas/Ticket');
+const TicketClass = require('./models/schemas/TicketClass');
+const Promotion = require('./models/schemas/Promotion');
+const Users = require('./models/schemas/Users');
 
 // Import associations
-require('./models/associations');
+require('./models/schemas/associations');
 
 // Import routes
 const apiRoutes = require('./routes');

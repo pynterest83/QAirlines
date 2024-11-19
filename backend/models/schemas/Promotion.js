@@ -1,6 +1,6 @@
 // models/Promotion.js
 const { DataTypes } = require('sequelize');
-const sequelize = require('../db');
+const sequelize = require('../../db');
 
 const Promotion = sequelize.define('Promotion', {
     PromotionID: {

@@ -102,10 +102,10 @@
 ### Get All Seats
 - **Endpoint:** `/api/seats/all`
 - **Method:** `GET`
-- **Parameters:** `flightId`
+- **Parameters:** `flightID`
 - **Description:** Retrieves all seats for a flight.
 - **Response:** JSON array of all seats.
-- **Example:** `/api/seats/all?flightId=VN100`
+- **Example:** `/api/seats/all?flightID=VN100`
 ```json
 {
     "flightID": "VN100",
@@ -147,10 +147,10 @@
 ### Get Available Seats
 - **Endpoint:** `/api/seats/available`
 - **Method:** `GET`
-- **Parameters:** `flightId`, `class`
+- **Parameters:** `flightID`, `class`
 - **Description:** Retrieves available seats by class for a flight.
 - **Response:** JSON array of available seats.
-- **Example:** `/api/seats/available?flightId=VN100&class=Business`
+- **Example:** `/api/seats/available?flightID=VN100&class=Business`
 ```json
 {
   "flightID": "VN100",
@@ -166,7 +166,6 @@
 ### Book Ticket
 - **Endpoint:** `/api/tickets/book-ticket`
 - **Method:** `POST`
-- **Parameters:** `flightId`, `passengers`
 - **POST Body:** JSON object with passengers' details.
 - **Description:** Books a ticket for a flight.
 - **Request Body:** JSON object with booking details.
@@ -227,8 +226,8 @@
 ### Cancel Ticket
 - **Endpoint:** `/api/tickets/cancel-ticket`
 - **Method:** `DELETE`
-- **Description:** Cancels a booked ticket.
 - **Request Body:** JSON object with cancellation details.
+- **Description:** Cancels a booked ticket.
 - **Response:** Confirmation of cancellation.
 - **Example:** `/api/tickets/cancel-ticket`
 - **Request Body:**

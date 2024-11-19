@@ -1,6 +1,6 @@
 // models/Passenger.js
 const { DataTypes } = require('sequelize');
-const sequelize = require('../db');
+const sequelize = require('../../db');
 
 const Passenger = sequelize.define('Passenger', {
     PassID: {
