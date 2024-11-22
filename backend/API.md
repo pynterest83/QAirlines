@@ -1,5 +1,20 @@
 # API documentation
 
+## Table of Contents
+- [Authentication](#authentication)
+  - [Register](#register)
+  - [Login](#login)
+- [Offers](#offers)
+  - [Get Round Trip Flights](#get-round-trip-flights)
+  - [Get One Way Flights](#get-one-way-flights)
+- [Seats](#seats)
+  - [Get All Seats](#get-all-seats)
+  - [Get Available Seats](#get-available-seats)
+- [Tickets](#tickets)
+  - [Book Ticket](#book-ticket)
+  - [Cancel Ticket](#cancel-ticket)
+  - [Get My Tickets](#get-my-tickets)
+
 ## Authentication
 
 ### Register

@@ -2,6 +2,14 @@
 
 - Use **Bearer `<token>`** for authentication.
 - You can get the token by [logging](API.md#login) in as an admin.
+
+## Table of Contents
+- [Promotions](#promotions)
+  - [Create Promotion](#create-promotion)
+  - [Get All Promotions](#get-all-promotions)
+  - [Update Promotion](#update-promotion)
+  - [Delete Promotion](#delete-promotion)
+
 ## Promotions
 ### Create Promotion
 - **Endpoint:** `/api/promotions/create`

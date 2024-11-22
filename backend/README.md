@@ -26,4 +26,5 @@
 
 ## API Documentation
 - [API Documentation](API.md)
+- [API Admin Documentation](API_admin.md)
 
