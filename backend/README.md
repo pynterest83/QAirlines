@@ -20,6 +20,7 @@
 ## Usage
 **Start the server:**
    ```sh
+   cd <repository-directory>/backend>
    npm start
    ```
 

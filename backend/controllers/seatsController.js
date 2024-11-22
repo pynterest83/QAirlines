@@ -4,7 +4,6 @@ const seatService = require('../services/seats/seatService');
 
 // Lấy tất cả chỗ ngồi
 exports.getAllSeats = [
-    validate(allSeatsSchema, 'query'), // Kiểm tra query parameters
     async (req, res) => {
         try {
             const { flightID } = req.query; // flightID thay vì flightId
@@ -19,7 +18,6 @@ exports.getAllSeats = [
 
 // Lấy chỗ ngồi trống theo hạng ghế
 exports.getAvailableSeats = [
-    validate(availableSeatsSchema, 'query'), // Kiểm tra query parameters
     async (req, res) => {
         try {
             const { flightID, class: classType } = req.query; // flightID thay vì flightId
