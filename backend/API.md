@@ -1,5 +1,75 @@
 # API documentation
 
+## Table of Contents
+- [Authentication](#authentication)
+  - [Register](#register)
+  - [Login](#login)
+- [Offers](#offers)
+  - [Get Round Trip Flights](#get-round-trip-flights)
+  - [Get One Way Flights](#get-one-way-flights)
+- [Seats](#seats)
+  - [Get All Seats](#get-all-seats)
+  - [Get Available Seats](#get-available-seats)
+- [Tickets](#tickets)
+  - [Book Ticket](#book-ticket)
+  - [Cancel Ticket](#cancel-ticket)
+  - [Get My Tickets](#get-my-tickets)
+
+## Authentication
+
+### Register
+- **Endpoint:** `/api/auth/register`
+- **Method:** `POST`
+- **POST Body:** JSON object with user details.
+- **Description:** Registers a new user.
+- **Request Body:** JSON object with user details.
+- **Response:** Confirmation of registration.
+- **Example:** `/api/auth/register`
+- **Request Body:**
+```json
+{
+  "username": "admin",
+  "password": "admin",
+  "role": "admin"
+}
+```
+**Note: Leave `role` empty for normal users.**
+
+- **Response:**
+```json
+{
+  "message": "Đăng ký thành công",
+  "user": {
+    "UserID": "U1N7G5543",
+    "Username": "user1",
+    "Role": "User"
+  }
+}
+```
+
+### Login
+- **Endpoint:** `/api/auth/login`
+- **Method:** `POST`
+- **POST Body:** JSON object with user credentials.
+- **Description:** Logs in a user.
+- **Request Body:** JSON object with user credentials.
+- **Response:** JSON object with user details and token.
+- **Example:** `/api/auth/login`
+- **Request Body:**
+```json
+{
+  "username": "admin",
+  "password": "admin123"
+}
+```
+- **Response:**
+```json
+{
+  "message": "Đăng nhập thành công",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiJVV1hWMTg5NDYiLCJVc2VybmFtZSI6ImFkbWluIiwiUm9sZSI6ImFkbWluIiwiaWF0IjoxNzMyMjQ0ODU0LCJleHAiOjE3MzIyNDg0NTR9.T2u1-TI528snByz9LxpGdZD_rD-_K9fgonnPrk6GiV4"
+}
+```
+
 ## Offers
 
 ### Get Round Trip Flights
@@ -240,5 +310,48 @@
 ```json
 {
     "message": "Hủy vé thành công"
+}
+```
+
+### Get My Tickets
+- **Endpoint:** `/api/tickets/my-tickets`
+- **Method:** `GET`
+- **Parameters:** `identifier` (SSN hoặc Passport)
+- **Description:** Retrieves all tickets for a given passenger and their dependents based on SSN or Passport.
+- **Example:** `/api/tickets/my-tickets?identifier=123456789012`
+- **Response:**
+```json
+{
+    "identifier": "123456789012",
+    "tickets": [
+        {
+            "TicketID": "T328760",
+            "FlightID": "VN101",
+            "SeatNo": "20B",
+            "AircraftID": "B787",
+            "CancellationDeadline": "2024-12-05T01:00:00.000Z",
+            "FlightDetails": {
+                "FlightID": "VN101",
+                "DepTime": "2024-12-08T01:00:00.000Z",
+                "ArrTime": "2024-12-08T05:00:00.000Z",
+                "DepID": "SGN",
+                "DestID": "HAN"
+            }
+        },
+        {
+            "TicketID": "T372183",
+            "FlightID": "VN101",
+            "SeatNo": "20A",
+            "AircraftID": "B787",
+            "CancellationDeadline": "2024-12-05T01:00:00.000Z",
+            "FlightDetails": {
+                "FlightID": "VN101",
+                "DepTime": "2024-12-08T01:00:00.000Z",
+                "ArrTime": "2024-12-08T05:00:00.000Z",
+                "DepID": "SGN",
+                "DestID": "HAN"
+            }
+        }
+    ]
 }
 ```

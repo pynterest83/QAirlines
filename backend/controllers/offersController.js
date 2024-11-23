@@ -4,7 +4,6 @@ const offerService = require('../services/offers/offerService');
 
 // Xử lý chuyến bay khứ hồi
 exports.getRoundTripFlights = [
-    validate(roundTripSchema, 'query'), // Kiểm tra query parameters
     async (req, res) => {
         const { departure, destination, departure_date, return_date } = req.query;
         try {
@@ -24,7 +23,6 @@ exports.getRoundTripFlights = [
 
 // Xử lý chuyến bay một chiều
 exports.getOneWayFlights = [
-    validate(oneWaySchema, 'query'), // Kiểm tra query parameters
     async (req, res) => {
         const { departure, destination, departure_date } = req.query;
         try {

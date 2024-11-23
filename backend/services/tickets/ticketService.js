@@ -1,4 +1,5 @@
 const { Passenger, Ticket, FlightSeat, Flight } = require('../../models/schemas');
+const {Op} = require("sequelize");
 
 // Tìm hoặc tạo hành khách
 async function findOrCreatePassenger(data) {
@@ -78,8 +79,60 @@ async function cancelTicket(ticketID) {
     return true;
 }
 
+// Lấy thông tin vé theo hành khách
+async function getTicketsByPassenger(identifier) {
+    // Tìm hành khách người lớn dựa trên SSN hoặc Passport
+    const guardian = await Passenger.findOne({
+        where: {
+            [Op.or]: [
+                { SSN: identifier },
+                { Passport: identifier }
+            ]
+        }
+    });
+
+    if (!guardian) {
+        throw new Error('Guardian not found with the provided SSN or Passport');
+    }
+
+    // Tìm tất cả hành khách phụ thuộc của người lớn
+    const dependents = await Passenger.findAll({
+        where: { GuardianID: guardian.PassID },
+        attributes: ['PassID']
+    });
+
+    const dependentIDs = dependents.map(dependent => dependent.PassID);
+    const allPassengerIDs = [guardian.PassID, ...dependentIDs]; // Bao gồm cả người lớn và trẻ em
+
+    // Lấy vé của tất cả hành khách này
+    const tickets = await Ticket.findAll({
+        where: { PassID: { [Op.in]: allPassengerIDs } },
+        include: [
+            {
+                model: Flight,
+                attributes: ['FlightID', 'DepTime', 'ArrTime', 'DepID', 'DestID']
+            }
+        ]
+    });
+
+    if (tickets.length === 0) {
+        throw new Error('No tickets found for this guardian and dependents');
+    }
+
+    return tickets.map(ticket => ({
+        TicketID: ticket.TicketID,
+        FlightID: ticket.FlightID,
+        SeatNo: ticket.SeatNo,
+        AircraftID: ticket.AircraftID,
+        CancellationDeadline: ticket.CancellationDeadline,
+        FlightDetails: ticket.Flight
+    }));
+}
+
+
 module.exports = {
     findOrCreatePassenger,
     bookTicket,
-    cancelTicket
+    cancelTicket,
+    getTicketsByPassenger
 };

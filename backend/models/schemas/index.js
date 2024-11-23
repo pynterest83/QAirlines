@@ -7,7 +7,7 @@ const Airport = require('./Airport');
 const Promotion = require('./Promotion');
 const Seat = require('./Seat');
 const TicketClass = require('./TicketClass');
-const Users = require('./Users');
+const Users = require('./User');
 
 // Export all models
 module.exports = {

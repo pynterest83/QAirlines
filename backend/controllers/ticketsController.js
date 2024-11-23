@@ -4,7 +4,6 @@ const ticketService = require('../services/tickets/ticketService');
 
 // Xử lý đặt vé
 exports.handleBookTicket = [
-    validate(bookTicketSchema, 'body'), // Kiểm tra body request
     async (req, res) => {
         const { flightID, passengers } = req.body;
 
@@ -28,7 +27,6 @@ exports.handleBookTicket = [
 
 // Xử lý hủy vé
 exports.handleCancelTicket = [
-    validate(cancelTicketSchema, 'body'), // Kiểm tra body request
     async (req, res) => {
         const { ticketID } = req.body;
 
@@ -41,3 +39,17 @@ exports.handleCancelTicket = [
         }
     },
 ];
+
+// Xử lý lấy thông tin vé theo hành khách
+exports.handleGetMyTicket = async (req, res) => {
+    const { identifier } = req.query;
+
+    try {
+
+        const tickets = await ticketService.getTicketsByPassenger(identifier);
+        res.json({ identifier, tickets });
+    } catch (error) {
+        console.error('Error fetching tickets:', error.message);
+        res.status(500).json({ error: error.message });
+    }
+};

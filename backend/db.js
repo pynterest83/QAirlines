@@ -3,7 +3,10 @@ const { Sequelize } = require('sequelize');
 // Khởi tạo Sequelize với cấu hình cơ sở dữ liệu của bạn
 const sequelize = new Sequelize('qairline', 'root', '', {
     host: 'localhost',
-    dialect: 'mysql', // Điều chỉnh tùy vào database bạn dùng
+    dialect: 'mysql',
+    define: {
+        timestamps: false
+    },
     port: 3308,
     pool: {
         max: 5,
