@@ -4,10 +4,10 @@ import Banner from "../components/Banner.jsx";
 function Homepage() {
 
     return (
-        <div>
+        <>
             <Navigation/>
             <Banner/>
-        </div>
+        </>
     )
 }
 

@@ -109,12 +109,12 @@
     font-style: italic;
 }
 @layer utilities {
-.br-color {
-    border-color: #6d24cf;
-}
-.l-color {
-    background-color: #ffe06f;
-}
+    .br-color {
+        border-color: #6d24cf;
+    }
+    .l-color {
+        background-color: #ffe06f;
+    }
 }
 @layer components {
     .gradient-button {
@@ -132,5 +132,13 @@
           border-width: 2px 0 0 0; /* Horizontal border */
           border-image: linear-gradient(to right, #6d24cf, #ffe06f) 1; /* Horizontal gradient */
         }
-      }
+    }
+    @keyframes slide-in {
+        from {
+            left: -100%;
+        }
+    }
+    .slide-from-left {
+        animation: slide-in 0.4s;
+    }
 }
