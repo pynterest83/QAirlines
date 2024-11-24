@@ -2,7 +2,11 @@
 const express = require('express');
 const app = express();
 const sequelize = require('./db');
-
+let cors = require('cors')
+const corsOptions = {
+    origin: "http://localhost:5173"
+}
+app.use(cors(corsOptions))
 // Import models
 require('./models/schemas/Aircraft');
 require('./models/schemas/Airport');

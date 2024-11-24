@@ -2,7 +2,8 @@ import {useRef} from "react";
 import { FiMenu } from "react-icons/fi";
 import { FiX } from "react-icons/fi";
 import { FiSearch } from "react-icons/fi";
-function Navigation() {
+import {useNavigate} from "react-router-dom";
+function Navigation(props) {
     function toggle() {
         console.log(list.current.className)
         if (!list.current.className.includes("hidden")) list.current.className += "hidden"
@@ -11,6 +12,7 @@ function Navigation() {
         }
     }
     const list = useRef(null)
+    const nav = useNavigate()
     return (
         <nav
         className="sticky z-20 top-0 left-0 right-0 px-2 max-w-full bg-white border-black border-b be-vietnam-pro-medium">
@@ -18,7 +20,7 @@ function Navigation() {
                 <button onClick={toggle} className="w-8 aspect-square inline-block lg:hidden active:bg-gray-300 hover:bg-gray-300">
                     <FiMenu className="block m-auto" size={'1.5rem'}/>
                 </button>
-                <img className="w-56 py-3" src="/logo.png" alt="Logo"/>
+                <img onClick={() => nav("/")} className="cursor-pointer w-56 py-3" src="/logo.png" alt="Logo"/>
                 <div ref={list}
                      className="slide-from-left bg-white h-full lg:h-auto lg:pt-5 border-black border-r lg:border-none w-11/12 box-border lg:box-content top-0 left-0 lg:bg-white fixed lg:static lg:text-base lg:block lg:w-fit lg:ml-auto z-20 hidden">
                     <button className="lg:hidden ml-auto flex mr-1 my-1 active:bg-gray-300 hover:bg-gray-300"
@@ -35,13 +37,19 @@ function Navigation() {
                     </div>
                     <ul
                         className="lg:h-full flex flex-col lg:flex-row">
-                        <li className="p-2 hover:br-color active:br-color active:border-r-4 hover:border-r-4 lg:active:border-r-0 lg:hover:border-r-0 lg:mx-4 cursor-pointer lg:hover:br-color lg:hover:border-b-4 lg:hover:bg-white">
+                        <li className={(props.selecting === "booking" ? "be-vietnam-pro-bold br-color border-r-4 lg:border-r-0 lg:border-b-4 " : "")
+                            + "p-2 hover:br-color active:br-color active:border-r-4 hover:border-r-4 lg:active:border-r-0 lg:hover:border-r-0 lg:mx-4 cursor-pointer lg:hover:br-color lg:hover:border-b-4 lg:hover:bg-white"
+                        }>
                             <div>Booking</div>
                         </li>
-                        <li className="p-2 hover:br-color active:br-color active:border-r-4 hover:border-r-4 lg:active:border-r-0 lg:hover:border-r-0 lg:mx-4 cursor-pointer lg:hover:br-color lg:hover:border-b-4 lg:hover:bg-white">
+                        <li className={(props.selecting === "info" ? "be-vietnam-pro-bold br-color border-r-4 lg:border-r-0 lg:border-b-4 " : "")
+                            + "p-2 hover:br-color active:br-color active:border-r-4 hover:border-r-4 lg:active:border-r-0 lg:hover:border-r-0 lg:mx-4 cursor-pointer lg:hover:br-color lg:hover:border-b-4 lg:hover:bg-white"
+                        }>
                             <div>Travel info</div>
                         </li>
-                        <li className="p-2 hover:br-color active:br-color active:border-r-4 hover:border-r-4 lg:active:border-r-0 lg:hover:border-r-0 lg:mx-4 cursor-pointer lg:hover:br-color lg:hover:border-b-4 lg:hover:bg-white">
+                        <li className={(props.selecting === "help" ? "be-vietnam-pro-bold br-color border-r-4 lg:border-r-0 lg:border-b-4 " : "")
+                            + "p-2 hover:br-color active:br-color active:border-r-4 hover:border-r-4 lg:active:border-r-0 lg:hover:border-r-0 lg:mx-4 cursor-pointer lg:hover:br-color lg:hover:border-b-4 lg:hover:bg-white"
+                        }>
                             <div>Help</div>
                         </li>
                     </ul>
