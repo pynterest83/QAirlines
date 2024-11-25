@@ -8,8 +8,8 @@ function Flights(props) {
     const flightList = useRef(null)
     if (props.flights !== undefined)
         return (
-            <div ref={flightList} className="my-4 w-4/6 mx-auto">
-                {props.flights.map(flight => <Flight key={flight.FlightID} info={flight}/>)}
+            <div ref={flightList} className="my-4 w-full">
+                {props.flights.map(flight => <Flight from={props.from} to={props.to} key={flight.FlightID} info={flight}/>)}
             </div>
         )
     else

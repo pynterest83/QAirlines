@@ -20,7 +20,7 @@ const router = createBrowserRouter([
 ])
 createRoot(document.getElementById('root')).render(
     <div>
-        <div className="z-0 fixed top-0 left-0 bottom-0 right-0 bg-gradient-to-r from-[#ffe06f] to-[#6d24cf]"/>
+        <div className="z-0 fixed top-0 left-0 bottom-0 right-0 bg-[#93938e]"/>
         <RouterProvider router={router}/>
     </div>
 

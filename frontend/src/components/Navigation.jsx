@@ -5,7 +5,6 @@ import { FiSearch } from "react-icons/fi";
 import {useNavigate} from "react-router-dom";
 function Navigation(props) {
     function toggle() {
-        console.log(list.current.className)
         if (!list.current.className.includes("hidden")) list.current.className += "hidden"
         else {
             list.current.className = list.current.className.replaceAll("hidden", "")
@@ -15,7 +14,7 @@ function Navigation(props) {
     const nav = useNavigate()
     return (
         <nav
-        className="sticky z-20 top-0 left-0 right-0 px-2 max-w-full bg-white border-black border-b be-vietnam-pro-medium">
+        className="sticky z-20 top-0 left-0 right-0 px-2 max-w-full bg-white be-vietnam-pro-medium">
             <div className="flex max-w-full">
                 <button onClick={toggle} className="w-8 aspect-square inline-block lg:hidden active:bg-gray-300 hover:bg-gray-300">
                     <FiMenu className="block m-auto" size={'1.5rem'}/>

@@ -117,6 +117,9 @@
     }
 }
 @layer components {
+    .no-scrollbar {
+        scrollbar-width: none;
+    }
     .gradient-button {
       background: linear-gradient(90deg, rgba(109,36,207,1) 0%, rgba(255,224,111,1) 100%);
     }
@@ -125,7 +128,7 @@
     }
     .gradient-border {
       border-left: 2px dashed transparent;
-      border-image: linear-gradient(to bottom, #6d24cf, #ffe06f) 1;
+      border-image: linear-gradient(to bottom, #ffe06f, #6d24cf) 1;
     }
     @media (max-width: 768px) {
         .gradient-border {

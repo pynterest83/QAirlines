@@ -107,8 +107,8 @@ function Booking() {
             <Navigation selecting={"booking"}/>
 
             <div
-                className="py-2 w-4/6 bg-white rounded-lg mx-auto my-6 flex justify-evenly items-stretch be-vietnam-pro-bold">
-                <div className="flex">
+                className="px-4 md:px-0 flex-col md:flex-row py-2 w-[95%] md:w-4/6 bg-white rounded-lg md:rounded-lg mx-auto my-6 flex justify-evenly items-stretch be-vietnam-pro-bold">
+                <div className="flex justify-center py-4 md:py-0">
                     <div className="flex items-center text-center text-xl pr-2">{from}</div>
                     <div className="flex text-2xl flex-col justify-center">
                         {props.tripType === "oneWay" && <HiArrowNarrowRight className="long-arrow"/>}
@@ -118,7 +118,7 @@ function Booking() {
                 </div>
                 <div className="gradient-border block"/>
 
-                <div className="flex items-center">
+                <div className="flex items-center py-4 md:py-0">
                     <div className="flex flex-col mr-1">
                         <label className="flex items-center space-x-2">
                             <FaCalendarAlt className="text-gray-500"/>
@@ -130,7 +130,6 @@ function Booking() {
                             value={departure}
                             onChange={(e) => {
                                 if (e.target.value !== departure) setDeparture(e.target.value)
-                                else console.log("Change by other.")
                             }}
                             min={new Date().toISOString().split("T")[0]}
                             className="mt-1 p-2 border rounded-md w-full hover:border-[#6d24cf]"
@@ -156,7 +155,7 @@ function Booking() {
 
                 <div className="gradient-border block"/>
 
-                <div className="p-4 w-full md:w-auto flex items-center">
+                <div className="py-4 md:py-0 w-full md:w-auto flex items-center">
                     <div onClick={togglePassengerBox} className="cursor-pointer">
                         <p className="text-sm text-gray-500">Passenger(s)</p>
                         <p className="font-semibold border-b border-gray-300 pb-2 hover:border-[#6d24cf]">
@@ -240,11 +239,11 @@ function Booking() {
 
                 <div className="gradient-border block"/>
 
-                <div className="flex items-center">{classType}</div>
+                <div className="py-6 md:py-0 flex items-center">{classType}</div>
             </div>
 
             <DateSelect setDep={setDep} date={departure}/>
-            {flights !== null && <Flights flights={flights}/>}
+            {flights !== null && <Flights from={from} to={to} flights={flights}/>}
         </div>
     )
 }
