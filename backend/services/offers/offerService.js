@@ -1,6 +1,6 @@
 const Flight = require('../../models/schemas/Flight');
 const TicketClass = require('../../models/schemas/TicketClass');
-const { Op } = require('sequelize');
+const { Op, fn, col} = require('sequelize');
 const sequelize = require('../../db');
 const moment = require('moment-timezone');
 
@@ -112,9 +112,64 @@ function formatOneWayResults(flights) {
     };
 }
 
+// Hàm truy vấn chuyến bay trong khoảng thời gian. Sắp xêp theo thời gian khởi hành.
+async function queryFlightsWithinRange(departure, destination, start_date, end_date) {
+    return await Flight.findAll({
+        where: {
+            DepID: departure,
+            DestID: destination,
+            Status: 'Scheduled',
+            [Op.and]: [
+                sequelize.where(sequelize.fn('DATE', sequelize.col('DepTime')), {
+                    [Op.between]: [start_date, end_date]
+                })
+            ]
+        },
+        include: [{
+            model: TicketClass,
+            as: 'ticketClasses',
+            where: {
+                ClassName: 'Economy'
+            },
+            attributes: ['ClassName', 'Price']
+        }],
+        attributes: [
+            'FlightID',
+            'DepTime',
+            'ArrTime',
+            'BoardingTime',
+            'Status'
+        ],
+        order: [
+            [fn('DATE', col('DepTime')), 'ASC'],
+            [col('ticketClasses.Price'), 'ASC']
+        ]
+    });
+}
+
+// Hàm xử lý kết quả chuyến bay trong khoảng thời gian
+function formatFlightsWithinRangeResults(flights) {
+    return {
+        type: "In-range",
+        flights: flights.map(flight => ({
+            FlightID: flight.FlightID,
+            Status: flight.Status,
+            DepTime: convertToTimeZone(flight.DepTime),
+            ArrTime: convertToTimeZone(flight.ArrTime),
+            BoardingTime: convertToTimeZone(flight.BoardingTime),
+            ticketClasses: flight.ticketClasses.map(tc => ({
+                ClassName: tc.ClassName,
+                Price: tc.Price
+            }))
+        }))
+    };
+}
+
 module.exports = {
     queryRoundTrip,
     formatRoundTripResults,
     queryOneWay,
-    formatOneWayResults
+    formatOneWayResults,
+    queryFlightsWithinRange,
+    formatFlightsWithinRangeResults
 };

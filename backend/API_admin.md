@@ -1,7 +1,7 @@
 # API (Admin) documentation
 
 - Use **Bearer `<token>`** for authentication.
-- You can get the token by [logging](API.md#login) in as an admin.
+- You can get the token by [logging in](API.md#login) as an admin.
 
 ## Table of Contents
 - [Promotions](#promotions)
