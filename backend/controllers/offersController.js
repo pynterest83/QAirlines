@@ -1,5 +1,4 @@
-const validate = require('../middlewares/validateInput');
-const { roundTripSchema, oneWaySchema } = require('../validations/offerValidation');
+require('../middlewares/validateInput');
 const offerService = require('../services/offers/offerService');
 
 // Xử lý chuyến bay khứ hồi
