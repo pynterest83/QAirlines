@@ -52,3 +52,16 @@ exports.handleGetMyTicket = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+// Xử lý lấy thông tin vé theo mã vé
+exports.handleGetTicketByID = async (req, res) => {
+    const { ticketId } = req.query;
+
+    try {
+        const ticket = await ticketService.getTicketByID(ticketId);
+        res.json(ticket);
+    } catch (error) {
+        console.error('Error fetching ticket:', error.message);
+        res.status(500).json({ error: error.message });
+    }
+};
