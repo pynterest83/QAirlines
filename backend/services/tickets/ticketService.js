@@ -1,5 +1,6 @@
 const { Passenger, Ticket, FlightSeat, Flight } = require('../../models/schemas');
 const {Op} = require("sequelize");
+const convertToTimeZone = require("../../utils/utils");
 
 // Tìm hoặc tạo hành khách
 async function findOrCreatePassenger(data) {
@@ -129,10 +130,49 @@ async function getTicketsByPassenger(identifier) {
     }));
 }
 
+// Lấy thông tin vé theo ID kèm theo thông tin hành khách và chuyến bay
+async function getTicketByID(ticketID) {
+    const ticket = await Ticket.findByPk(ticketID);
+    if (!ticket) throw new Error('Ticket not found');
+
+    const passenger = await Passenger.findByPk(ticket.PassID);
+    if (!passenger) throw new Error('Passenger not found');
+
+    const flight = await Flight.findByPk(ticket.FlightID);
+    if (!flight) throw new Error('Flight not found');
+
+    return {
+        TicketID: ticket.TicketID,
+        FlightID: ticket.FlightID,
+        SeatNo: ticket.SeatNo,
+        AircraftID: ticket.AircraftID,
+        CancellationDeadline: ticket.CancellationDeadline,
+        Passenger: {
+            PassID: passenger.PassID,
+            FirstName: passenger.FirstName,
+            LastName: passenger.LastName,
+            DOB: passenger.DOB,
+            Gender: passenger.Gender
+        },
+        Flight: {
+            FlightID: flight.FlightID,
+            DepTime: flight.DepTime,
+            ArrTime: flight.ArrTime,
+            BoardingTime: flight.BoardingTime,
+            DepID: flight.DepID,
+            DestID: flight.DestID
+        }
+    };
+}
+
+
+
+
 
 module.exports = {
     findOrCreatePassenger,
     bookTicket,
     cancelTicket,
-    getTicketsByPassenger
+    getTicketsByPassenger,
+    getTicketByID
 };

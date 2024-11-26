@@ -109,8 +109,20 @@ const myTicketsSchema = Joi.object({
         })
 });
 
+// Schema kiểm tra input cho /by-id
+const ticketByIdSchema = Joi.object({
+    ticketId: Joi.string()
+        .max(10)
+        .required()
+        .messages({
+            'string.max': 'Mã vé không được vượt quá 10 ký tự',
+            'any.required': 'Mã vé là bắt buộc'
+        }),
+});
+
 module.exports = {
     bookTicketSchema,
     cancelTicketSchema,
-    myTicketsSchema
+    myTicketsSchema,
+    ticketByIdSchema
 };

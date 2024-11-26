@@ -387,3 +387,35 @@
     ]
 }
 ```
+
+### Get Ticket Details by Ticket ID
+- **Endpoint:** `/api/tickets/by-id`
+- **Method:** `GET`
+- **Parameters:** `ticketId`
+- **Description:** Retrieves ticket details by ticket ID.
+- **Example:** `/api/tickets/by-id?ticketId=T328760`
+- **Response:**
+```json
+{
+  "TicketID": "T328760",
+  "FlightID": "VN101",
+  "SeatNo": "20B",
+  "AircraftID": "B787",
+  "CancellationDeadline": "2024-12-05T01:00:00.000Z",
+  "Passenger": {
+      "PassID": "P16444",
+      "FirstName": "Jane",
+      "LastName": "Doe",
+      "DOB": "2015-05-01",
+      "Gender": "F"
+  },
+  "Flight": {
+      "FlightID": "VN101",
+      "DepTime": "2024-12-08T01:00:00.000Z",
+      "ArrTime": "2024-12-08T05:00:00.000Z",
+      "BoardingTime": "2024-12-08T00:30:00.000Z",
+      "DepID": "SGN",
+      "DestID": "HAN"
+  }
+}
+```
