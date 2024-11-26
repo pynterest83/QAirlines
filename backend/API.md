@@ -186,35 +186,14 @@
     {
       "FlightID": "VN102",
       "Status": "Scheduled",
-      "DepTime": "2024-12-07T03:00:00+07:00",
-      "ticketClasses": [
-        {
-          "ClassName": "First",
-          "Price": "1500.00"
-        }
-      ]
+      "DepTime": "2024-12-07",
+      "MinPrice": "1500.00"
     },
     {
       "FlightID": "VN100",
       "Status": "Scheduled",
-      "DepTime": "2024-12-08T03:00:00+07:00",
-      "ticketClasses": [
-        {
-          "ClassName": "First",
-          "Price": "500.00"
-        }
-      ]
-    },
-    {
-      "FlightID": "VN103",
-      "Status": "Scheduled",
-      "DepTime": "2024-12-08T15:00:00+07:00",
-      "ticketClasses": [
-        {
-          "ClassName": "First",
-          "Price": "1500.00"
-        }
-      ]
+      "DepTime": "2024-12-08",
+      "MinPrice": "500.00"
     }
   ]
 }
