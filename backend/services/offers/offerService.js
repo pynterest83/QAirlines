@@ -113,7 +113,7 @@ function formatOneWayResults(flights) {
 }
 
 // Hàm truy vấn chuyến bay trong khoảng thời gian. Sắp xêp theo thời gian khởi hành.
-async function queryFlightsWithinRange(departure, destination, start_date, end_date) {
+async function queryFlightsWithinRange(departure, destination, start_date, end_date, ticket_class) {
     return await Flight.findAll({
         where: {
             DepID: departure,
@@ -129,15 +129,13 @@ async function queryFlightsWithinRange(departure, destination, start_date, end_d
             model: TicketClass,
             as: 'ticketClasses',
             where: {
-                ClassName: 'Economy'
+                ClassName: ticket_class
             },
             attributes: ['ClassName', 'Price']
         }],
         attributes: [
             'FlightID',
             'DepTime',
-            'ArrTime',
-            'BoardingTime',
             'Status'
         ],
         order: [
@@ -155,8 +153,6 @@ function formatFlightsWithinRangeResults(flights) {
             FlightID: flight.FlightID,
             Status: flight.Status,
             DepTime: convertToTimeZone(flight.DepTime),
-            ArrTime: convertToTimeZone(flight.ArrTime),
-            BoardingTime: convertToTimeZone(flight.BoardingTime),
             ticketClasses: flight.ticketClasses.map(tc => ({
                 ClassName: tc.ClassName,
                 Price: tc.Price
