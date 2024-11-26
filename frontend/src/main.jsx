@@ -1,6 +1,7 @@
 import { createRoot } from 'react-dom/client'
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import Homepage from "./pages/Homepage.jsx";
+import MyFlight from "./pages/MyFlight.jsx";
 import Admin from "./admin/Admin.jsx";
 import './index.css'
 import Booking from "./pages/Booking.jsx";
@@ -19,7 +20,7 @@ const router = createBrowserRouter([
     },
     {
         path: "/myflight",
-        element: <Admin/>
+        element: <MyFlight/>
     }
 ])
 createRoot(document.getElementById('root')).render(
