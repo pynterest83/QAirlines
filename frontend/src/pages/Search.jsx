@@ -11,8 +11,8 @@ import DateSelect from "../components/Search/DateSelect.jsx"
 function Search() {
     const props = useLocation().state
     const [flights, setFlights] = useState(null)
-    const [from, setFrom] = useState(props.fromCity)
-    const [to, setTo] = useState(props.toCity)
+    const [from] = useState(props.fromCity)
+    const [to] = useState(props.toCity)
     const [departure, setDeparture] = useState(props.departureDate)
     const [returnDate, setReturn] = useState(props.returnDate)
     const [showPassengerBox, setShowPassengerBox] = useState(false)
@@ -20,9 +20,13 @@ function Search() {
     const [children, setChildren] = useState(0)
     const [tempAdults, setTempAdults] = useState(1)
     const [tempChildren, setTempChildren] = useState(0)
-    const [classType, setClass] = useState("Economy")
+    const [cabinClass, setCabinClass] = useState("Economy");
+    const [showClassBox, setShowClassBox] = useState(false);
     const departureInput = useRef(null)
     const returnInput = useRef(null)
+    const toggleClassBox = () => {
+        setShowClassBox(!showClassBox);
+    }
     useEffect(() => {
         if (!props) return
         if (props.tripType === "oneWay") {
@@ -107,7 +111,7 @@ function Search() {
             <Navigation selecting={"booking"}/>
 
             <div
-                className="px-4 md:px-0 flex-col md:flex-row py-2 w-[95%] md:w-4/6 bg-white rounded-lg md:rounded-lg mx-auto my-6 flex justify-evenly items-stretch be-vietnam-pro-bold">
+                className="border border-black px-4 md:px-0 flex-col md:flex-row py-2 w-[95%] md:w-4/6 bg-white rounded-lg md:rounded-2xl mx-auto my-6 flex justify-evenly items-stretch be-vietnam-pro-bold">
                 <div className="flex justify-center py-4 md:py-0">
                     <div className="flex items-center text-center text-xl pr-2">{from}</div>
                     <div className="flex text-2xl flex-col justify-center">
@@ -116,6 +120,7 @@ function Search() {
                     </div>
                     <div className="flex items-center text-xl pl-2">{to}</div>
                 </div>
+                
                 <div className="gradient-border block"/>
 
                 <div className="flex items-center py-4 md:py-0">
@@ -241,10 +246,79 @@ function Search() {
 
                 <div className="gradient-border block"/>
 
-                <div className="py-6 md:py-0 flex items-center">{classType}</div>
+                {showClassBox && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                        <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
+
+                            <h2 className="text-2xl font-bold mb-6 text-center text-[#6d24cf]">
+                                Select Cabin Class
+                            </h2>
+
+                            <div className="space-y-4">
+                                <button
+                                    onClick={() => {
+                                        setCabinClass("Economy");
+                                        setShowClassBox(false);
+                                    }}
+                                    className={`w-full p-3 border rounded-md text-left ${
+                                        cabinClass === "Economy"
+                                            ? "bg-[#ffe06f] text-[#6d24cf] font-semibold border-[#6d24cf]"
+                                            : "text-gray-700 hover:bg-[#ffe06f]"
+                                    }`}
+                                >
+                                    Economy
+                                </button>
+                                <button
+                                    onClick={() => {
+                                        setCabinClass("Business");
+                                        setShowClassBox(false);
+                                    }}
+                                    className={`w-full p-3 border rounded-md text-left ${
+                                        cabinClass === "Business"
+                                            ? "bg-[#ffe06f] text-[#6d24cf] font-semibold border-[#6d24cf]"
+                                            : "text-gray-700 hover:bg-[#ffe06f]"
+                                    }`}
+                                >
+                                    Business
+                                </button>
+                                <button
+                                    onClick={() => {
+                                        setCabinClass("First");
+                                        setShowClassBox(false);
+                                    }}
+                                    className={`w-full p-3 border rounded-md text-left ${
+                                        cabinClass === "First"
+                                            ? "bg-[#ffe06f] text-[#6d24cf] font-semibold border-[#6d24cf]"
+                                            : "text-gray-700 hover:bg-[#ffe06f]"
+                                    }`}
+                                >
+                                    First
+                                </button>
+                            </div>
+
+                            {/* Footer */}
+                            <div className="mt-6 flex items-center justify-center">
+                                <button
+                                    className="p-2 bg-gray-200 text-gray-600 rounded-md w-32 hover:bg-[#ffe06f] hover:text-black"
+                                    onClick={toggleClassBox}
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+                <div className="py-4 md:py-0 w-full md:w-auto flex items-center">
+                    <div onClick={toggleClassBox} className="cursor-pointer">
+                        <p className="text-sm text-gray-500">Cabin Class</p>
+                        <p className="font-semibold border-b border-gray-300 pb-2 hover:border-[#6d24cf]">
+                            {cabinClass}
+                        </p>
+                    </div>
+                </div>
             </div>
 
-            <DateSelect setDep={setDep} date={departure}/>
+            <DateSelect from={from} to={to} classType={cabinClass} setDep={setDep} date={departure}/>
             {flights !== null && <Flights from={from} to={to} flights={flights}/>}
         </div>
     )
