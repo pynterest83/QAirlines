@@ -2,11 +2,8 @@
 const express = require('express');
 const app = express();
 const sequelize = require('./db');
-let cors = require('cors')
-const corsOptions = {
-    origin: "http://localhost:5173"
-}
-app.use(cors(corsOptions))
+const cors = require('cors');
+
 // Import models
 require('./models/schemas/Aircraft');
 require('./models/schemas/Airport');
@@ -28,6 +25,7 @@ const apiRoutes = require('./routes');
 // Load environment variables
 require('dotenv').config();
 
+app.use(cors());
 app.use(express.json());
 app.use('/api', apiRoutes);
 
@@ -35,8 +33,8 @@ app.use('/api', apiRoutes);
 sequelize.sync({ alter: true })
     .then(() => {
         console.log('Database & tables created!');
-        const server = app.listen(3001, () => {
-            console.log('Server is running on port 3001');
+        const server = app.listen(3000, () => {
+            console.log('Server is running on port 3000');
         });
 
         // Graceful shutdown

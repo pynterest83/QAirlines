@@ -1,5 +1,4 @@
-const validate = require('../middlewares/validateInput');
-const { allSeatsSchema, availableSeatsSchema } = require('../validations/seatValidation');
+require('../middlewares/validateInput');
 const seatService = require('../services/seats/seatService');
 
 // Lấy tất cả chỗ ngồi

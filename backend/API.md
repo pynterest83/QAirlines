@@ -7,6 +7,7 @@
 - [Offers](#offers)
   - [Get Round Trip Flights](#get-round-trip-flights)
   - [Get One Way Flights](#get-one-way-flights)
+  - [Get Flights Within Range](#get-flights-within-range)
 - [Seats](#seats)
   - [Get All Seats](#get-all-seats)
   - [Get Available Seats](#get-available-seats)
@@ -162,6 +163,37 @@
           "Price": "500.00"
         }
       ]
+    }
+  ]
+}
+```
+### Get Flights Within Range
+- **Endpoint:** `/api/offers/in-range`
+- **Method:** `GET`
+- **Parameters:** `departure`, `destination`, `start_date`, `end_date`
+- **Optional Parameters:** `ticket_class` (Economy, Business, First)
+  - Default: Economy
+- **Description:** Retrieves flight offers within a date range.
+  - `start_date` and `end_date` are inclusive.
+  - The result will be sorted by `DepTime`.
+  - If two flights have the same `DepTime`, they will be sorted by `ticket_class`'s price.
+- **Response:** JSON array of flight offers.
+- **Example:** `/api/offers/in-range?departure=HAN&destination=SGN&start_date=2024-12-07&end_date=2024-12-09&ticket_class=First`
+```json
+{
+  "type": "In-range",
+  "flights": [
+    {
+      "FlightID": "VN102",
+      "Status": "Scheduled",
+      "DepTime": "2024-12-07",
+      "MinPrice": "1500.00"
+    },
+    {
+      "FlightID": "VN100",
+      "Status": "Scheduled",
+      "DepTime": "2024-12-08",
+      "MinPrice": "500.00"
     }
   ]
 }
