@@ -117,8 +117,17 @@
     }
 }
 @layer components {
+    .opacity-ltr {
+        mask-image: linear-gradient(to right, rgba(0,0,0,1) 50%, rgba(0,0,0,0));
+    }
+    .opacity-rtl {
+        mask-image: linear-gradient(to left, rgba(0,0,0,1) 50%, rgba(0,0,0,0));
+    }
     .no-scrollbar {
         scrollbar-width: none;
+    }
+    .thin-scrollbar {
+        scrollbar-width: thin;
     }
     .gradient-button {
       background: linear-gradient(90deg, rgba(109,36,207,1) 0%, rgba(255,224,111,1) 100%);
