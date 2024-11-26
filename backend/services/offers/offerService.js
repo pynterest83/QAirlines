@@ -165,7 +165,7 @@ function formatFlightsWithinRangeResults(flights) {
         flights: flights.map(flight => ({
             FlightID: flight.FlightID,
             Status: flight.Status,
-            DepTime: convertToTimeZone(flight.DepTime),
+            DepTime: convertToTimeZone(flight.DepTime).split('T')[0],
             MinPrice: flight.ticketClasses[0].Price
         }))
     };
