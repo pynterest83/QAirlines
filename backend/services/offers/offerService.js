@@ -114,7 +114,7 @@ function formatOneWayResults(flights) {
 
 // Hàm truy vấn chuyến bay trong khoảng thời gian. Sắp xêp theo thời gian khởi hành.
 async function queryFlightsWithinRange(departure, destination, start_date, end_date, ticket_class) {
-    return await Flight.findAll({
+    const flights = await Flight.findAll({
         where: {
             DepID: departure,
             DestID: destination,
@@ -143,7 +143,20 @@ async function queryFlightsWithinRange(departure, destination, start_date, end_d
             [col('ticketClasses.Price'), 'ASC']
         ]
     });
+    const filteredFlights = [];
+    const datesSeen = new Set();
+
+    for (const flight of flights) {
+        const depDate = convertToTimeZone(flight.DepTime).split('T')[0];
+        if (!datesSeen.has(depDate)) {
+            filteredFlights.push(flight);
+            datesSeen.add(depDate);
+        }
+    }
+
+    return filteredFlights;
 }
+
 
 // Hàm xử lý kết quả chuyến bay trong khoảng thời gian
 function formatFlightsWithinRangeResults(flights) {
@@ -153,10 +166,7 @@ function formatFlightsWithinRangeResults(flights) {
             FlightID: flight.FlightID,
             Status: flight.Status,
             DepTime: convertToTimeZone(flight.DepTime),
-            ticketClasses: flight.ticketClasses.map(tc => ({
-                ClassName: tc.ClassName,
-                Price: tc.Price
-            }))
+            MinPrice: flight.ticketClasses[0].Price
         }))
     };
 }
