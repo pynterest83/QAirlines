@@ -1,5 +1,4 @@
-const validate = require('../middlewares/validateInput');
-const { bookTicketSchema, cancelTicketSchema } = require('../validations/ticketValidation');
+require('../middlewares/validateInput');
 const ticketService = require('../services/tickets/ticketService');
 
 // Xử lý đặt vé

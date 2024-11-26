@@ -35,8 +35,8 @@ app.use('/api', apiRoutes);
 sequelize.sync({ alter: true })
     .then(() => {
         console.log('Database & tables created!');
-        const server = app.listen(3001, () => {
-            console.log('Server is running on port 3001');
+        const server = app.listen(3000, () => {
+            console.log('Server is running on port 3000');
         });
 
         // Graceful shutdown

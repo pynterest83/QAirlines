@@ -7,6 +7,7 @@
 - [Offers](#offers)
   - [Get Round Trip Flights](#get-round-trip-flights)
   - [Get One Way Flights](#get-one-way-flights)
+  - [Get Flights Within Range](#get-flights-within-range)
 - [Seats](#seats)
   - [Get All Seats](#get-all-seats)
   - [Get Available Seats](#get-available-seats)
@@ -160,6 +161,62 @@
         {
           "ClassName": "First",
           "Price": "500.00"
+        }
+      ]
+    }
+  ]
+}
+```
+### Get Flights Within Range
+- **Endpoint:** `/api/offers/in-range`
+- **Method:** `GET`
+- **Parameters:** `departure`, `destination`, `start_date`, `end_date`
+- **Description:** Retrieves flight offers within a date range.
+  - `start_date` and `end_date` are inclusive.
+  - The result will be sorted by `DepTime`.
+  - If two flights have the same `DepTime`, they will be sorted by `ECONOMY Price`.
+- **Response:** JSON array of flight offers.
+- **Example:** `/api/offers/in-range?departure=HAN&destination=SGN&start_date=2024-12-07&end_date=2024-12-09`
+```json
+{
+  "type": "In-range",
+  "flights": [
+    {
+      "FlightID": "VN102",
+      "Status": "Scheduled",
+      "DepTime": "2024-12-07T03:00:00+07:00",
+      "ArrTime": "2024-12-07T07:00:00+07:00",
+      "BoardingTime": "2024-12-07T02:30:00+07:00",
+      "ticketClasses": [
+        {
+          "ClassName": "Economy",
+          "Price": "700.00"
+        }
+      ]
+    },
+    {
+      "FlightID": "VN103",
+      "Status": "Scheduled",
+      "DepTime": "2024-12-08T15:00:00+07:00",
+      "ArrTime": "2024-12-08T23:00:00+07:00",
+      "BoardingTime": "2024-12-08T14:30:00+07:00",
+      "ticketClasses": [
+        {
+          "ClassName": "Economy",
+          "Price": "50.00"
+        }
+      ]
+    },
+    {
+      "FlightID": "VN100",
+      "Status": "Scheduled",
+      "DepTime": "2024-12-08T03:00:00+07:00",
+      "ArrTime": "2024-12-08T07:00:00+07:00",
+      "BoardingTime": "2024-12-08T02:30:00+07:00",
+      "ticketClasses": [
+        {
+          "ClassName": "Economy",
+          "Price": "100.00"
         }
       ]
     }
