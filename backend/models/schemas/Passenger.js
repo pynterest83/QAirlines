@@ -19,7 +19,8 @@ const Passenger = sequelize.define('Passenger', {
         type: DataTypes.DATEONLY,
         allowNull: false,
         get() {
-            return this.getDataValue('DOB').toISOString().split('T')[0];
+            const dobValue = this.getDataValue('DOB');
+            return dobValue ? new Date(dobValue).toISOString().split('T')[0] : null;
         },
     },
     Gender: {

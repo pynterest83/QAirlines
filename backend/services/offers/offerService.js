@@ -2,12 +2,7 @@ const Flight = require('../../models/schemas/Flight');
 const TicketClass = require('../../models/schemas/TicketClass');
 const { Op, fn, col} = require('sequelize');
 const sequelize = require('../../db');
-const moment = require('moment-timezone');
-
-// Hàm chuyển đổi thời gian theo múi giờ
-function convertToTimeZone(date, timeZone = 'Asia/Ho_Chi_Minh') {
-    return moment(date).tz(timeZone).format();
-}
+const { convertToTimeZone } = require('../../utils/utils');
 
 // Hàm truy vấn chuyến bay khứ hồi
 async function queryRoundTrip(departure, destination, departure_date, return_date) {
