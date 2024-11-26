@@ -1,12 +1,12 @@
 import {useLocation} from "react-router-dom";
 import {useEffect, useRef, useState} from "react";
-import {Server} from "../TicketBookingBox.jsx";
-import Flights from "./Flights.jsx";
-import Navigation from "../Navigation.jsx";
+import {Server} from "../Server.js";
+import Flights from "../components/Booking/Flights.jsx";
+import Navigation from "../components/Navigation.jsx";
 import {HiArrowNarrowRight} from "react-icons/hi";
 import {HiArrowsRightLeft } from "react-icons/hi2";
 import {FaCalendarAlt} from "react-icons/fa";
-import DateSelect from "./DateSelect.jsx";
+import DateSelect from "../components/Booking/DateSelect.jsx"
 
 function Booking() {
     const props = useLocation().state
@@ -167,71 +167,73 @@ function Booking() {
                     {showPassengerBox && (
                         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
                             <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
-                                <h2 className="text-[#6d24cf] font-bold mb-4">Select Passengers</h2>
+                            <h2 className="text-[#6d24cf] font-bold mb-4">Select Passengers</h2>
 
-                                <div className="space-y-4">
-                                    {/* Adults */}
-                                    <div className="flex items-center justify-between">
-                                        <div>
-                                            <p className="text-lg font-semibold">Adults</p>
-                                            <p className="text-sm text-gray-500">12+ years</p>
-                                        </div>
-                                        <div className="flex items-center space-x-4">
-                                            <button
-                                                className="w-8 h-8 flex items-center justify-center border rounded-full hover:bg-[#ffe06f]"
-                                                onClick={() => decrement(setTempAdults, tempAdults, 1)}
-                                            >
-                                                -
-                                            </button>
-                                            <span className="text-lg">{tempAdults}</span>
-                                            <button
-                                                className="w-8 h-8 flex items-center justify-center border rounded-full hover:bg-[#ffe06f]"
-                                                onClick={() => increment(setTempAdults, tempAdults)}
-                                            >
-                                                +
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    {/* Children */}
-                                    <div className="flex items-center justify-between">
-                                        <div>
-                                            <p className="text-lg font-semibold">Children</p>
-                                            <p className="text-sm text-gray-500">2-11 years</p>
-                                        </div>
-                                        <div className="flex items-center space-x-4">
-                                            <button
-                                                className="w-8 h-8 flex items-center justify-center border rounded-full hover:bg-[#ffe06f]"
-                                                onClick={() => decrement(setTempChildren, tempChildren, 0)}
-                                            >
-                                                -
-                                            </button>
-                                            <span className="text-lg">{tempChildren}</span>
-                                            <button
-                                                className="w-8 h-8 flex items-center justify-center border rounded-full hover:bg-[#ffe06f]"
-                                                onClick={() => increment(setTempChildren, tempChildren)}
-                                            >
-                                                +
-                                            </button>
-                                        </div>
-                                    </div>
+                            <div className="space-y-4">
+                                {/* Adults */}
+                                <div className="flex items-center justify-between">
+                                <div>
+                                    <p className="text-lg font-semibold">Adults</p>
+                                    <p className="text-sm text-gray-500">12+ years</p>
                                 </div>
-
-                                {/* Footer */}
-                                <div className="mt-6 flex items-center justify-between">
+                                <div className="flex items-center space-x-4">
                                     <button
-                                        className="p-2 bg-gray-200 text-gray-600 rounded-md hover:bg-[#ffe06f] hover:text-black"
-                                        onClick={togglePassengerBox}
+                                    className="w-8 h-8 flex items-center justify-center border rounded-full hover:bg-[#ffe06f]"
+                                    onClick={() => decrement(setTempAdults, tempAdults, 1)}
                                     >
-                                        Cancel
+                                    -
                                     </button>
+                                    <span className="text-lg">{tempAdults}</span>
                                     <button
-                                        className="p-2 bg-[#6d24cf] text-white rounded-md hover:bg-[#ffe06f] hover:text-black"
-                                        onClick={handlePassengerDone}
+                                    className="w-8 h-8 flex items-center justify-center border rounded-full hover:bg-[#ffe06f]"
+                                    onClick={() => increment(setTempAdults, tempAdults)}
+                                    disabled={tempAdults + tempChildren >= 9}
                                     >
-                                        Done
+                                    +
                                     </button>
                                 </div>
+                                </div>
+
+                                {/* Children */}
+                                <div className="flex items-center justify-between">
+                                <div>
+                                    <p className="text-lg font-semibold">Children</p>
+                                    <p className="text-sm text-gray-500">2-11 years</p>
+                                </div>
+                                <div className="flex items-center space-x-4">
+                                    <button
+                                    className="w-8 h-8 flex items-center justify-center border rounded-full hover:bg-[#ffe06f]"
+                                    onClick={() => decrement(setTempChildren, tempChildren, 0)}
+                                    >
+                                    -
+                                    </button>
+                                    <span className="text-lg">{tempChildren}</span>
+                                    <button
+                                    className="w-8 h-8 flex items-center justify-center border rounded-full hover:bg-[#ffe06f]"
+                                    onClick={() => increment(setTempChildren, tempChildren)}
+                                    disabled={tempAdults + tempChildren >= 9}
+                                    >
+                                    +
+                                    </button>
+                                </div>
+                                </div>
+                            </div>
+
+                            {/* Footer */}
+                            <div className="mt-6 flex items-center justify-between">
+                                <button
+                                className="p-2 bg-gray-200 text-gray-600 rounded-md hover:bg-[#ffe06f] hover:text-black"
+                                onClick={togglePassengerBox}
+                                >
+                                Cancel
+                                </button>
+                                <button
+                                className="p-2 bg-[#6d24cf] text-white rounded-md hover:bg-[#ffe06f] hover:text-black"
+                                onClick={handlePassengerDone}
+                                >
+                                Done
+                                </button>
+                            </div>
                             </div>
                         </div>
                     )}

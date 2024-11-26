@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { HiArrowNarrowRight, HiArrowNarrowLeft } from "react-icons/hi";
 import { FaCalendarAlt } from "react-icons/fa";
-import { AirportData } from "../assets/data/airportData";
+import { AirportData } from "../../assets/data/AirportData";
 import {useNavigate} from "react-router-dom";
-export const Server = "http://localhost:3001/api/"
+
 const TicketBookingBox = () => {
   const [tripType, setTripType] = useState("oneWay");
   const [fromCity, setFromCity] = useState("FROM");
@@ -54,7 +54,6 @@ const TicketBookingBox = () => {
   );
 
   return (
-    <div className="mt-1 max-w-4xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
       <div className="p-6 h-full">
         <div className="flex space-x-4 mb-6 items-center">
           <button
@@ -90,7 +89,7 @@ const TicketBookingBox = () => {
                 <p className="text-gray-500 text-sm">{AirportData[fromCity]}</p>
               </div>
             </div>
-            <div onClick={SwapCities} className="flex-1 flex flex-col items-center">
+            <div onClick={SwapCities} className="flex-1 flex flex-col items-center border-transparent border p-2 rounded hover:border-[#6d24cf]">
               <HiArrowNarrowRight className="text-2xl long-arrow" />
               <HiArrowNarrowLeft className="text-2xl long-arrow" />
             </div>
@@ -172,7 +171,6 @@ const TicketBookingBox = () => {
           </div>
         </div>
       </div>
-    </div>
   );
 };
 

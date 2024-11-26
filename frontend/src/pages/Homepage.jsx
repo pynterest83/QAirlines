@@ -1,5 +1,5 @@
 import Navigation from "../components/Navigation.jsx";
-import Banner from "../components/Banner.jsx";
+import Banner from "../components/Homepage/Banner.jsx";
 
 function Homepage() {
 
