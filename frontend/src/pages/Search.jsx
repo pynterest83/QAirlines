@@ -120,7 +120,7 @@ function Search() {
                     </div>
                     <div className="flex items-center text-xl pl-2">{to}</div>
                 </div>
-                
+
                 <div className="gradient-border block"/>
 
                 <div className="flex items-center py-4 md:py-0">
