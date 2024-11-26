@@ -3,15 +3,15 @@ import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import Homepage from "./pages/Homepage.jsx";
 import Admin from "./admin/Admin.jsx";
 import './index.css'
-import Booking from "./pages/Booking.jsx";
+import Search from "./pages/Search.jsx";
 const router = createBrowserRouter([
     {
         path: "/",
         element: <Homepage/>,
     },
     {
-        path: "/booking",
-        element: <Booking/>
+        path: "/search",
+        element: <Search/>
     },
     {
         path: "/admin",

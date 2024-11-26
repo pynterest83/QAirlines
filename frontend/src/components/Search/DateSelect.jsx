@@ -18,7 +18,7 @@ function DateSelect(props) {
     }, [props]);
     const [dates, setDates] = useState([])
     return (
-        <div className="no-scrollbar overflow-x-scroll overflow-y-hidden rounded-xl select-none md:rounded-xl flex w-[95%] md:w-4/6 bg-white mx-auto my-6 items-stretch justify-evenly px-12">
+        <div className="border border-black no-scrollbar overflow-x-scroll overflow-y-hidden rounded-xl select-none md:rounded-xl flex w-[95%] md:w-4/6 bg-white mx-auto my-6 items-stretch justify-evenly px-12">
             {dates.map(date =>
                 <div onClick={() => ChangeDate(date)}
                     className={(new Date(date).getDate() === new Date(props.date).getDate() ? "bg-gradient-to-tr from-[#6d24cf] to-[#ffe06f] text-white " : "text-[#747474] hover:bg-gray-400 hover:text-white ") +
