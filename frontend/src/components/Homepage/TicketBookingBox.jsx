@@ -15,7 +15,7 @@ const TicketBookingBox = () => {
   const nav = useNavigate()
   const today = new Date().toISOString().split("T")[0];
   function SearchFlights() {
-    nav("/booking", {state:{
+    nav("/search", {state:{
         tripType: tripType,
         fromCity: fromCity,
         toCity: toCity,
