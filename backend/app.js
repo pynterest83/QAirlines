@@ -2,6 +2,7 @@
 const express = require('express');
 const app = express();
 const sequelize = require('./db');
+const cors = require('cors');
 
 // Import models
 require('./models/schemas/Aircraft');
@@ -24,6 +25,7 @@ const apiRoutes = require('./routes');
 // Load environment variables
 require('dotenv').config();
 
+app.use(cors());
 app.use(express.json());
 app.use('/api', apiRoutes);
 

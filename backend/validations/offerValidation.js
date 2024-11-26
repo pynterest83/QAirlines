@@ -83,6 +83,12 @@ const rangeSchema = Joi.object({
         .messages({
             'date.greater': 'Ngày kết thúc phải sau ngày bắt đầu',
             'any.required': 'Ngày kết thúc là bắt buộc'
+        }),
+    ticket_class: Joi.string()
+        .valid('Economy', 'Business', 'First')
+        .optional()
+        .messages({
+            'any.only': 'Loại vé phải là "Economy", "Business" hoặc "First"'
         })
 });
 

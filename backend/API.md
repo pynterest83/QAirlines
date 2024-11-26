@@ -171,12 +171,14 @@
 - **Endpoint:** `/api/offers/in-range`
 - **Method:** `GET`
 - **Parameters:** `departure`, `destination`, `start_date`, `end_date`
+- **Optional Parameters:** `ticket_class` (Economy, Business, First)
+  - Default: Economy
 - **Description:** Retrieves flight offers within a date range.
   - `start_date` and `end_date` are inclusive.
   - The result will be sorted by `DepTime`.
-  - If two flights have the same `DepTime`, they will be sorted by `ECONOMY Price`.
+  - If two flights have the same `DepTime`, they will be sorted by `ticket_class`'s price.
 - **Response:** JSON array of flight offers.
-- **Example:** `/api/offers/in-range?departure=HAN&destination=SGN&start_date=2024-12-07&end_date=2024-12-09`
+- **Example:** `/api/offers/in-range?departure=HAN&destination=SGN&start_date=2024-12-07&end_date=2024-12-09&ticket_class=First`
 ```json
 {
   "type": "In-range",
@@ -185,25 +187,10 @@
       "FlightID": "VN102",
       "Status": "Scheduled",
       "DepTime": "2024-12-07T03:00:00+07:00",
-      "ArrTime": "2024-12-07T07:00:00+07:00",
-      "BoardingTime": "2024-12-07T02:30:00+07:00",
       "ticketClasses": [
         {
-          "ClassName": "Economy",
-          "Price": "700.00"
-        }
-      ]
-    },
-    {
-      "FlightID": "VN103",
-      "Status": "Scheduled",
-      "DepTime": "2024-12-08T15:00:00+07:00",
-      "ArrTime": "2024-12-08T23:00:00+07:00",
-      "BoardingTime": "2024-12-08T14:30:00+07:00",
-      "ticketClasses": [
-        {
-          "ClassName": "Economy",
-          "Price": "50.00"
+          "ClassName": "First",
+          "Price": "1500.00"
         }
       ]
     },
@@ -211,12 +198,21 @@
       "FlightID": "VN100",
       "Status": "Scheduled",
       "DepTime": "2024-12-08T03:00:00+07:00",
-      "ArrTime": "2024-12-08T07:00:00+07:00",
-      "BoardingTime": "2024-12-08T02:30:00+07:00",
       "ticketClasses": [
         {
-          "ClassName": "Economy",
-          "Price": "100.00"
+          "ClassName": "First",
+          "Price": "500.00"
+        }
+      ]
+    },
+    {
+      "FlightID": "VN103",
+      "Status": "Scheduled",
+      "DepTime": "2024-12-08T15:00:00+07:00",
+      "ticketClasses": [
+        {
+          "ClassName": "First",
+          "Price": "1500.00"
         }
       ]
     }
