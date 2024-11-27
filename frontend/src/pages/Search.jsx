@@ -1,4 +1,4 @@
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {useEffect, useRef, useState} from "react";
 import {Server} from "../Server.js";
 import Flights from "../components/Search/Flights.jsx";
@@ -11,10 +11,10 @@ import DateSelect from "../components/Search/DateSelect.jsx"
 function Search() {
     const props = useLocation().state
     const [flights, setFlights] = useState(null)
-    const [from] = useState(props.fromCity)
-    const [to] = useState(props.toCity)
-    const [departure, setDeparture] = useState(props.departureDate)
-    const [returnDate, setReturn] = useState(props.returnDate)
+    const [from, setFrom] = useState(props.fromCity)
+    const [to, setTo] = useState(props.toCity)
+    const [departureDate, setDepartureDate] = useState(props.departureDate)
+    const [returnDate] = useState(props.returnDate)
     const [showPassengerBox, setShowPassengerBox] = useState(false)
     const [adults, setAdults] = useState(1)
     const [children, setChildren] = useState(0)
@@ -24,65 +24,78 @@ function Search() {
     const [showClassBox, setShowClassBox] = useState(false);
     const departureInput = useRef(null)
     const returnInput = useRef(null)
+    const [chosenTrip, choose] = useState([])
     const toggleClassBox = () => {
         setShowClassBox(!showClassBox);
     }
     useEffect(() => {
         if (!props) return
-        if (props.tripType === "oneWay") {
-            fetch(Server + "offers/one-way?" + new URLSearchParams({
-                departure: props.fromCity,
-                destination: props.toCity,
-                departure_date: props.departureDate
-            }), {
-                method: 'GET'
-            }).then(r =>{
-                if (r.ok) r.json().then(data => {
-                    setFlights(data.flights)
-                })
-                else setFlights(undefined)
+        if (props.tripType === "roundTrip") returnInput.current.disabled = true
+        fetch(Server + "offers/one-way?" + new URLSearchParams({
+            departure: props.fromCity,
+            destination: props.toCity,
+            departure_date: props.departureDate
+        }), {
+            method: 'GET'
+        }).then(r => {
+            if (r.ok) r.json().then(data => {
+                setFlights(data.flights)
             })
-        }
-    }, [props]);
+            else setFlights(undefined)
+        })
+    }, []);
     function Search() {
-        if (props.tripType === "oneWay") {
-            fetch(Server + "offers/one-way?" + new URLSearchParams({
-                departure: from,
-                destination: to,
-                departure_date: departure
-            }), {
-                method: 'GET'
-            }).then(r =>{
-                if (r.ok) r.json().then(data => {
-                    setFlights(data.flights)
-                })
-                else setFlights(undefined)
+        fetch(Server + "offers/one-way?" + new URLSearchParams({
+            departure: from,
+            destination: to,
+            departure_date: departureDate
+        }), {
+            method: 'GET'
+        }).then(r =>{
+            if (r.ok) r.json().then(data => {
+                setFlights(data.flights)
             })
-        }
-        else {
-            fetch(Server + "offers/round-trip?" + new URLSearchParams({
-                departure: from,
-                destination: to,
-                departure_date: departure,
-                return_date: returnDate
-            }), {
-                method: 'GET'
-            }).then(r => {
-                if (r.ok) r.json().then(data => {
-                    setFlights(data.flights)
-                })
-                else setFlights(undefined)
-            })
-        }
+            else setFlights(undefined)
+        })
     }
-    function setDep(date) {
-        setDeparture(date)
+    let startDate = useRef(null)
+    const nav = useNavigate()
+    function Confirm(trip) {
+        choose([...chosenTrip, trip])
     }
 
     useEffect(() => {
-        departureInput.current.value = departure
+        if (props.tripType === "oneWay" && chosenTrip.length === 1) {
+            nav("/booking", {state: {
+                trip: chosenTrip
+            }})
+        }
+        else {
+            if (chosenTrip.length === 1) {
+                departureInput.current.disabled = true
+                returnInput.current.disabled = false
+                startDate.current = departureDate
+                setDepartureDate(returnDate)
+                setFrom(to)
+                setTo(from)
+            }
+            else if (chosenTrip.length === 2) {
+                nav("/booking", {state: {
+                    trip: chosenTrip
+                }})
+            }
+        }
+    }, [chosenTrip]);
+    useEffect(() => {
+        if (!startDate.current) {
+            departureInput.current.value = departureDate
+        }
+        else {
+            returnInput.current.value = departureDate
+        }
         Search()
-    }, [departure]);
+    }, [departureDate]);
+
 
     const togglePassengerBox = () => {
         setShowPassengerBox(!showPassengerBox);
@@ -105,7 +118,11 @@ function Search() {
         setChildren(tempChildren);
         setShowPassengerBox(false); // Close the modal
     }
-
+    function tomorrow(_date) {
+        let date = new Date(_date);
+        date.setDate(date.getDate() + 1);
+        return date.toISOString().split("T")[0]
+    }
     return (
         <div className="relative">
             <Navigation selecting={"booking"}/>
@@ -120,7 +137,7 @@ function Search() {
                     </div>
                     <div className="flex items-center text-xl pl-2">{to}</div>
                 </div>
-                
+
                 <div className="gradient-border block"/>
 
                 <div className="flex items-center py-4 md:py-0">
@@ -132,9 +149,9 @@ function Search() {
                         <input
                             ref={departureInput}
                             type="date"
-                            value={departure}
+                            value={startDate.current ? startDate.current : departureDate}
                             onChange={(e) => {
-                                if (e.target.value !== departure) setDeparture(e.target.value)
+                                if (e.target.value !== departureDate) setDepartureDate(e.target.value)
                             }}
                             min={new Date().toISOString().split("T")[0]}
                             className="mt-1 p-2 border rounded-md w-full hover:border-[#6d24cf]"
@@ -149,9 +166,9 @@ function Search() {
                             <input
                                 ref={returnInput}
                                 type="date"
-                                value={returnDate}
-                                onChange={(e) => setReturn(e.target.value)}
-                                min={new Date().toISOString().split("T")[0]}
+                                value={startDate.current ? departureDate : returnDate}
+                                onChange={(e) => setDepartureDate(e.target.value)}
+                                min={startDate.current ? tomorrow(startDate.current) : new Date().toISOString().split("T")[0]}
                                 className="mt-1 p-2 border rounded-md w-full hover:border-[#6d24cf]"
                             />
                         </div>
@@ -318,8 +335,8 @@ function Search() {
                 </div>
             </div>
 
-            <DateSelect from={from} to={to} classType={cabinClass} setDep={setDep} date={departure}/>
-            {flights !== null && <Flights from={from} to={to} flights={flights}/>}
+            <DateSelect from={from} to={to} classType={cabinClass} setDep={setDepartureDate} date={departureDate}/>
+            {flights !== null && <Flights confirm={Confirm} from={from} to={to} flights={flights}/>}
         </div>
     )
 }

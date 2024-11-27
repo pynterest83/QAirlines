@@ -44,22 +44,7 @@ function DateSelect(props) {
     }
     useEffect(() => {
         SetDateList(props.date, 4)
-    }, []);
-    useEffect(() => {
-            if (!date_ref.current) {
-                return;
-            }
-            const resizeObserver = new ResizeObserver(() => {
-                if (current.current) {
-                    current.current.scrollIntoView({block: "center", inline: "center"})
-                }
-            });
-            resizeObserver.observe(date_ref.current);
-            return function cleanup() {
-                resizeObserver.disconnect();
-            }
-        },
-        [date_ref.current])
+    }, [props.date]);
     useEffect(() => {
         if (current.current) {
             current.current.scrollIntoView({block: "center", inline: "center"})
