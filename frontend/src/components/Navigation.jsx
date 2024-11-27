@@ -1,9 +1,13 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { FiMenu, FiX, FiSearch } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 
 function Navigation(props) {
-    function toggle() {
+    const [visibleDropdown, setVisibleDropdown] = useState(null);
+    const list = useRef(null);
+    const nav = useNavigate();
+
+    const toggleMenu = () => {
         if (!list.current.className.includes("hidden"))
             list.current.className += "hidden";
         else {
@@ -12,16 +16,17 @@ function Navigation(props) {
                 ""
             );
         }
-    }
+    };
 
-    const list = useRef(null);
-    const nav = useNavigate();
+    const toggleDropdown = (name) => {
+        setVisibleDropdown(visibleDropdown === name ? null : name);
+    };
 
     return (
         <nav className="sticky z-20 top-0 left-0 right-0 px-2 max-w-full bg-white be-vietnam-pro-medium">
             <div className="flex max-w-full">
                 <button
-                    onClick={toggle}
+                    onClick={toggleMenu}
                     className="w-8 aspect-square inline-block lg:hidden active:bg-gray-300 hover:bg-gray-300"
                 >
                     <FiMenu className="block m-auto" size={"1.5rem"} />
@@ -38,7 +43,7 @@ function Navigation(props) {
                 >
                     <button
                         className="lg:hidden ml-auto flex mr-1 my-1 active:bg-gray-300 hover:bg-gray-300"
-                        onClick={toggle}
+                        onClick={toggleMenu}
                     >
                         <FiX size={"2rem"} />
                     </button>
@@ -60,10 +65,19 @@ function Navigation(props) {
                                     : "") +
                                 "group relative p-2 hover:br-color active:br-color active:border-r-4 hover:border-r-4 lg:active:border-r-0 lg:hover:border-r-0 lg:mx-4 cursor-pointer lg:hover:br-color lg:hover:border-b-4 lg:hover:bg-white"
                             }
+                            onMouseEnter={() => toggleDropdown("booking")}
+                            onMouseLeave={() => toggleDropdown(null)}
+                            onClick={() => toggleDropdown("booking")}
                         >
                             <div>Booking</div>
                             {/* Dropdown */}
-                            <div className="hidden group-hover:flex absolute left-0 top-full mt-1 bg-white shadow-md border border-gray-200 w-full lg:w-64 p-4 z-10">
+                            <div
+                                className={`${
+                                    visibleDropdown === "booking"
+                                        ? "block"
+                                        : "hidden"
+                                } bg-white shadow-md border border-gray-200 w-full lg:absolute lg:top-full lg:left-0 lg:mt-1 lg:w-64 p-4 lg:p-2`}
+                            >
                                 <ul>
                                     <li className="py-2 hover:border-b-2 hover:border-[#6d24cf] cursor-pointer">
                                         Flights
@@ -85,10 +99,19 @@ function Navigation(props) {
                                     : "") +
                                 "group relative p-2 hover:br-color active:br-color active:border-r-4 hover:border-r-4 lg:active:border-r-0 lg:hover:border-r-0 lg:mx-4 cursor-pointer lg:hover:br-color lg:hover:border-b-4 lg:hover:bg-white"
                             }
+                            onMouseEnter={() => toggleDropdown("info")}
+                            onMouseLeave={() => toggleDropdown(null)}
+                            onClick={() => toggleDropdown("info")}
                         >
                             <div>Travel info</div>
                             {/* Dropdown */}
-                            <div className="hidden group-hover:flex absolute left-0 top-full mt-1 bg-white shadow-md border border-gray-200 w-full lg:w-64 p-4 z-10">
+                            <div
+                                className={`${
+                                    visibleDropdown === "info"
+                                        ? "block"
+                                        : "hidden"
+                                } bg-white shadow-md border border-gray-200 w-full lg:absolute lg:top-full lg:left-0 lg:mt-1 lg:w-64 p-4 lg:p-2`}
+                            >
                                 <ul>
                                     <li className="py-2 hover:border-b-2 hover:border-[#6d24cf] cursor-pointer">
                                         Travel Policies
@@ -108,10 +131,33 @@ function Navigation(props) {
                                 (props.selecting === "help"
                                     ? "be-vietnam-pro-bold br-color border-r-4 lg:border-r-0 lg:border-b-4 "
                                     : "") +
-                                "p-2 hover:br-color active:br-color active:border-r-4 hover:border-r-4 lg:active:border-r-0 lg:hover:border-r-0 lg:mx-4 cursor-pointer lg:hover:br-color lg:hover:border-b-4 lg:hover:bg-white"
+                                "group relative p-2 hover:br-color active:br-color active:border-r-4 hover:border-r-4 lg:active:border-r-0 lg:hover:border-r-0 lg:mx-4 cursor-pointer lg:hover:br-color lg:hover:border-b-4 lg:hover:bg-white"
                             }
+                            onMouseEnter={() => toggleDropdown("help")}
+                            onMouseLeave={() => toggleDropdown(null)}
+                            onClick={() => toggleDropdown("help")}
                         >
                             <div>Help</div>
+                            {/* Dropdown */}
+                            <div
+                                className={`${
+                                    visibleDropdown === "help"
+                                        ? "block"
+                                        : "hidden"
+                                } bg-white shadow-md border border-gray-200 w-full lg:absolute lg:top-full lg:left-0 lg:mt-1 lg:w-64 p-4 lg:p-2`}
+                            >
+                                <ul>
+                                    <li className="py-2 hover:border-b-2 hover:border-[#6d24cf] cursor-pointer">
+                                        FAQs
+                                    </li>
+                                    <li className="py-2 hover:border-b-2 hover:border-[#6d24cf] cursor-pointer">
+                                        Contact Support
+                                    </li>
+                                    <li className="py-2 hover:border-b-2 hover:border-[#6d24cf] cursor-pointer">
+                                        Feedback
+                                    </li>
+                                </ul>
+                            </div>
                         </li>
                     </ul>
                     <hr className="lg:hidden h-0.5 bg-black" />
