@@ -15,6 +15,8 @@
   - [Book Ticket](#book-ticket)
   - [Cancel Ticket](#cancel-ticket)
   - [Get My Tickets](#get-my-tickets)
+- [Promotions](#promotions)
+  - [Get All Promotions](#get-all-promotions)
 
 ## Authentication
 
@@ -488,4 +490,23 @@
         "AircraftID": "B787"
     }
 }
+```
+
+## Promotions
+
+### Get All Promotions
+- **Endpoint:** `/api/promotions/list`
+- **Method:** `GET`
+- **Description:** Retrieves all promotions.
+- **Response:** JSON array of all promotions.
+- **Example:** `/api/promotions/list`
+```json
+[
+  {
+    "PromotionID": "PR001",
+    "Title": "Khuyến mãi tháng 12",
+    "Content": "Giảm giá 50% cho tất cả các chuyến bay",
+    "Amount": 50
+  }
+]
 ```
