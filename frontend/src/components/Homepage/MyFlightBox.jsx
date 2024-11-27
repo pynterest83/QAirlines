@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-
 const MyFlightBox = () => {
   const [ticketID, setTicketID] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -10,6 +9,11 @@ const MyFlightBox = () => {
   const nav = useNavigate();
 
   function SearchTickets() {
+    if (!ticketID || !firstName || !lastName) {
+      setWarning("All fields are required.");
+      return;
+    }
+
     nav("/myflight", {
       state: {
         ticketID: ticketID,
