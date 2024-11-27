@@ -13,6 +13,20 @@ function Flight(props) {
     const [timeTaken, setTimeTaken] = useState(null)
     const [description, toggleDes] = useState(-1)
     const des = useRef(null)
+
+    function ChooseTrip() {
+        let trip = {
+            FlightID: props.info.FlightID,
+            Departure: props.info.DepTime,
+            Arrival: props.info.ArrTime,
+            Boarding: props.info.BoardingTime,
+            From: props.from,
+            To: props.to,
+            ClassType: description === 0 ? "Economy" : (description === 1 ? "Business" : "First")
+        }
+        props.confirm(trip)
+    }
+
     useEffect(() => {
         if (description !== -1) des.current.scrollIntoView({behavior: "smooth", block: "center"})
     }, [description]);
@@ -143,7 +157,7 @@ function Flight(props) {
                         <div className="h-fit inline-block whitespace-pre-wrap text-right float-right">{contents[description]}</div>
                     </div>
                     <div className="mt-4 md:mt-0 w-full clear-end md:block flex justify-center">
-                    <button className="md: p-4 bg-[#812af5] hover:bg-[#6d24cf] text-white rounded-xl be-vietnam-pro-bold">Confirm and continue</button>
+                    <button onClick={ChooseTrip} className="md: p-4 bg-[#812af5] hover:bg-[#6d24cf] text-white rounded-xl be-vietnam-pro-bold">Confirm and continue</button>
                     </div>
                 </div>
             }

@@ -44,7 +44,7 @@ function DateSelect(props) {
     }
     useEffect(() => {
         SetDateList(props.date, 4)
-    }, []);
+    }, [props.date]);
     useEffect(() => {
         if (current.current) {
             current.current.scrollIntoView({block: "center", inline: "center"})

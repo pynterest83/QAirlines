@@ -5,6 +5,7 @@ import MyFlight from "./pages/MyFlight.jsx";
 import Admin from "./admin/Admin.jsx";
 import './index.css'
 import Search from "./pages/Search.jsx";
+import Booking from "./pages/Booking.jsx";
 const router = createBrowserRouter([
     {
         path: "/",
@@ -13,6 +14,10 @@ const router = createBrowserRouter([
     {
         path: "/search",
         element: <Search/>
+    },
+    {
+        path: "/booking",
+        element: <Booking/>
     },
     {
         path: "/admin",

@@ -6,4 +6,5 @@ export const AirportData = {
     'DAD': 'Da Nang',
     'CXR': 'Nha Trang',
     'PQC': 'Phu Quoc',
+    'LAX': 'Los Angeles'
 };
