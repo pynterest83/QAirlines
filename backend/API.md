@@ -79,21 +79,47 @@
 - **Parameters:** `departure`, `destination`, `departure_date`, `return_date`
 - **Description:** Retrieves round trip flight offers.
 - **Response:** JSON array of round trip flight offers.
-- **Example:** `/api/offers/round-trip?departure=HAN&destination=LAX&departure_date=2024-12-09&return_date=2024-12-17`
+- **Example:** `/api/offers/round-trip?departure=HAN&destination=SGN&departure_date=2024-12-08&return_date=2024-12-09`
 ```json
 {
   "type": "Round-trip",
   "outboundFlights": [
     {
-      "FlightID": "VN102",
+      "FlightID": "VN100",
       "Status": "Scheduled",
-      "DepTime": "2024-12-09T03:00:00+07:00",
-      "ArrTime": "2024-12-09T07:00:00+07:00",
-      "BoardingTime": "2024-12-09T02:30:00+07:00",
+      "DepTime": "2024-12-08T03:00:00+07:00",
+      "ArrTime": "2024-12-08T07:00:00+07:00",
+      "BoardingTime": "2024-12-08T02:30:00+07:00",
       "ticketClasses": [
         {
           "ClassName": "Economy",
-          "Price": "700.00"
+          "Price": "100.00"
+        },
+        {
+          "ClassName": "Business",
+          "Price": "300.00"
+        },
+        {
+          "ClassName": "First",
+          "Price": "500.00"
+        }
+      ],
+      "Aircraft": {
+        "AircraftID": "B787",
+        "Model": "Boeing 787 Dreamliner",
+        "Capacity": 242
+      }
+    },
+    {
+      "FlightID": "VN103",
+      "Status": "Scheduled",
+      "DepTime": "2024-12-08T15:00:00+07:00",
+      "ArrTime": "2024-12-08T23:00:00+07:00",
+      "BoardingTime": "2024-12-08T14:30:00+07:00",
+      "ticketClasses": [
+        {
+          "ClassName": "Economy",
+          "Price": "50.00"
         },
         {
           "ClassName": "Business",
@@ -103,30 +129,40 @@
           "ClassName": "First",
           "Price": "1500.00"
         }
-      ]
+      ],
+      "Aircraft": {
+        "AircraftID": "A380",
+        "Model": "Airbus A380",
+        "Capacity": 500
+      }
     }
   ],
   "returnFlights": [
     {
-      "FlightID": "VN103",
+      "FlightID": "VN101",
       "Status": "Scheduled",
-      "DepTime": "2024-12-17T15:00:00+07:00",
-      "ArrTime": "2024-12-17T23:00:00+07:00",
-      "BoardingTime": "2024-12-17T14:30:00+07:00",
+      "DepTime": "2024-12-09T08:00:00+07:00",
+      "ArrTime": "2024-12-09T12:00:00+07:00",
+      "BoardingTime": "2024-12-09T07:30:00+07:00",
       "ticketClasses": [
         {
           "ClassName": "Economy",
-          "Price": "700.00"
+          "Price": "100.00"
         },
         {
           "ClassName": "Business",
-          "Price": "1000.00"
+          "Price": "300.00"
         },
         {
           "ClassName": "First",
-          "Price": "1500.00"
+          "Price": "500.00"
         }
-      ]
+      ],
+      "Aircraft": {
+        "AircraftID": "B787",
+        "Model": "Boeing 787 Dreamliner",
+        "Capacity": 242
+      }
     }
   ]
 }
@@ -162,7 +198,38 @@
           "ClassName": "First",
           "Price": "500.00"
         }
-      ]
+      ],
+      "Aircraft": {
+        "AircraftID": "B787",
+        "Model": "Boeing 787 Dreamliner",
+        "Capacity": 242
+      }
+    },
+    {
+      "FlightID": "VN103",
+      "Status": "Scheduled",
+      "DepTime": "2024-12-08T15:00:00+07:00",
+      "ArrTime": "2024-12-08T23:00:00+07:00",
+      "BoardingTime": "2024-12-08T14:30:00+07:00",
+      "ticketClasses": [
+        {
+          "ClassName": "Economy",
+          "Price": "50.00"
+        },
+        {
+          "ClassName": "Business",
+          "Price": "1000.00"
+        },
+        {
+          "ClassName": "First",
+          "Price": "1500.00"
+        }
+      ],
+      "Aircraft": {
+        "AircraftID": "A380",
+        "Model": "Airbus A380",
+        "Capacity": 500
+      }
     }
   ]
 }
