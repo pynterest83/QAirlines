@@ -6,7 +6,6 @@
 ## Table of Contents
 - [Promotions](#promotions)
   - [Create Promotion](#create-promotion)
-  - [Get All Promotions](#get-all-promotions)
   - [Update Promotion](#update-promotion)
   - [Delete Promotion](#delete-promotion)
 
@@ -37,23 +36,6 @@
     "Amount": 50
   }
 }
-```
-
-### Get All Promotions
-- **Endpoint:** `/api/promotions/list`
-- **Method:** `GET`
-- **Description:** Retrieves all promotions.
-- **Response:** JSON array of all promotions.
-- **Example:** `/api/promotions/list`
-```json
-[
-  {
-    "PromotionID": "PR001",
-    "Title": "Khuyến mãi tháng 12",
-    "Content": "Giảm giá 50% cho tất cả các chuyến bay",
-    "Amount": 50
-  }
-]
 ```
 
 ### Update Promotion

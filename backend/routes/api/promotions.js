@@ -10,7 +10,7 @@ const {
 } = require('../../validations/promotionValidation');
 
 router.post('/create', authenticateUser, checkAdmin, validate(createPromotionSchema), promotionController.createPromotion);
-router.get('/list', authenticateUser, checkAdmin, promotionController.getPromotions);
+router.get('/list', promotionController.getPromotions);
 router.put('/update/:PromotionID', authenticateUser, checkAdmin, validate(updatePromotionSchema), promotionController.updatePromotion);
 router.delete('/delete/:PromotionID', authenticateUser, checkAdmin, promotionController.deletePromotion);
 
