@@ -8,8 +8,6 @@ const Passenger = require('./Passenger');
 const Seat = require('./Seat');
 const Ticket = require('./Ticket');
 const TicketClass = require('./TicketClass');
-const Promotion = require('./Promotion');
-const Users = require('./User');
 
 // Flight và Airport associations
 Flight.belongsTo(Airport, { as: 'DepartureAirport', foreignKey: 'DepID' });

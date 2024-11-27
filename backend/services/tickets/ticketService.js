@@ -1,6 +1,5 @@
-const { Passenger, Ticket, FlightSeat, Flight } = require('../../models/schemas');
+const { Passenger, Ticket, FlightSeat, Flight, Seat, TicketClass} = require('../../models/schemas');
 const {Op} = require("sequelize");
-const convertToTimeZone = require("../../utils/utils");
 
 // Tìm hoặc tạo hành khách
 async function findOrCreatePassenger(data) {
@@ -130,7 +129,7 @@ async function getTicketsByPassenger(identifier) {
     }));
 }
 
-// Lấy thông tin vé theo ID kèm theo thông tin hành khách và chuyến bay
+// Lấy thông tin vé theo ID kèm theo hạng vé và thông tin hành khách
 async function getTicketByID(ticketID) {
     const ticket = await Ticket.findByPk(ticketID);
     if (!ticket) throw new Error('Ticket not found');
@@ -138,36 +137,56 @@ async function getTicketByID(ticketID) {
     const passenger = await Passenger.findByPk(ticket.PassID);
     if (!passenger) throw new Error('Passenger not found');
 
-    const flight = await Flight.findByPk(ticket.FlightID);
+    const flight = await Flight.findByPk(ticket.FlightID, {
+        include: [{
+            model: TicketClass,
+            as: 'ticketClasses',
+            attributes: ['ClassName', 'Price']
+        }]
+    });
+
     if (!flight) throw new Error('Flight not found');
+
+    const flightSeat = await FlightSeat.findOne({
+        where: { TicketID: ticketID },
+        include: [{
+            model: Seat,
+            as: 'seatDetails',
+            attributes: ['Class']
+        }]
+    });
+
+    const seatClass = flightSeat?.seatDetails?.Class || null;
+    const ticketClassDetails = seatClass
+        ? flight.ticketClasses.find(tc => tc.ClassName === seatClass)
+        : null;
 
     return {
         TicketID: ticket.TicketID,
         FlightID: ticket.FlightID,
         SeatNo: ticket.SeatNo,
         AircraftID: ticket.AircraftID,
-        CancellationDeadline: ticket.CancellationDeadline,
+        Class: ticketClassDetails.ClassName,
+        Price: ticketClassDetails.Price,
+        CancellationDeadline: ticket.CancellationDeadline ? ticket.CancellationDeadline.toISOString() : null,
         Passenger: {
             PassID: passenger.PassID,
             FirstName: passenger.FirstName,
             LastName: passenger.LastName,
-            DOB: passenger.DOB,
+            DOB: passenger.DOB ? passenger.DOB : null,
             Gender: passenger.Gender
         },
         Flight: {
             FlightID: flight.FlightID,
-            DepTime: flight.DepTime,
-            ArrTime: flight.ArrTime,
-            BoardingTime: flight.BoardingTime,
+            DepTime: flight.DepTime ? flight.DepTime.toISOString() : null,
+            ArrTime: flight.ArrTime ? flight.ArrTime.toISOString() : null,
+            BoardingTime: flight.BoardingTime ? flight.BoardingTime.toISOString() : null,
             DepID: flight.DepID,
-            DestID: flight.DestID
+            DestID: flight.DestID,
+            AircraftID: flight.AircraftID
         }
     };
 }
-
-
-
-
 
 module.exports = {
     findOrCreatePassenger,
