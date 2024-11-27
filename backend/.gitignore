@@ -57,3 +57,5 @@ jspm_packages/
 .idea/
 .vscode/
 *.suo
+
+db.js
