@@ -1,7 +1,7 @@
 const { Sequelize } = require('sequelize');
 
 // Khởi tạo Sequelize với cấu hình cơ sở dữ liệu của bạn
-const sequelize = new Sequelize('qairline', 'postgres', 'sqlpost644', {
+const sequelize = new Sequelize('qairline', 'postgres', '14112004', {
     host: 'localhost',
     dialect: 'postgres',
     define: {
