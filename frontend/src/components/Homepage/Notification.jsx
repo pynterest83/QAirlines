@@ -1,31 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import "swiper/css";
-import { Server } from "../../Server.js";
+import "swiper/css/autoplay"; // Ensure autoplay CSS is imported
+import { Server } from "../../Server";
 
-const NotificationBar = () => {
+const Notification = () => {
   // Array of news items
-  const newsItems = [
-    {
-      id: 1,
-      date: "02/10/2024",
-      title: "Thông báo về việc làm thủ tục trực tuyến từ sân bay Phù Cát (Quy Nhơn)",
-      link: "#",
-    },
-    {
-      id: 2,
-      date: "01/10/2024",
-      title: "Khuyến mãi đặc biệt cho vé máy bay tháng 11",
-      link: "#",
-    },
-    {
-      id: 3,
-      date: "30/09/2024",
-      title: "Cập nhật lịch trình bay mới nhất từ hãng hàng không",
-      link: "#",
-    },
-  ];
+  const [newsItems, setNewsItems] = useState([]);
+
+  useEffect(() => {
+    // Fetch news items from server
+    fetch(Server + "/promotions/list")
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setNewsItems(data);
+      });
+  }, []);
 
   return (
     <div className="max-w-4xl mx-auto mt-6 mb-6"> {/* Added mb-6 for margin bottom */}
@@ -48,16 +40,16 @@ const NotificationBar = () => {
             style={{ height: "100px" }}
           >
             {newsItems.map((news) => (
-              <SwiperSlide key={news.id}>
+              <SwiperSlide key={news.PromotionID}>
                 <div className="relative flex items-center justify-between p-4 h-full">
                   {/* Date and Notification */}
                   <div className="flex-1 ml-4">
-                    <p className="text-sm text-gray-500 mb-1">{news.date}</p>
+                    <p className="text-sm text-gray-500 mb-1">{news.Title}</p>
                     <a
-                      href={news.link}
+                      href="#"
                       className="text-[#6d24cf] font-medium text-sm hover:underline"
                     >
-                      {news.title}
+                      {news.Content}
                     </a>
                   </div>
                 </div>
@@ -79,4 +71,4 @@ const NotificationBar = () => {
   );
 };
 
-export default NotificationBar;
+export default Notification;
