@@ -16,6 +16,7 @@ function Flight(props) {
 
     function ChooseTrip() {
         let trip = {
+            AircraftID: props.info.Aircraft.AircraftID,
             FlightID: props.info.FlightID,
             Departure: props.info.DepTime,
             Arrival: props.info.ArrTime,

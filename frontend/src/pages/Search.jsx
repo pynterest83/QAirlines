@@ -43,7 +43,7 @@ function Search() {
             })
             else setFlights(undefined)
         })
-    }, [props]);
+    }, []);
     function Search() {
         fetch(Server + "offers/one-way?" + new URLSearchParams({
             departure: from,

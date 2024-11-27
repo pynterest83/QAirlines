@@ -50,11 +50,11 @@ function Booking() {
         });
         resizeObserver.observe(PlaneImage.current);
 
-        fetch("maps/A380.json").then(r => r.json().then(_data => {
+        fetch("maps/" + props[0].AircraftID + ".json").then(r => r.json().then(_data => {
             rawData.current = _data
             ScaleMap()
         }))
-        fetch("maps/A380_d.json").then(r => r.json().then(_data => {
+        fetch("maps/" + props[0].AircraftID + "_d.json").then(r => r.json().then(_data => {
             setDescription(_data)
         }))
         fetch(Server + "seats/available?" + new URLSearchParams({
@@ -93,8 +93,8 @@ function Booking() {
     return (
         <div className="relative">
             <Navigation selecting={"booking"}/>
-            <div ref={ImageContainer} className="relative mx-auto bg-white w-[150%] md:w-full lg:w-1/2">
-                <img ref={PlaneImage} className="w-full h-auto" src="/maps/A380.svg" useMap="#seatmap" alt=""/>
+            <div ref={ImageContainer} className="relative mx-auto bg-white w-full lg:w-1/2">
+                <img ref={PlaneImage} className="w-full h-auto" src={"/maps/"+ props[0].AircraftID + ".svg"} useMap="#seatmap" alt=""/>
                 <map name="seatmap">
                     {mapData.map((rect, index) =>
                         <area className="cursor-pointer" key={rect} alt="" shape="rect" coords={rect} onClick={(e) =>Show(e, index)}/>)}
