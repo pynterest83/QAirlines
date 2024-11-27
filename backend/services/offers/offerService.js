@@ -3,6 +3,7 @@ const TicketClass = require('../../models/schemas/TicketClass');
 const { Op, fn, col} = require('sequelize');
 const sequelize = require('../../db');
 const { convertToTimeZone } = require('../../utils/utils');
+const {Aircraft} = require("../../models/schemas");
 
 // Hàm truy vấn chuyến bay khứ hồi
 async function queryRoundTrip(departure, destination, departure_date, return_date) {
@@ -15,11 +16,17 @@ async function queryRoundTrip(departure, destination, departure_date, return_dat
                 sequelize.where(sequelize.fn('DATE', sequelize.col('DepTime')), departure_date)
             ]
         },
-        include: [{
+        include: [
+            {
             model: TicketClass,
             as: 'ticketClasses',
             attributes: ['ClassName', 'Price']
-        }]
+            },
+            {
+                model: Aircraft,
+                attributes: ['AircraftID', 'Model', 'Capacity']
+            }
+        ]
     });
 
     const returnFlights = await Flight.findAll({
@@ -31,11 +38,17 @@ async function queryRoundTrip(departure, destination, departure_date, return_dat
                 sequelize.where(sequelize.fn('DATE', sequelize.col('DepTime')), return_date)
             ]
         },
-        include: [{
+        include: [
+            {
             model: TicketClass,
             as: 'ticketClasses',
             attributes: ['ClassName', 'Price']
-        }]
+            },
+            {
+                model: Aircraft,
+                attributes: ['AircraftID', 'Model', 'Capacity']
+            }
+        ]
     });
 
     return { outboundFlights, returnFlights };
@@ -54,7 +67,8 @@ function formatRoundTripResults(outboundFlights, returnFlights) {
             ticketClasses: flight.ticketClasses.map(tc => ({
                 ClassName: tc.ClassName,
                 Price: tc.Price
-            }))
+            })),
+            Aircraft: flight.Aircraft
         })),
         returnFlights: returnFlights.map(flight => ({
             FlightID: flight.FlightID,
@@ -65,7 +79,8 @@ function formatRoundTripResults(outboundFlights, returnFlights) {
             ticketClasses: flight.ticketClasses.map(tc => ({
                 ClassName: tc.ClassName,
                 Price: tc.Price
-            }))
+            })),
+            Aircraft: flight.Aircraft
         }))
     };
 }
@@ -81,11 +96,17 @@ async function queryOneWay(departure, destination, departure_date) {
                 sequelize.where(sequelize.fn('DATE', sequelize.col('DepTime')), departure_date)
             ]
         },
-        include: [{
+        include: [
+            {
             model: TicketClass,
             as: 'ticketClasses',
             attributes: ['ClassName', 'Price']
-        }]
+            },
+            {
+                model: Aircraft,
+                attributes: ['AircraftID', 'Model', 'Capacity']
+            }
+        ]
     });
 }
 
@@ -102,7 +123,8 @@ function formatOneWayResults(flights) {
             ticketClasses: flight.ticketClasses.map(tc => ({
                 ClassName: tc.ClassName,
                 Price: tc.Price
-            }))
+            })),
+            Aircraft: flight.Aircraft
         }))
     };
 }
