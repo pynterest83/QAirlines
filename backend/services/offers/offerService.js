@@ -103,6 +103,9 @@ function formatFlightResults(flights) {
         DepTime: convertToTimeZone(flight.DepTime),
         ArrTime: convertToTimeZone(flight.ArrTime),
         BoardingTime: convertToTimeZone(flight.BoardingTime),
+        OriginalDepTime: flight.OriginalDepTime ? convertToTimeZone(flight.OriginalDepTime) : null,
+        OriginalArrTime: flight.OriginalArrTime ? convertToTimeZone(flight.OriginalArrTime) : null,
+        OriginalBoardingTime: flight.OriginalBoardingTime ? convertToTimeZone(flight.OriginalBoardingTime) : null,
         ticketClasses: flight.ticketClasses.map(tc => ({
             ClassName: tc.ClassName,
             Price: tc.Price,

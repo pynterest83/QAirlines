@@ -105,12 +105,19 @@ async function getTicketsByPassenger(identifier) {
     const allPassengerIDs = [guardian.PassID, ...dependentIDs]; // Bao gồm cả người lớn và trẻ em
 
     // Lấy vé của tất cả hành khách này
-    const tickets = await Ticket.findAll({
+    let tickets = await Ticket.findAll({
         where: { PassID: { [Op.in]: allPassengerIDs } },
         include: [
             {
                 model: Flight,
-                attributes: ['FlightID', 'DepTime', 'ArrTime', 'DepID', 'DestID']
+            },
+            {
+                model: FlightSeat,
+                include: [{
+                    model: Seat,
+                    as: 'seatDetails',
+                    attributes: ['Class']
+                }]
             }
         ]
     });
@@ -119,14 +126,21 @@ async function getTicketsByPassenger(identifier) {
         throw new Error('No tickets found for this guardian and dependents');
     }
 
-    return tickets.map(ticket => ({
+    tickets = Array.from(
+        new Map(tickets.map(ticket => [ticket.TicketID, ticket])).values()
+    );
+
+    const ret = tickets.map(ticket => ({
         TicketID: ticket.TicketID,
+        Class: ticket.FlightSeat.seatDetails.Class,
         FlightID: ticket.FlightID,
         SeatNo: ticket.SeatNo,
         AircraftID: ticket.AircraftID,
         CancellationDeadline: ticket.CancellationDeadline,
         FlightDetails: ticket.Flight
     }));
+
+    return [guardian, ret];
 }
 
 // Lấy thông tin vé theo ID kèm theo hạng vé và thông tin hành khách
