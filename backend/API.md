@@ -95,15 +95,18 @@
       "ticketClasses": [
         {
           "ClassName": "Economy",
-          "Price": "100.00"
+          "Price": "100.00",
+          "AvailableSeats": 4
         },
         {
           "ClassName": "Business",
-          "Price": "300.00"
+          "Price": "300.00",
+          "AvailableSeats": 2
         },
         {
           "ClassName": "First",
-          "Price": "500.00"
+          "Price": "500.00",
+          "AvailableSeats": 4
         }
       ],
       "Aircraft": {
@@ -121,15 +124,18 @@
       "ticketClasses": [
         {
           "ClassName": "Economy",
-          "Price": "50.00"
+          "Price": "50.00",
+          "AvailableSeats": 4
         },
         {
           "ClassName": "Business",
-          "Price": "1000.00"
+          "Price": "1000.00",
+          "AvailableSeats": 4
         },
         {
           "ClassName": "First",
-          "Price": "1500.00"
+          "Price": "1500.00",
+          "AvailableSeats": 4
         }
       ],
       "Aircraft": {
@@ -149,15 +155,18 @@
       "ticketClasses": [
         {
           "ClassName": "Economy",
-          "Price": "100.00"
+          "Price": "100.00",
+          "AvailableSeats": 0
         },
         {
           "ClassName": "Business",
-          "Price": "300.00"
+          "Price": "300.00",
+          "AvailableSeats": 4
         },
         {
           "ClassName": "First",
-          "Price": "500.00"
+          "Price": "500.00",
+          "AvailableSeats": 4
         }
       ],
       "Aircraft": {
@@ -190,15 +199,18 @@
       "ticketClasses": [
         {
           "ClassName": "Economy",
-          "Price": "100.00"
+          "Price": "100.00",
+          "AvailableSeats": 4
         },
         {
           "ClassName": "Business",
-          "Price": "300.00"
+          "Price": "300.00",
+          "AvailableSeats": 2
         },
         {
           "ClassName": "First",
-          "Price": "500.00"
+          "Price": "500.00",
+          "AvailableSeats": 4
         }
       ],
       "Aircraft": {
@@ -216,15 +228,18 @@
       "ticketClasses": [
         {
           "ClassName": "Economy",
-          "Price": "50.00"
+          "Price": "50.00",
+          "AvailableSeats": 4
         },
         {
           "ClassName": "Business",
-          "Price": "1000.00"
+          "Price": "1000.00",
+          "AvailableSeats": 4
         },
         {
           "ClassName": "First",
-          "Price": "1500.00"
+          "Price": "1500.00",
+          "AvailableSeats": 4
         }
       ],
       "Aircraft": {
