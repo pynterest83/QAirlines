@@ -153,4 +153,12 @@
     .slide-from-left {
         animation: slide-in 0.4s;
     }
+    @keyframes slide-down {
+        from {
+            top: 50%;
+        }
+    }
+    .slide-from-up {
+        animation: slide-down 0.4s;
+    }
 }

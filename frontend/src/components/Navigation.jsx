@@ -15,8 +15,12 @@ function Navigation(props) {
         if (token) {
             try {
                 const decodedToken = jwtDecode(token);
-                setUsername(decodedToken.Username);
-                setIsLoggedIn(true);
+                if (decodedToken.Role == "User") {
+                    setIsLoggedIn(true);
+                    setUsername(decodedToken.Username);
+                } else {
+                    localStorage.removeItem("token");
+                }
             } catch (error) {
                 console.error("Invalid token:", error);
                 setIsLoggedIn(false);
@@ -99,7 +103,7 @@ function Navigation(props) {
                                     visibleDropdown === "booking"
                                         ? "block"
                                         : "hidden"
-                                } bg-white shadow-md border border-gray-200 w-full lg:absolute lg:top-full lg:left-0 lg:mt-1 lg:w-64 p-4 lg:p-2`}
+                                } slide-from-up bg-white shadow-md border border-gray-200 w-full lg:absolute lg:top-full lg:left-0 lg:mt-1 lg:w-64 p-4 lg:p-2`}
                             >
                                 <ul>
                                     <li className="py-2 hover:border-b-2 hover:border-[#6d24cf] cursor-pointer">
@@ -133,7 +137,7 @@ function Navigation(props) {
                                     visibleDropdown === "info"
                                         ? "block"
                                         : "hidden"
-                                } bg-white shadow-md border border-gray-200 w-full lg:absolute lg:top-full lg:left-0 lg:mt-1 lg:w-64 p-4 lg:p-2`}
+                                } slide-from-up bg-white shadow-md border border-gray-200 w-full lg:absolute lg:top-full lg:left-0 lg:mt-1 lg:w-64 p-4 lg:p-2`}
                             >
                                 <ul>
                                     <li className="py-2 hover:border-b-2 hover:border-[#6d24cf] cursor-pointer">
@@ -167,7 +171,7 @@ function Navigation(props) {
                                     visibleDropdown === "help"
                                         ? "block"
                                         : "hidden"
-                                } bg-white shadow-md border border-gray-200 w-full lg:absolute lg:top-full lg:left-0 lg:mt-1 lg:w-64 p-4 lg:p-2`}
+                                } slide-from-up bg-white shadow-md border border-gray-200 w-full lg:absolute lg:top-full lg:left-0 lg:mt-1 lg:w-64 p-4 lg:p-2`}
                             >
                                 <ul>
                                     <li className="py-2 hover:border-b-2 hover:border-[#6d24cf] cursor-pointer">
