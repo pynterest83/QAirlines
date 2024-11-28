@@ -15,6 +15,8 @@
   - [Book Ticket](#book-ticket)
   - [Cancel Ticket](#cancel-ticket)
   - [Get My Tickets](#get-my-tickets)
+- [Promotions](#promotions)
+  - [Get All Promotions](#get-all-promotions)
 
 ## Authentication
 
@@ -93,15 +95,18 @@
       "ticketClasses": [
         {
           "ClassName": "Economy",
-          "Price": "100.00"
+          "Price": "100.00",
+          "AvailableSeats": 4
         },
         {
           "ClassName": "Business",
-          "Price": "300.00"
+          "Price": "300.00",
+          "AvailableSeats": 2
         },
         {
           "ClassName": "First",
-          "Price": "500.00"
+          "Price": "500.00",
+          "AvailableSeats": 4
         }
       ],
       "Aircraft": {
@@ -119,15 +124,18 @@
       "ticketClasses": [
         {
           "ClassName": "Economy",
-          "Price": "50.00"
+          "Price": "50.00",
+          "AvailableSeats": 4
         },
         {
           "ClassName": "Business",
-          "Price": "1000.00"
+          "Price": "1000.00",
+          "AvailableSeats": 4
         },
         {
           "ClassName": "First",
-          "Price": "1500.00"
+          "Price": "1500.00",
+          "AvailableSeats": 4
         }
       ],
       "Aircraft": {
@@ -147,15 +155,18 @@
       "ticketClasses": [
         {
           "ClassName": "Economy",
-          "Price": "100.00"
+          "Price": "100.00",
+          "AvailableSeats": 0
         },
         {
           "ClassName": "Business",
-          "Price": "300.00"
+          "Price": "300.00",
+          "AvailableSeats": 4
         },
         {
           "ClassName": "First",
-          "Price": "500.00"
+          "Price": "500.00",
+          "AvailableSeats": 4
         }
       ],
       "Aircraft": {
@@ -188,15 +199,18 @@
       "ticketClasses": [
         {
           "ClassName": "Economy",
-          "Price": "100.00"
+          "Price": "100.00",
+          "AvailableSeats": 4
         },
         {
           "ClassName": "Business",
-          "Price": "300.00"
+          "Price": "300.00",
+          "AvailableSeats": 2
         },
         {
           "ClassName": "First",
-          "Price": "500.00"
+          "Price": "500.00",
+          "AvailableSeats": 4
         }
       ],
       "Aircraft": {
@@ -214,15 +228,18 @@
       "ticketClasses": [
         {
           "ClassName": "Economy",
-          "Price": "50.00"
+          "Price": "50.00",
+          "AvailableSeats": 4
         },
         {
           "ClassName": "Business",
-          "Price": "1000.00"
+          "Price": "1000.00",
+          "AvailableSeats": 4
         },
         {
           "ClassName": "First",
-          "Price": "1500.00"
+          "Price": "1500.00",
+          "AvailableSeats": 4
         }
       ],
       "Aircraft": {
@@ -488,4 +505,23 @@
         "AircraftID": "B787"
     }
 }
+```
+
+## Promotions
+
+### Get All Promotions
+- **Endpoint:** `/api/promotions/list`
+- **Method:** `GET`
+- **Description:** Retrieves all promotions.
+- **Response:** JSON array of all promotions.
+- **Example:** `/api/promotions/list`
+```json
+[
+  {
+    "PromotionID": "PR001",
+    "Title": "Khuyến mãi tháng 12",
+    "Content": "Giảm giá 50% cho tất cả các chuyến bay",
+    "Amount": 50
+  }
+]
 ```

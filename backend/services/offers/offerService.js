@@ -3,7 +3,7 @@ const TicketClass = require('../../models/schemas/TicketClass');
 const { Op, fn, col} = require('sequelize');
 const sequelize = require('../../db');
 const { convertToTimeZone } = require('../../utils/utils');
-const {Aircraft} = require("../../models/schemas");
+const {Aircraft, FlightSeat, Seat} = require("../../models/schemas");
 
 // Hàm truy vấn chuyến bay khứ hồi
 async function queryRoundTrip(departure, destination, departure_date, return_date) {
@@ -18,9 +18,9 @@ async function queryRoundTrip(departure, destination, departure_date, return_dat
         },
         include: [
             {
-            model: TicketClass,
-            as: 'ticketClasses',
-            attributes: ['ClassName', 'Price']
+                model: TicketClass,
+                as: 'ticketClasses',
+                attributes: ['ClassName', 'Price']
             },
             {
                 model: Aircraft,
@@ -40,9 +40,9 @@ async function queryRoundTrip(departure, destination, departure_date, return_dat
         },
         include: [
             {
-            model: TicketClass,
-            as: 'ticketClasses',
-            attributes: ['ClassName', 'Price']
+                model: TicketClass,
+                as: 'ticketClasses',
+                attributes: ['ClassName', 'Price']
             },
             {
                 model: Aircraft,
@@ -51,43 +51,84 @@ async function queryRoundTrip(departure, destination, departure_date, return_dat
         ]
     });
 
+    for (const flight of outboundFlights) {
+        for (const ticketClass of flight.ticketClasses) {
+            const availableSeats = await FlightSeat.findAll({
+                where: {
+                    FlightID: flight.FlightID,
+                    TicketID: null
+                },
+                include: [{
+                    model: Seat,
+                    as: 'seatDetails',
+                    where: {
+                        Class: ticketClass.ClassName
+                    },
+                    attributes: ['SeatNo']
+                }],
+                attributes: []
+            });
+            ticketClass.dataValues.AvailableSeats = availableSeats.length;
+        }
+    }
+
+    for (const flight of returnFlights) {
+        for (const ticketClass of flight.ticketClasses) {
+            const availableSeats = await FlightSeat.findAll({
+                where: {
+                    FlightID: flight.FlightID,
+                    TicketID: null
+                },
+                include: [{
+                    model: Seat,
+                    as: 'seatDetails',
+                    where: {
+                        Class: ticketClass.ClassName
+                    },
+                    attributes: ['SeatNo']
+                }],
+                attributes: []
+            });
+            ticketClass.dataValues.AvailableSeats = availableSeats.length;
+        }
+    }
+
     return { outboundFlights, returnFlights };
+}
+
+function formatFlightResults(flights) {
+    return flights.map(flight => ({
+        FlightID: flight.FlightID,
+        Status: flight.Status,
+        DepTime: convertToTimeZone(flight.DepTime),
+        ArrTime: convertToTimeZone(flight.ArrTime),
+        BoardingTime: convertToTimeZone(flight.BoardingTime),
+        ticketClasses: flight.ticketClasses.map(tc => ({
+            ClassName: tc.ClassName,
+            Price: tc.Price,
+            AvailableSeats: tc.dataValues.AvailableSeats || 0
+        })),
+        Aircraft: {
+            AircraftID: flight.Aircraft.AircraftID,
+            Model: flight.Aircraft.Model,
+            Capacity: flight.Aircraft.Capacity
+        }
+    }));
 }
 
 // Hàm xử lý kết quả chuyến bay khứ hồi
 function formatRoundTripResults(outboundFlights, returnFlights) {
     return {
         type: "Round-trip",
-        outboundFlights: outboundFlights.map(flight => ({
-            FlightID: flight.FlightID,
-            Status: flight.Status,
-            DepTime: convertToTimeZone(flight.DepTime),
-            ArrTime: convertToTimeZone(flight.ArrTime),
-            BoardingTime: convertToTimeZone(flight.BoardingTime),
-            ticketClasses: flight.ticketClasses.map(tc => ({
-                ClassName: tc.ClassName,
-                Price: tc.Price
-            })),
-            Aircraft: flight.Aircraft
-        })),
-        returnFlights: returnFlights.map(flight => ({
-            FlightID: flight.FlightID,
-            Status: flight.Status,
-            DepTime: convertToTimeZone(flight.DepTime),
-            ArrTime: convertToTimeZone(flight.ArrTime),
-            BoardingTime: convertToTimeZone(flight.BoardingTime),
-            ticketClasses: flight.ticketClasses.map(tc => ({
-                ClassName: tc.ClassName,
-                Price: tc.Price
-            })),
-            Aircraft: flight.Aircraft
-        }))
+        outboundFlights: formatFlightResults(outboundFlights),
+        returnFlights: formatFlightResults(returnFlights)
     };
 }
 
+
 // Hàm truy vấn chuyến bay một chiều
 async function queryOneWay(departure, destination, departure_date) {
-    return await Flight.findAll({
+    const flights = await Flight.findAll({
         where: {
             DepID: departure,
             DestID: destination,
@@ -98,9 +139,9 @@ async function queryOneWay(departure, destination, departure_date) {
         },
         include: [
             {
-            model: TicketClass,
-            as: 'ticketClasses',
-            attributes: ['ClassName', 'Price']
+                model: TicketClass,
+                as: 'ticketClasses',
+                attributes: ['ClassName', 'Price']
             },
             {
                 model: Aircraft,
@@ -108,24 +149,37 @@ async function queryOneWay(departure, destination, departure_date) {
             }
         ]
     });
+
+    for (const flight of flights) {
+        for (const ticketClass of flight.ticketClasses) {
+            const availableSeats = await FlightSeat.findAll({
+                where: {
+                    FlightID: flight.FlightID,
+                    TicketID: null
+                },
+                include: [{
+                    model: Seat,
+                    as: 'seatDetails',
+                    where: {
+                        Class: ticketClass.ClassName
+                    },
+                    attributes: ['SeatNo']
+                }],
+                attributes: []
+            });
+
+            ticketClass.dataValues.AvailableSeats = availableSeats.length;
+        }
+    }
+
+    return flights;
 }
 
 // Hàm xử lý kết quả chuyến bay một chiều
 function formatOneWayResults(flights) {
     return {
         type: "One-way",
-        flights: flights.map(flight => ({
-            FlightID: flight.FlightID,
-            Status: flight.Status,
-            DepTime: convertToTimeZone(flight.DepTime),
-            ArrTime: convertToTimeZone(flight.ArrTime),
-            BoardingTime: convertToTimeZone(flight.BoardingTime),
-            ticketClasses: flight.ticketClasses.map(tc => ({
-                ClassName: tc.ClassName,
-                Price: tc.Price
-            })),
-            Aircraft: flight.Aircraft
-        }))
+        flights: formatFlightResults(flights)
     };
 }
 
