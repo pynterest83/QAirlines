@@ -1,11 +1,32 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { FiMenu, FiX, FiSearch } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 function Navigation(props) {
     const [visibleDropdown, setVisibleDropdown] = useState(null);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [username, setUsername] = useState("");
     const list = useRef(null);
     const nav = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (token) {
+            try {
+                const decodedToken = jwtDecode(token);
+                if (decodedToken.Role == "User") {
+                    setIsLoggedIn(true);
+                    setUsername(decodedToken.Username);
+                } else {
+                    localStorage.removeItem("token");
+                }
+            } catch (error) {
+                console.error("Invalid token:", error);
+                setIsLoggedIn(false);
+            }
+        }
+    }, []);
 
     const toggleMenu = () => {
         if (!list.current.className.includes("hidden"))
@@ -20,6 +41,12 @@ function Navigation(props) {
 
     const toggleDropdown = (name) => {
         setVisibleDropdown(visibleDropdown === name ? null : name);
+    };
+
+    const handleSignOut = () => {
+        localStorage.removeItem("token");
+        setIsLoggedIn(false);
+        nav("/");
     };
 
     return (
@@ -76,7 +103,7 @@ function Navigation(props) {
                                     visibleDropdown === "booking"
                                         ? "block"
                                         : "hidden"
-                                } bg-white shadow-md border border-gray-200 w-full lg:absolute lg:top-full lg:left-0 lg:mt-1 lg:w-64 p-4 lg:p-2`}
+                                } slide-from-up bg-white shadow-md border border-gray-200 w-full lg:absolute lg:top-full lg:left-0 lg:mt-1 lg:w-64 p-4 lg:p-2`}
                             >
                                 <ul>
                                     <li className="py-2 hover:border-b-2 hover:border-[#6d24cf] cursor-pointer">
@@ -110,7 +137,7 @@ function Navigation(props) {
                                     visibleDropdown === "info"
                                         ? "block"
                                         : "hidden"
-                                } bg-white shadow-md border border-gray-200 w-full lg:absolute lg:top-full lg:left-0 lg:mt-1 lg:w-64 p-4 lg:p-2`}
+                                } slide-from-up bg-white shadow-md border border-gray-200 w-full lg:absolute lg:top-full lg:left-0 lg:mt-1 lg:w-64 p-4 lg:p-2`}
                             >
                                 <ul>
                                     <li className="py-2 hover:border-b-2 hover:border-[#6d24cf] cursor-pointer">
@@ -144,7 +171,7 @@ function Navigation(props) {
                                     visibleDropdown === "help"
                                         ? "block"
                                         : "hidden"
-                                } bg-white shadow-md border border-gray-200 w-full lg:absolute lg:top-full lg:left-0 lg:mt-1 lg:w-64 p-4 lg:p-2`}
+                                } slide-from-up bg-white shadow-md border border-gray-200 w-full lg:absolute lg:top-full lg:left-0 lg:mt-1 lg:w-64 p-4 lg:p-2`}
                             >
                                 <ul>
                                     <li className="py-2 hover:border-b-2 hover:border-[#6d24cf] cursor-pointer">
@@ -161,23 +188,69 @@ function Navigation(props) {
                         </li>
                     </ul>
                     <hr className="lg:hidden h-0.5 bg-black" />
-                    <button className="text-left w-full lg:hidden block be-vietnam-pro-bold px-2 py-3 active:bg-gray-300 hover:bg-gray-300">
-                        Login
-                    </button>
-                    <button className="text-left w-full lg:hidden block be-vietnam-pro-bold px-2 py-3 active:bg-gray-300 hover:bg-gray-300">
-                        Sign up
-                    </button>
+                    {isLoggedIn ? (
+                        <>
+                            <div className="text-left w-full lg:hidden block be-vietnam-pro-bold px-2 py-3">
+                                {username}
+                            </div>
+                            <button
+                                onClick={handleSignOut}
+                                className="text-left w-full lg:hidden block be-vietnam-pro-bold px-2 py-3 active:bg-gray-300 hover:bg-gray-300"
+                            >
+                                Sign out
+                            </button>
+                        </>
+                    ) : (
+                        <>
+                            <button
+                                onClick={() => nav("/login")}
+                                className="text-left w-full lg:hidden block be-vietnam-pro-bold px-2 py-3 active:bg-gray-300 hover:bg-gray-300"
+                            >
+                                Login
+                            </button>
+                            <button
+                                onClick={() => nav("/signup")}
+                                className="text-left w-full lg:hidden block be-vietnam-pro-bold px-2 py-3 active:bg-gray-300 hover:bg-gray-300"
+                            >
+                                Sign up
+                            </button>
+                        </>
+                    )}
                 </div>
                 <input
                     className="mt-5 hidden lg:inline-flex lg:static mb-4 text-sm ml-auto mr-2 px-2 py-1 rounded-lg border border-black"
                     placeholder="Search a topic..."
                 />
-                <button className="hidden lg:inline-block mt-5 text-sm be-vietnam-pro-bold text-white mb-4 rounded-2xl py-1.5 px-5 mr-2 gradient-button">
-                    Login
-                </button>
-                <button className="hidden lg:inline-block mt-5 text-sm be-vietnam-pro-bold text-white mb-4 rounded-2xl py-1.5 px-5 mr-32 gradient-button">
-                    Sign up
-                </button>
+                {isLoggedIn ? (
+                    <>
+                        <button
+                            className="hidden lg:inline-block mt-5 text-sm be-vietnam-pro-bold text-white mb-4 rounded-2xl py-1.5 px-5 mr-2 gradient-button"
+                        >
+                            {username}
+                        </button>
+                        <button
+                            onClick={handleSignOut}
+                            className="hidden lg:inline-block mt-5 text-sm be-vietnam-pro-bold text-white mb-4 rounded-2xl py-1.5 px-5 mr-32 gradient-button"
+                        >
+                            Sign out
+                        </button>
+                    </>
+                ) : (
+                    <>
+                        <button
+                            onClick={() => nav("/login")}
+                            className="hidden lg:inline-block mt-5 text-sm be-vietnam-pro-bold text-white mb-4 rounded-2xl py-1.5 px-5 mr-2 gradient-button"
+                        >
+                            Login
+                        </button>
+                        <button
+                            onClick={() => nav("/signup")}
+                            className="hidden lg:inline-block mt-5 text-sm be-vietnam-pro-bold text-white mb-4 rounded-2xl py-1.5 px-5 mr-32 gradient-button"
+                        >
+                            Sign up
+                        </button>
+                    </>
+                )}
             </div>
         </nav>
     );
