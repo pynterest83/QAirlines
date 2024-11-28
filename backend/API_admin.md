@@ -8,6 +8,8 @@
   - [Create Promotion](#create-promotion)
   - [Update Promotion](#update-promotion)
   - [Delete Promotion](#delete-promotion)
+- [Flight](#flight)
+  - [Delay Flight](#delay-flight)
 
 ## Promotions
 ### Create Promotion
@@ -64,5 +66,42 @@
 ```json
 {
   "message": "Thông tin đã được xóa thành công"
+}
+```
+
+## Flight
+### Delay Flight
+- **Endpoint:** `/api/flights/delay/`
+- **Method:** `PUT`
+- **PUT Body:** JSON object with flight details.
+- **Description:** Delays a flight.
+- **Response:** Confirmation of flight delay.
+- **Example:** `/api/flights/delay/`
+- **Request Body:**
+```json
+{
+  "flightID": "VN103",
+  "DepTime": "2024-12-10T02:00:00.000Z",
+  "ArrTime": null,
+  "BoardingTime": "2024-12-10T01:30:00.000Z"
+}
+```
+- **Response:**
+```json
+{
+  "message": "Flight delayed successfully",
+  "flight": {
+    "FlightID": "VN103",
+    "Status": "Scheduled",
+    "DepTime": "2024-12-10T02:00:00.000Z",
+    "ArrTime": "2024-12-08T16:00:00.000Z",
+    "BoardingTime": "2024-12-10T01:30:00.000Z",
+    "DepID": "HAN",
+    "DestID": "SGN",
+    "AircraftID": "A380",
+    "OriginalDepTime": "2024-12-08T08:00:00.000Z",
+    "OriginalArrTime": null,
+    "OriginalBoardingTime": "2024-12-08T07:30:00.000Z"
+  }
 }
 ```

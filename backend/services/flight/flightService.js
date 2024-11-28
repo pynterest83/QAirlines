@@ -8,13 +8,17 @@ async function delayFlight(flightID, newTimes) {
         throw new Error('Flight not found');
     }
 
-    if (DepTime <= flight.DepTime || ArrTime <= flight.ArrTime || BoardingTime <= flight.BoardingTime) {
+    if (
+        (DepTime && DepTime <= flight.DepTime) ||
+        (ArrTime && ArrTime <= flight.ArrTime) ||
+        (BoardingTime && BoardingTime <= flight.BoardingTime)
+    ) {
         throw new Error('New times must be later than the current times');
     }
 
-    if (!flight.OriginalDepTime) flight.OriginalDepTime = flight.DepTime;
-    if (!flight.OriginalArrTime) flight.OriginalArrTime = flight.ArrTime;
-    if (!flight.OriginalBoardingTime) flight.OriginalBoardingTime = flight.BoardingTime;
+    if (!flight.OriginalDepTime && DepTime) flight.OriginalDepTime = flight.DepTime;
+    if (!flight.OriginalArrTime && ArrTime) flight.OriginalArrTime = flight.ArrTime;
+    if (!flight.OriginalBoardingTime && BoardingTime) flight.OriginalBoardingTime = flight.BoardingTime;
 
     flight.DepTime = DepTime || flight.DepTime;
     flight.ArrTime = ArrTime || flight.ArrTime;
