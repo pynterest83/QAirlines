@@ -67,6 +67,7 @@ function Search() {
     useEffect(() => {
         if (props.tripType === "oneWay" && chosenTrip.length === 1) {
             nav("/booking", {state: {
+                passengers: {adult:adults, children: children},
                 trip: chosenTrip
             }})
         }
@@ -81,6 +82,7 @@ function Search() {
             }
             else if (chosenTrip.length === 2) {
                 nav("/booking", {state: {
+                    passengers: {adult: adults, children: children},
                     trip: chosenTrip
                 }})
             }

@@ -154,11 +154,12 @@ function Flight(props) {
                         <div className="inline-block">
                             <div className="be-vietnam-pro-bold text-2xl">{props.info.ticketClasses[description].ClassName}</div>
                             <div className="be-vietnam-pro-medium text-xl">From {props.info.ticketClasses[description].Price}</div>
+                            <div className="be-vietnam-pro-light text-lg">{props.info.ticketClasses[description].AvailableSeats} left</div>
                         </div>
                         <div className="h-fit inline-block whitespace-pre-wrap text-right float-right">{contents[description]}</div>
                     </div>
                     <div className="mt-4 md:mt-0 w-full clear-end md:block flex justify-center">
-                    <button onClick={ChooseTrip} className="md: p-4 bg-[#812af5] hover:bg-[#6d24cf] text-white rounded-xl be-vietnam-pro-bold">Confirm and continue</button>
+                    <button onClick={ChooseTrip} className="p-4 bg-[#812af5] hover:bg-[#6d24cf] text-white rounded-xl be-vietnam-pro-bold">Confirm and continue</button>
                     </div>
                 </div>
             }
