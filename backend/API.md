@@ -96,30 +96,17 @@
         {
           "ClassName": "Economy",
           "Price": "100.00",
-          "AvailableSeats": [
-            "20A",
-            "20B",
-            "20A",
-            "20B"
-          ]
+          "AvailableSeats": 4
         },
         {
           "ClassName": "Business",
           "Price": "300.00",
-          "AvailableSeats": [
-            "10B",
-            "10B"
-          ]
+          "AvailableSeats": 2
         },
         {
           "ClassName": "First",
           "Price": "500.00",
-          "AvailableSeats": [
-            "1A",
-            "1B",
-            "1A",
-            "1B"
-          ]
+          "AvailableSeats": 4
         }
       ],
       "Aircraft": {
@@ -138,32 +125,17 @@
         {
           "ClassName": "Economy",
           "Price": "50.00",
-          "AvailableSeats": [
-            "20A",
-            "20B",
-            "20A",
-            "20B"
-          ]
+          "AvailableSeats": 4
         },
         {
           "ClassName": "Business",
           "Price": "1000.00",
-          "AvailableSeats": [
-            "10A",
-            "10B",
-            "10A",
-            "10B"
-          ]
+          "AvailableSeats": 4
         },
         {
           "ClassName": "First",
           "Price": "1500.00",
-          "AvailableSeats": [
-            "1A",
-            "1B",
-            "1A",
-            "1B"
-          ]
+          "AvailableSeats": 4
         }
       ],
       "Aircraft": {
@@ -184,27 +156,17 @@
         {
           "ClassName": "Economy",
           "Price": "100.00",
-          "AvailableSeats": []
+          "AvailableSeats": 0
         },
         {
           "ClassName": "Business",
           "Price": "300.00",
-          "AvailableSeats": [
-            "10A",
-            "10B",
-            "10A",
-            "10B"
-          ]
+          "AvailableSeats": 4
         },
         {
           "ClassName": "First",
           "Price": "500.00",
-          "AvailableSeats": [
-            "1A",
-            "1B",
-            "1A",
-            "1B"
-          ]
+          "AvailableSeats": 4
         }
       ],
       "Aircraft": {
@@ -238,30 +200,17 @@
         {
           "ClassName": "Economy",
           "Price": "100.00",
-          "AvailableSeats": [
-            "20A",
-            "20B",
-            "20A",
-            "20B"
-          ]
+          "AvailableSeats": 4
         },
         {
           "ClassName": "Business",
           "Price": "300.00",
-          "AvailableSeats": [
-            "10B",
-            "10B"
-          ]
+          "AvailableSeats": 2
         },
         {
           "ClassName": "First",
           "Price": "500.00",
-          "AvailableSeats": [
-            "1A",
-            "1B",
-            "1A",
-            "1B"
-          ]
+          "AvailableSeats": 4
         }
       ],
       "Aircraft": {
@@ -280,32 +229,17 @@
         {
           "ClassName": "Economy",
           "Price": "50.00",
-          "AvailableSeats": [
-            "20A",
-            "20B",
-            "20A",
-            "20B"
-          ]
+          "AvailableSeats": 4
         },
         {
           "ClassName": "Business",
           "Price": "1000.00",
-          "AvailableSeats": [
-            "10A",
-            "10B",
-            "10A",
-            "10B"
-          ]
+          "AvailableSeats": 4
         },
         {
           "ClassName": "First",
           "Price": "1500.00",
-          "AvailableSeats": [
-            "1A",
-            "1B",
-            "1A",
-            "1B"
-          ]
+          "AvailableSeats": 4
         }
       ],
       "Aircraft": {

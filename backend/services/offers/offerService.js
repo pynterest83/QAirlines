@@ -68,7 +68,7 @@ async function queryRoundTrip(departure, destination, departure_date, return_dat
                 }],
                 attributes: []
             });
-            ticketClass.dataValues.AvailableSeats = availableSeats.map(seat => seat.seatDetails.SeatNo);
+            ticketClass.dataValues.AvailableSeats = availableSeats.length;
         }
     }
 
@@ -89,7 +89,7 @@ async function queryRoundTrip(departure, destination, departure_date, return_dat
                 }],
                 attributes: []
             });
-            ticketClass.dataValues.AvailableSeats = availableSeats.map(seat => seat.seatDetails.SeatNo);
+            ticketClass.dataValues.AvailableSeats = availableSeats.length;
         }
     }
 
@@ -106,7 +106,7 @@ function formatFlightResults(flights) {
         ticketClasses: flight.ticketClasses.map(tc => ({
             ClassName: tc.ClassName,
             Price: tc.Price,
-            AvailableSeats: tc.dataValues.AvailableSeats || []
+            AvailableSeats: tc.dataValues.AvailableSeats || 0
         })),
         Aircraft: {
             AircraftID: flight.Aircraft.AircraftID,
@@ -168,7 +168,7 @@ async function queryOneWay(departure, destination, departure_date) {
                 attributes: []
             });
 
-            ticketClass.dataValues.AvailableSeats = availableSeats.map(seat => seat.seatDetails.SeatNo);
+            ticketClass.dataValues.AvailableSeats = availableSeats.length;
         }
     }
 
