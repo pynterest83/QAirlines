@@ -245,11 +245,67 @@ function formatFlightsWithinRangeResults(flights) {
     };
 }
 
+// Hàm lấy tất cả chuyến bay trong ngày
+async function queryFlightsByDate(date) {
+    const flights = await Flight.findAll({
+        where: {
+            [Op.and]: [
+                sequelize.where(sequelize.fn('DATE', sequelize.col('DepTime')), date)
+            ]
+        },
+        include: [
+            {
+                model: TicketClass,
+                as: 'ticketClasses',
+                attributes: ['ClassName', 'Price']
+            },
+            {
+                model: Aircraft,
+                attributes: ['AircraftID', 'Model', 'Capacity']
+            }
+        ]
+    });
+
+    for (const flight of flights) {
+        for (const ticketClass of flight.ticketClasses) {
+            const availableSeats = await FlightSeat.findAll({
+                where: {
+                    FlightID: flight.FlightID,
+                    TicketID: null
+                },
+                include: [{
+                    model: Seat,
+                    as: 'seatDetails',
+                    where: {
+                        Class: ticketClass.ClassName
+                    },
+                    attributes: ['SeatNo']
+                }],
+                attributes: []
+            });
+
+            ticketClass.dataValues.AvailableSeats = availableSeats.length;
+        }
+    }
+
+    return flights;
+}
+
+// Hàm xử lý kết quả chuyến bay trong ngày
+function formatFlightsByDateResults(flights) {
+    return {
+        type: "By-date",
+        flights: formatFlightResults(flights)
+    };
+}
+
 module.exports = {
     queryRoundTrip,
     formatRoundTripResults,
     queryOneWay,
     formatOneWayResults,
     queryFlightsWithinRange,
-    formatFlightsWithinRangeResults
+    formatFlightsWithinRangeResults,
+    queryFlightsByDate,
+    formatFlightsByDateResults
 };

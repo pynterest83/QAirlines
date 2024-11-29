@@ -57,3 +57,22 @@ exports.getFlightsWithinRange = [
         }
     },
 ]
+
+// Xử lý chuyến bay theo ngày
+exports.getFlightsByDate = [
+    async (req, res) => {
+        const { date } = req.query;
+        try {
+            const flights = await offerService.queryFlightsByDate(date);
+
+            if (flights.length === 0) {
+                return res.status(404).json({ error: 'Không tìm thấy chuyến bay phù hợp' });
+            }
+
+            res.json(offerService.formatFlightsByDateResults(flights));
+        } catch (error) {
+            console.error('Error fetching flights by date:', error.message);
+            res.status(500).json({ error: error.message || 'Có lỗi xảy ra' });
+        }
+    },
+]
