@@ -565,3 +565,44 @@
   }
 ]
 ```
+
+## Flights
+### Get Flights by ID
+- **Endpoint:** `/api/flights/list`
+- **Method:** `GET`
+- **Parameters:** `flightIds` (optional)
+- **Description:** Retrieves all flights.
+- **Response:** JSON object of array of all flights.
+- **Example:** `/api/flights/list?flightIds=VN100,ON604`
+```json
+{
+  "flights": [
+    {
+      "FlightID": "ON604",
+      "Status": "Scheduled",
+      "DepTime": "2024-12-10T02:00:00.000Z",
+      "ArrTime": "2024-12-10T06:00:00.000Z",
+      "BoardingTime": "2024-12-10T01:30:00.000Z",
+      "DepID": "SGN",
+      "DestID": "HAN",
+      "AircraftID": "A380",
+      "OriginalDepTime": null,
+      "OriginalArrTime": null,
+      "OriginalBoardingTime": null
+    },
+    {
+      "FlightID": "VN100",
+      "Status": "Scheduled",
+      "DepTime": "2024-12-07T20:00:00.000Z",
+      "ArrTime": "2024-12-08T00:00:00.000Z",
+      "BoardingTime": "2024-12-07T19:30:00.000Z",
+      "DepID": "HAN",
+      "DestID": "SGN",
+      "AircraftID": "B787",
+      "OriginalDepTime": null,
+      "OriginalArrTime": null,
+      "OriginalBoardingTime": null
+    }
+  ]
+}
+```

@@ -106,3 +106,39 @@
   }
 }
 ```
+
+### Create Flight
+- **Endpoint:** `/api/flights/create`
+- **Method:** `POST`
+- **POST Body:** JSON object with flight details.
+- **Description:** Creates a flight.
+- **Response:** Confirmation of flight creation.
+- **Example:** `/api/flights/create`
+- **Request Body:**
+```json
+{
+  "Status": "Scheduled",
+  "DepTime": "2024-12-10T02:00:00.000Z",
+  "ArrTime": "2024-12-10T06:00:00.000Z",
+  "BoardingTime": "2024-12-10T01:30:00.000Z",
+  "DepID": "SGN",
+  "DestID": "HAN",
+  "AircraftID": "A380"
+}
+```
+- **Response:**
+```json
+{
+  "message": "Flight created successfully",
+  "flight": {
+    "Status": "Scheduled",
+    "DepTime": "2024-12-10T02:00:00.000Z",
+    "ArrTime": "2024-12-10T06:00:00.000Z",
+    "BoardingTime": "2024-12-10T01:30:00.000Z",
+    "DepID": "SGN",
+    "DestID": "HAN",
+    "AircraftID": "A380",
+    "FlightID": "ON604"
+  }
+}
+```
