@@ -9,7 +9,7 @@
   - [Update Promotion](#update-promotion)
   - [Delete Promotion](#delete-promotion)
 - [Flight](#flight)
-  - [Delay Flight](#delay-flight)
+  - [Update Flight](#update-flight)
 
 ## Promotions
 ### Create Promotion
@@ -70,8 +70,8 @@
 ```
 
 ## Flight
-### Delay Flight
-- **Endpoint:** `/api/flights/delay/`
+### Update Flight
+- **Endpoint:** `/api/flights/update`
 - **Method:** `PUT`
 - **PUT Body:** JSON object with flight details.
 - **Description:** Delays a flight.
@@ -82,8 +82,9 @@
 {
   "flightID": "VN103",
   "DepTime": "2024-12-10T02:00:00.000Z",
-  "ArrTime": null,
-  "BoardingTime": "2024-12-10T01:30:00.000Z"
+  "BoardingTime": "2024-12-10T01:30:00.000Z",
+  "Status": "Delayed",
+  "DestID": "LAX"
 }
 ```
 - **Response:**
@@ -92,16 +93,16 @@
   "message": "Flight delayed successfully",
   "flight": {
     "FlightID": "VN103",
-    "Status": "Scheduled",
+    "Status": "Delayed",
     "DepTime": "2024-12-10T02:00:00.000Z",
     "ArrTime": "2024-12-08T16:00:00.000Z",
     "BoardingTime": "2024-12-10T01:30:00.000Z",
     "DepID": "HAN",
-    "DestID": "SGN",
+    "DestID": "LAX",
     "AircraftID": "A380",
-    "OriginalDepTime": "2024-12-08T08:00:00.000Z",
+    "OriginalDepTime": "2024-12-10T02:00:00.000Z",
     "OriginalArrTime": null,
-    "OriginalBoardingTime": "2024-12-08T07:30:00.000Z"
+    "OriginalBoardingTime": "2024-12-10T01:30:00.000Z"
   }
 }
 ```

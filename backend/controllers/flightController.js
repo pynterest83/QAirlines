@@ -1,9 +1,9 @@
-const {delayFlight} = require("../services/flight/flightService");
-exports.handleDelay = async (req, res) => {
-    const { flightID, ...newTimes } = req.body;
+const { updateFlight } = require("../services/flight/flightService");
+exports.handleUpdate = async (req, res) => {
+    const { flightID, ...updates } = req.body;
 
     try {
-        const flight = await delayFlight(flightID, newTimes);
+        const flight = await updateFlight(flightID, updates);
         res.json({
             message: 'Flight delayed successfully',
             flight
