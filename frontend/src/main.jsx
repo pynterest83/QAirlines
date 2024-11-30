@@ -10,6 +10,8 @@ import './index.css';
 import Search from './pages/Search.jsx';
 import Booking from './pages/Booking.jsx';
 import ProtectedRoute from './admin/ProtectedRoute.jsx';
+import MyFlights from './pages/MyFlights.jsx';
+import FlightStatus from './pages/FlightStatus.jsx';
 
 const router = createBrowserRouter([
     {
@@ -48,6 +50,14 @@ const router = createBrowserRouter([
         path: '/myflight',
         element: <MyFlight />,
     },
+    {
+        path: '/myflights',
+        element: <MyFlights />,
+    },
+    {
+        path: '/flightstatus',
+        element: <FlightStatus />,
+    }
 ]);
 
 createRoot(document.getElementById('root')).render(
