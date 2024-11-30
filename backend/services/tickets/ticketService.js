@@ -130,15 +130,19 @@ async function getTicketsByPassenger(identifier) {
         new Map(tickets.map(ticket => [ticket.TicketID, ticket])).values()
     );
 
-    const ret = tickets.map(ticket => ({
-        TicketID: ticket.TicketID,
-        Class: ticket.FlightSeat.seatDetails.Class,
-        FlightID: ticket.FlightID,
-        SeatNo: ticket.SeatNo,
-        AircraftID: ticket.AircraftID,
-        CancellationDeadline: ticket.CancellationDeadline,
-        FlightDetails: ticket.Flight
-    }));
+    const ret = tickets.map(ticket => {
+        const flightSeat = ticket.FlightSeat || {};
+        const seatClass = flightSeat.seatDetails || {};
+        return {
+            TicketID: ticket.TicketID,
+            Class: seatClass.Class || 'N/A',
+            FlightID: ticket.FlightID,
+            SeatNo: ticket.SeatNo,
+            AircraftID: ticket.AircraftID,
+            CancellationDeadline: ticket.CancellationDeadline,
+            FlightDetails: ticket.Flight
+        }
+    });
 
     return [guardian, ret];
 }

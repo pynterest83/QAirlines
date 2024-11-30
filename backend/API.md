@@ -298,6 +298,89 @@
 }
 ```
 
+### Get all flights by date
+- **Endpoint:** `/api/offers/by-date`
+- **Method:** `GET`
+- **Parameters:** `date`
+- **Description:** Retrieves all flights by date.
+- **Response:** JSON array of all flights.
+- **Example:** `/api/flights/by-date?date=2024-12-08`
+```json
+{
+  "type": "By-date",
+  "flights": [
+    {
+      "FlightID": "VN100",
+      "Status": "Scheduled",
+      "DepID": "HAN",
+      "DestID": "SGN",
+      "DepTime": "2024-12-08T03:00:00+07:00",
+      "ArrTime": "2024-12-08T07:00:00+07:00",
+      "BoardingTime": "2024-12-08T02:30:00+07:00",
+      "OriginalDepTime": null,
+      "OriginalArrTime": null,
+      "OriginalBoardingTime": null,
+      "ticketClasses": [
+        {
+          "ClassName": "Economy",
+          "Price": "100.00",
+          "AvailableSeats": 4
+        },
+        {
+          "ClassName": "Business",
+          "Price": "300.00",
+          "AvailableSeats": 2
+        },
+        {
+          "ClassName": "First",
+          "Price": "500.00",
+          "AvailableSeats": 4
+        }
+      ],
+      "Aircraft": {
+        "AircraftID": "B787",
+        "Model": "Boeing 787 Dreamliner",
+        "Capacity": 242
+      }
+    },
+    {
+      "FlightID": "VN103",
+      "Status": "Scheduled",
+      "DepID": "HAN",
+      "DestID": "SGN",
+      "DepTime": "2024-12-08T15:00:00+07:00",
+      "ArrTime": "2024-12-08T23:00:00+07:00",
+      "BoardingTime": "2024-12-08T14:30:00+07:00",
+      "OriginalDepTime": null,
+      "OriginalArrTime": null,
+      "OriginalBoardingTime": null,
+      "ticketClasses": [
+        {
+          "ClassName": "Economy",
+          "Price": "50.00",
+          "AvailableSeats": 4
+        },
+        {
+          "ClassName": "Business",
+          "Price": "1000.00",
+          "AvailableSeats": 4
+        },
+        {
+          "ClassName": "First",
+          "Price": "1500.00",
+          "AvailableSeats": 4
+        }
+      ],
+      "Aircraft": {
+        "AircraftID": "A380",
+        "Model": "Airbus A380",
+        "Capacity": 500
+      }
+    }
+  ]
+}
+```
+
 ## Seats
 
 ### Get All Seats
@@ -564,4 +647,45 @@
     "Amount": 50
   }
 ]
+```
+
+## Flights
+### Get Flights by ID
+- **Endpoint:** `/api/flights/list`
+- **Method:** `GET`
+- **Parameters:** `flightIds` (optional)
+- **Description:** Retrieves all flights.
+- **Response:** JSON object of array of all flights.
+- **Example:** `/api/flights/list?flightIds=VN100,ON604`
+```json
+{
+  "flights": [
+    {
+      "FlightID": "ON604",
+      "Status": "Scheduled",
+      "DepTime": "2024-12-10T02:00:00.000Z",
+      "ArrTime": "2024-12-10T06:00:00.000Z",
+      "BoardingTime": "2024-12-10T01:30:00.000Z",
+      "DepID": "SGN",
+      "DestID": "HAN",
+      "AircraftID": "A380",
+      "OriginalDepTime": null,
+      "OriginalArrTime": null,
+      "OriginalBoardingTime": null
+    },
+    {
+      "FlightID": "VN100",
+      "Status": "Scheduled",
+      "DepTime": "2024-12-07T20:00:00.000Z",
+      "ArrTime": "2024-12-08T00:00:00.000Z",
+      "BoardingTime": "2024-12-07T19:30:00.000Z",
+      "DepID": "HAN",
+      "DestID": "SGN",
+      "AircraftID": "B787",
+      "OriginalDepTime": null,
+      "OriginalArrTime": null,
+      "OriginalBoardingTime": null
+    }
+  ]
+}
 ```

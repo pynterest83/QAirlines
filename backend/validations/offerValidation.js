@@ -92,8 +92,18 @@ const rangeSchema = Joi.object({
         })
 });
 
+const byDateSchema = Joi.object({
+    date: Joi.date()
+        .required()
+        .messages({
+            'date.base': 'Ngày bay không hợp lệ',
+            'any.required': 'Ngày bay là bắt buộc'
+        })
+});
+
 module.exports = {
     roundTripSchema,
     oneWaySchema,
-    rangeSchema
+    rangeSchema,
+    byDateSchema
 };
