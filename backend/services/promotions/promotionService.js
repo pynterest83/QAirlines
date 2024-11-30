@@ -2,9 +2,8 @@ const Promotion = require('../../models/schemas/Promotion');
 
 function generatePromotionID() {
     const prefix = 'PR';
-    const randomPart = Math.random().toString(36).substring(2, 8).toUpperCase();
-    const timestampPart = Date.now().toString().slice(-6);
-    return `${prefix}${randomPart}${timestampPart}`;
+    const randomPart = Math.random().toString(36).substring(2, 10).toUpperCase();
+    return `${prefix}${randomPart}`;
 }
 
 async function createPromotion(data) {
