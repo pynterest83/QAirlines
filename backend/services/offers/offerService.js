@@ -2,7 +2,7 @@ const Flight = require('../../models/schemas/Flight');
 const TicketClass = require('../../models/schemas/TicketClass');
 const { Op, fn, col} = require('sequelize');
 const sequelize = require('../../db');
-const { convertToTimeZone } = require('../../utils/utils');
+// const { convertToTimeZone } = require('../../utils/utils');
 const {Aircraft, FlightSeat, Seat} = require("../../models/schemas");
 
 // Hàm truy vấn chuyến bay khứ hồi
@@ -11,7 +11,6 @@ async function queryRoundTrip(departure, destination, departure_date, return_dat
         where: {
             DepID: departure,
             DestID: destination,
-            Status: 'Scheduled',
             [Op.and]: [
                 sequelize.where(sequelize.fn('DATE', sequelize.col('DepTime')), departure_date)
             ]
@@ -33,7 +32,6 @@ async function queryRoundTrip(departure, destination, departure_date, return_dat
         where: {
             DepID: destination,
             DestID: departure,
-            Status: 'Scheduled',
             [Op.and]: [
                 sequelize.where(sequelize.fn('DATE', sequelize.col('DepTime')), return_date)
             ]
@@ -102,12 +100,18 @@ function formatFlightResults(flights) {
         Status: flight.Status,
         DepID: flight.DepID,
         DestID: flight.DestID,
-        DepTime: convertToTimeZone(flight.DepTime),
-        ArrTime: convertToTimeZone(flight.ArrTime),
-        BoardingTime: convertToTimeZone(flight.BoardingTime),
-        OriginalDepTime: flight.OriginalDepTime ? convertToTimeZone(flight.OriginalDepTime) : null,
-        OriginalArrTime: flight.OriginalArrTime ? convertToTimeZone(flight.OriginalArrTime) : null,
-        OriginalBoardingTime: flight.OriginalBoardingTime ? convertToTimeZone(flight.OriginalBoardingTime) : null,
+        // DepTime: convertToTimeZone(flight.DepTime),
+        // ArrTime: convertToTimeZone(flight.ArrTime),
+        // BoardingTime: convertToTimeZone(flight.BoardingTime),
+        // OriginalDepTime: flight.OriginalDepTime ? convertToTimeZone(flight.OriginalDepTime) : null,
+        // OriginalArrTime: flight.OriginalArrTime ? convertToTimeZone(flight.OriginalArrTime) : null,
+        // OriginalBoardingTime: flight.OriginalBoardingTime ? convertToTimeZone(flight.OriginalBoardingTime) : null,
+        DepTime: flight.DepTime,
+        ArrTime: flight.ArrTime,
+        BoardingTime: flight.BoardingTime,
+        OriginalDepTime: flight.OriginalDepTime ? flight.OriginalDepTime : null,
+        OriginalArrTime: flight.OriginalArrTime ? flight.OriginalArrTime : null,
+        OriginalBoardingTime: flight.OriginalBoardingTime ? flight.OriginalBoardingTime : null,
         ticketClasses: flight.ticketClasses.map(tc => ({
             ClassName: tc.ClassName,
             Price: tc.Price,
@@ -137,7 +141,6 @@ async function queryOneWay(departure, destination, departure_date) {
         where: {
             DepID: departure,
             DestID: destination,
-            Status: 'Scheduled',
             [Op.and]: [
                 sequelize.where(sequelize.fn('DATE', sequelize.col('DepTime')), departure_date)
             ]
@@ -152,7 +155,8 @@ async function queryOneWay(departure, destination, departure_date) {
                 model: Aircraft,
                 attributes: ['AircraftID', 'Model', 'Capacity']
             }
-        ]
+        ],
+        order: [['DepTime', 'ASC']],
     });
 
     for (const flight of flights) {
@@ -194,7 +198,6 @@ async function queryFlightsWithinRange(departure, destination, start_date, end_d
         where: {
             DepID: departure,
             DestID: destination,
-            Status: 'Scheduled',
             [Op.and]: [
                 sequelize.where(sequelize.fn('DATE', sequelize.col('DepTime')), {
                     [Op.between]: [start_date, end_date]
@@ -223,7 +226,8 @@ async function queryFlightsWithinRange(departure, destination, start_date, end_d
     const datesSeen = new Set();
 
     for (const flight of flights) {
-        const depDate = convertToTimeZone(flight.DepTime).split('T')[0];
+        // const depDate = convertToTimeZone(flight.DepTime).split('T')[0];
+        const depDate = flight.DepTime.split('T')[0];
         if (!datesSeen.has(depDate)) {
             filteredFlights.push(flight);
             datesSeen.add(depDate);
@@ -241,7 +245,8 @@ function formatFlightsWithinRangeResults(flights) {
         flights: flights.map(flight => ({
             FlightID: flight.FlightID,
             Status: flight.Status,
-            DepTime: convertToTimeZone(flight.DepTime).split('T')[0],
+            // DepTime: convertToTimeZone(flight.DepTime).split('T')[0],
+            DepTime: flight.DepTime.split('T')[0],
             MinPrice: flight.ticketClasses[0].Price
         }))
     };
@@ -265,7 +270,8 @@ async function queryFlightsByDate(date) {
                 model: Aircraft,
                 attributes: ['AircraftID', 'Model', 'Capacity']
             }
-        ]
+        ],
+        order: [['DepTime', 'ASC']],
     });
 
     for (const flight of flights) {

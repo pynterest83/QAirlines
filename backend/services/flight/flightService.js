@@ -1,9 +1,9 @@
 const { Flight, Seat, FlightSeat} = require("../../models/schemas");
 const {Op} = require("sequelize");
-
 async function updateFlight(flightID, updates) {
     // Find the flight by its ID
     const flight = await Flight.findByPk(flightID);
+    // Convert to time zone
     if (!flight) {
         throw new Error('Flight not found');
     }
@@ -97,8 +97,10 @@ async function getFlights(flightIds = []) {
         };
     }
 
+    // Sort by Departure Time
     return await Flight.findAll({
-        where: query
+        where: query,
+        order: [['DepTime', 'ASC']],
     });
 }
 

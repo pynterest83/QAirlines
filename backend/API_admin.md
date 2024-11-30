@@ -76,7 +76,7 @@
 - **PUT Body:** JSON object with flight details.
 - **Description:** Delays a flight.
 - **Response:** Confirmation of flight delay.
-- **Example:** `/api/flights/delay/`
+- **Example:** `/api/flights/update`
 - **Request Body:**
 ```json
 {
