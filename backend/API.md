@@ -2,21 +2,21 @@
 
 ## Table of Contents
 - [Authentication](#authentication)
-  - [Register](#register)
-  - [Login](#login)
+    - [Register](#register)
+    - [Login](#login)
 - [Offers](#offers)
-  - [Get Round Trip Flights](#get-round-trip-flights)
-  - [Get One Way Flights](#get-one-way-flights)
-  - [Get Flights Within Range](#get-flights-within-range)
+    - [Get Round Trip Flights](#get-round-trip-flights)
+    - [Get One Way Flights](#get-one-way-flights)
+    - [Get Flights Within Range](#get-flights-within-range)
 - [Seats](#seats)
-  - [Get All Seats](#get-all-seats)
-  - [Get Available Seats](#get-available-seats)
+    - [Get All Seats](#get-all-seats)
+    - [Get Available Seats](#get-available-seats)
 - [Tickets](#tickets)
-  - [Book Ticket](#book-ticket)
-  - [Cancel Ticket](#cancel-ticket)
-  - [Get My Tickets](#get-my-tickets)
+    - [Book Ticket](#book-ticket)
+    - [Cancel Ticket](#cancel-ticket)
+    - [Get My Tickets](#get-my-tickets)
 - [Promotions](#promotions)
-  - [Get All Promotions](#get-all-promotions)
+    - [Get All Promotions](#get-all-promotions)
 
 ## Authentication
 
@@ -92,6 +92,9 @@
       "DepTime": "2024-12-08T03:00:00+07:00",
       "ArrTime": "2024-12-08T07:00:00+07:00",
       "BoardingTime": "2024-12-08T02:30:00+07:00",
+      "OriginalDepTime": null,
+      "OriginalArrTime": null,
+      "OriginalBoardingTime": null,
       "ticketClasses": [
         {
           "ClassName": "Economy",
@@ -121,6 +124,9 @@
       "DepTime": "2024-12-08T15:00:00+07:00",
       "ArrTime": "2024-12-08T23:00:00+07:00",
       "BoardingTime": "2024-12-08T14:30:00+07:00",
+      "OriginalDepTime": null,
+      "OriginalArrTime": null,
+      "OriginalBoardingTime": null,
       "ticketClasses": [
         {
           "ClassName": "Economy",
@@ -152,6 +158,9 @@
       "DepTime": "2024-12-09T08:00:00+07:00",
       "ArrTime": "2024-12-09T12:00:00+07:00",
       "BoardingTime": "2024-12-09T07:30:00+07:00",
+      "OriginalDepTime": null,
+      "OriginalArrTime": null,
+      "OriginalBoardingTime": null,
       "ticketClasses": [
         {
           "ClassName": "Economy",
@@ -196,6 +205,9 @@
       "DepTime": "2024-12-08T03:00:00+07:00",
       "ArrTime": "2024-12-08T07:00:00+07:00",
       "BoardingTime": "2024-12-08T02:30:00+07:00",
+      "OriginalDepTime": null,
+      "OriginalArrTime": null,
+      "OriginalBoardingTime": null,
       "ticketClasses": [
         {
           "ClassName": "Economy",
@@ -225,6 +237,9 @@
       "DepTime": "2024-12-08T15:00:00+07:00",
       "ArrTime": "2024-12-08T23:00:00+07:00",
       "BoardingTime": "2024-12-08T14:30:00+07:00",
+      "OriginalDepTime": null,
+      "OriginalArrTime": null,
+      "OriginalBoardingTime": null,
       "ticketClasses": [
         {
           "ClassName": "Economy",
@@ -256,11 +271,11 @@
 - **Method:** `GET`
 - **Parameters:** `departure`, `destination`, `start_date`, `end_date`
 - **Optional Parameters:** `ticket_class` (Economy, Business, First)
-  - Default: Economy
+    - Default: Economy
 - **Description:** Retrieves flight offers within a date range.
-  - `start_date` and `end_date` are inclusive.
-  - The result will be sorted by `DepTime`.
-  - If two flights have the same `DepTime`, they will be sorted by `ticket_class`'s price.
+    - `start_date` and `end_date` are inclusive.
+    - The result will be sorted by `DepTime`.
+    - If two flights have the same `DepTime`, they will be sorted by `ticket_class`'s price.
 - **Response:** JSON array of flight offers.
 - **Example:** `/api/offers/in-range?departure=HAN&destination=SGN&start_date=2024-12-07&end_date=2024-12-09&ticket_class=First`
 ```json
@@ -283,6 +298,89 @@
 }
 ```
 
+### Get all flights by date
+- **Endpoint:** `/api/offers/by-date`
+- **Method:** `GET`
+- **Parameters:** `date`
+- **Description:** Retrieves all flights by date.
+- **Response:** JSON array of all flights.
+- **Example:** `/api/flights/by-date?date=2024-12-08`
+```json
+{
+  "type": "By-date",
+  "flights": [
+    {
+      "FlightID": "VN100",
+      "Status": "Scheduled",
+      "DepID": "HAN",
+      "DestID": "SGN",
+      "DepTime": "2024-12-08T03:00:00+07:00",
+      "ArrTime": "2024-12-08T07:00:00+07:00",
+      "BoardingTime": "2024-12-08T02:30:00+07:00",
+      "OriginalDepTime": null,
+      "OriginalArrTime": null,
+      "OriginalBoardingTime": null,
+      "ticketClasses": [
+        {
+          "ClassName": "Economy",
+          "Price": "100.00",
+          "AvailableSeats": 4
+        },
+        {
+          "ClassName": "Business",
+          "Price": "300.00",
+          "AvailableSeats": 2
+        },
+        {
+          "ClassName": "First",
+          "Price": "500.00",
+          "AvailableSeats": 4
+        }
+      ],
+      "Aircraft": {
+        "AircraftID": "B787",
+        "Model": "Boeing 787 Dreamliner",
+        "Capacity": 242
+      }
+    },
+    {
+      "FlightID": "VN103",
+      "Status": "Scheduled",
+      "DepID": "HAN",
+      "DestID": "SGN",
+      "DepTime": "2024-12-08T15:00:00+07:00",
+      "ArrTime": "2024-12-08T23:00:00+07:00",
+      "BoardingTime": "2024-12-08T14:30:00+07:00",
+      "OriginalDepTime": null,
+      "OriginalArrTime": null,
+      "OriginalBoardingTime": null,
+      "ticketClasses": [
+        {
+          "ClassName": "Economy",
+          "Price": "50.00",
+          "AvailableSeats": 4
+        },
+        {
+          "ClassName": "Business",
+          "Price": "1000.00",
+          "AvailableSeats": 4
+        },
+        {
+          "ClassName": "First",
+          "Price": "1500.00",
+          "AvailableSeats": 4
+        }
+      ],
+      "Aircraft": {
+        "AircraftID": "A380",
+        "Model": "Airbus A380",
+        "Capacity": 500
+      }
+    }
+  ]
+}
+```
+
 ## Seats
 
 ### Get All Seats
@@ -294,39 +392,39 @@
 - **Example:** `/api/seats/all?flightID=VN100`
 ```json
 {
-    "flightID": "VN100",
-    "allSeats": [
-        {
-            "seatNo": "10A",
-            "class": "Business",
-            "status": "not available"
-        },
-        {
-            "seatNo": "10B",
-            "class": "Business",
-            "status": "available"
-        },
-        {
-            "seatNo": "1A",
-            "class": "First",
-            "status": "available"
-        },
-        {
-            "seatNo": "1B",
-            "class": "First",
-            "status": "available"
-        },
-        {
-            "seatNo": "20A",
-            "class": "Economy",
-            "status": "available"
-        },
-        {
-            "seatNo": "20B",
-            "class": "Economy",
-            "status": "available"
-        }
-    ]
+  "flightID": "VN100",
+  "allSeats": [
+    {
+      "seatNo": "10A",
+      "class": "Business",
+      "status": "not available"
+    },
+    {
+      "seatNo": "10B",
+      "class": "Business",
+      "status": "available"
+    },
+    {
+      "seatNo": "1A",
+      "class": "First",
+      "status": "available"
+    },
+    {
+      "seatNo": "1B",
+      "class": "First",
+      "status": "available"
+    },
+    {
+      "seatNo": "20A",
+      "class": "Economy",
+      "status": "available"
+    },
+    {
+      "seatNo": "20B",
+      "class": "Economy",
+      "status": "available"
+    }
+  ]
 }
 ```
 
@@ -387,25 +485,25 @@
 - **Response:**
 ```json
 {
-    "message": "Đặt vé thành công",
-    "tickets": [
-        {
-            "TicketID": "T439906",
-            "FlightID": "VN101",
-            "AircraftID": "B787",
-            "SeatNo": "20A",
-            "PassID": "P623241",
-            "CancellationDeadline": "2024-12-05T01:00:00.000Z"
-        },
-        {
-            "TicketID": "T110855",
-            "FlightID": "VN101",
-            "AircraftID": "B787",
-            "SeatNo": "20B",
-            "PassID": "P202480",
-            "CancellationDeadline": "2024-12-05T01:00:00.000Z"
-        }
-    ]
+  "message": "Đặt vé thành công",
+  "tickets": [
+    {
+      "TicketID": "T439906",
+      "FlightID": "VN101",
+      "AircraftID": "B787",
+      "SeatNo": "20A",
+      "PassID": "P623241",
+      "CancellationDeadline": "2024-12-05T01:00:00.000Z"
+    },
+    {
+      "TicketID": "T110855",
+      "FlightID": "VN101",
+      "AircraftID": "B787",
+      "SeatNo": "20B",
+      "PassID": "P202480",
+      "CancellationDeadline": "2024-12-05T01:00:00.000Z"
+    }
+  ]
 }
 ```
 
@@ -419,13 +517,13 @@
 - **Request Body:**
 ```json
 {
-    "ticketID": "T439906"
+  "ticketID": "T439906"
 }
 ```
 - **Response:**
 ```json
 {
-    "message": "Hủy vé thành công"
+  "message": "Hủy vé thành công"
 }
 ```
 
@@ -438,37 +536,62 @@
 - **Response:**
 ```json
 {
-    "identifier": "123456789012",
-    "tickets": [
-        {
-            "TicketID": "T328760",
-            "FlightID": "VN101",
-            "SeatNo": "20B",
-            "AircraftID": "B787",
-            "CancellationDeadline": "2024-12-05T01:00:00.000Z",
-            "FlightDetails": {
-                "FlightID": "VN101",
-                "DepTime": "2024-12-08T01:00:00.000Z",
-                "ArrTime": "2024-12-08T05:00:00.000Z",
-                "DepID": "SGN",
-                "DestID": "HAN"
-            }
-        },
-        {
-            "TicketID": "T372183",
-            "FlightID": "VN101",
-            "SeatNo": "20A",
-            "AircraftID": "B787",
-            "CancellationDeadline": "2024-12-05T01:00:00.000Z",
-            "FlightDetails": {
-                "FlightID": "VN101",
-                "DepTime": "2024-12-08T01:00:00.000Z",
-                "ArrTime": "2024-12-08T05:00:00.000Z",
-                "DepID": "SGN",
-                "DestID": "HAN"
-            }
-        }
-    ]
+  "Passenger": {
+    "DOB": "1985-07-23",
+    "PassID": "P001",
+    "FirstName": "John",
+    "LastName": "Doe",
+    "Gender": "M",
+    "Email": "johndoe@example.com",
+    "PhoneNumber": "123456789",
+    "Passport": "B12345678",
+    "SSN": "123456789012",
+    "GuardianID": null
+  },
+  "Tickets": [
+    {
+      "TicketID": "T372183",
+      "Class": "Economy",
+      "FlightID": "VN101",
+      "SeatNo": "20A",
+      "AircraftID": "B787",
+      "CancellationDeadline": "2024-12-05T01:00:00.000Z",
+      "FlightDetails": {
+        "FlightID": "VN101",
+        "Status": "Scheduled",
+        "DepTime": "2024-12-09T01:00:00.000Z",
+        "ArrTime": "2024-12-09T05:00:00.000Z",
+        "BoardingTime": "2024-12-09T00:30:00.000Z",
+        "DepID": "SGN",
+        "DestID": "HAN",
+        "AircraftID": "B787",
+        "OriginalDepTime": null,
+        "OriginalArrTime": null,
+        "OriginalBoardingTime": null
+      }
+    },
+    {
+      "TicketID": "T328760",
+      "Class": "Economy",
+      "FlightID": "VN101",
+      "SeatNo": "20B",
+      "AircraftID": "B787",
+      "CancellationDeadline": "2024-12-05T01:00:00.000Z",
+      "FlightDetails": {
+        "FlightID": "VN101",
+        "Status": "Scheduled",
+        "DepTime": "2024-12-09T01:00:00.000Z",
+        "ArrTime": "2024-12-09T05:00:00.000Z",
+        "BoardingTime": "2024-12-09T00:30:00.000Z",
+        "DepID": "SGN",
+        "DestID": "HAN",
+        "AircraftID": "B787",
+        "OriginalDepTime": null,
+        "OriginalArrTime": null,
+        "OriginalBoardingTime": null
+      }
+    }
+  ]
 }
 ```
 
@@ -481,29 +604,29 @@
 - **Response:**
 ```json
 {
-    "TicketID": "T328760",
+  "TicketID": "T328760",
+  "FlightID": "VN101",
+  "SeatNo": "20B",
+  "AircraftID": "B787",
+  "Class": "Economy",
+  "Price": "100.00",
+  "CancellationDeadline": "2024-12-05T01:00:00.000Z",
+  "Passenger": {
+    "PassID": "P16444",
+    "FirstName": "Jane",
+    "LastName": "Doe",
+    "DOB": "2015-05-01",
+    "Gender": "F"
+  },
+  "Flight": {
     "FlightID": "VN101",
-    "SeatNo": "20B",
-    "AircraftID": "B787",
-    "Class": "Economy",
-    "Price": "100.00",
-    "CancellationDeadline": "2024-12-05T01:00:00.000Z",
-    "Passenger": {
-        "PassID": "P16444",
-        "FirstName": "Jane",
-        "LastName": "Doe",
-        "DOB": "2015-05-01",
-        "Gender": "F"
-    },
-    "Flight": {
-        "FlightID": "VN101",
-        "DepTime": "2024-12-08T01:00:00.000Z",
-        "ArrTime": "2024-12-08T05:00:00.000Z",
-        "BoardingTime": "2024-12-08T00:30:00.000Z",
-        "DepID": "SGN",
-        "DestID": "HAN",
-        "AircraftID": "B787"
-    }
+    "DepTime": "2024-12-08T01:00:00.000Z",
+    "ArrTime": "2024-12-08T05:00:00.000Z",
+    "BoardingTime": "2024-12-08T00:30:00.000Z",
+    "DepID": "SGN",
+    "DestID": "HAN",
+    "AircraftID": "B787"
+  }
 }
 ```
 
@@ -524,4 +647,45 @@
     "Amount": 50
   }
 ]
+```
+
+## Flights
+### Get Flights by ID
+- **Endpoint:** `/api/flights/list`
+- **Method:** `GET`
+- **Parameters:** `flightIds` (optional)
+- **Description:** Retrieves all flights.
+- **Response:** JSON object of array of all flights.
+- **Example:** `/api/flights/list?flightIds=VN100,ON604`
+```json
+{
+  "flights": [
+    {
+      "FlightID": "ON604",
+      "Status": "Scheduled",
+      "DepTime": "2024-12-10T02:00:00.000Z",
+      "ArrTime": "2024-12-10T06:00:00.000Z",
+      "BoardingTime": "2024-12-10T01:30:00.000Z",
+      "DepID": "SGN",
+      "DestID": "HAN",
+      "AircraftID": "A380",
+      "OriginalDepTime": null,
+      "OriginalArrTime": null,
+      "OriginalBoardingTime": null
+    },
+    {
+      "FlightID": "VN100",
+      "Status": "Scheduled",
+      "DepTime": "2024-12-07T20:00:00.000Z",
+      "ArrTime": "2024-12-08T00:00:00.000Z",
+      "BoardingTime": "2024-12-07T19:30:00.000Z",
+      "DepID": "HAN",
+      "DestID": "SGN",
+      "AircraftID": "B787",
+      "OriginalDepTime": null,
+      "OriginalArrTime": null,
+      "OriginalBoardingTime": null
+    }
+  ]
+}
 ```

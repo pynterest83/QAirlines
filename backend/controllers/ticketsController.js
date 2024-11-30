@@ -46,7 +46,10 @@ exports.handleGetMyTicket = async (req, res) => {
     try {
 
         const tickets = await ticketService.getTicketsByPassenger(identifier);
-        res.json({ identifier, tickets });
+        res.json({
+            Passenger: tickets[0],
+            Tickets: tickets[1]
+        });
     } catch (error) {
         console.error('Error fetching tickets:', error.message);
         res.status(500).json({ error: error.message });

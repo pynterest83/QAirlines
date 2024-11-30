@@ -35,9 +35,22 @@ const Flight = sequelize.define('Flight', {
         type: DataTypes.STRING(10),
         allowNull: false,
     },
+    OriginalDepTime: {
+        type: DataTypes.DATE,
+        allowNull: true,
+    },
+    OriginalArrTime: {
+        type: DataTypes.DATE,
+        allowNull: true,
+    },
+    OriginalBoardingTime: {
+        type: DataTypes.DATE,
+        allowNull: true,
+    },
 }, {
     timestamps: false,
     tableName: 'Flight',
 });
+
 
 module.exports = Flight;
