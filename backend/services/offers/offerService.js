@@ -227,7 +227,8 @@ async function queryFlightsWithinRange(departure, destination, start_date, end_d
 
     for (const flight of flights) {
         // const depDate = convertToTimeZone(flight.DepTime).split('T')[0];
-        const depDate = flight.DepTime.split('T')[0];
+        console.log(flight.DepTime);
+        const depDate = flight.DepTime.toISOString().split('T')[0];
         if (!datesSeen.has(depDate)) {
             filteredFlights.push(flight);
             datesSeen.add(depDate);
@@ -246,7 +247,7 @@ function formatFlightsWithinRangeResults(flights) {
             FlightID: flight.FlightID,
             Status: flight.Status,
             // DepTime: convertToTimeZone(flight.DepTime).split('T')[0],
-            DepTime: flight.DepTime.split('T')[0],
+            DepTime: flight.DepTime.toISOString().split('T')[0],
             MinPrice: flight.ticketClasses[0].Price
         }))
     };
