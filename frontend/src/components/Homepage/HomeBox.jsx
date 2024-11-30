@@ -30,7 +30,7 @@ const HomeBox = () => {
           onClick={() => setActiveMode('myFlight')}
         >
           <MdAirplaneTicket className="text-xl" /> {/* Ticket Icon */}
-          <h2 className="text-xl font-semibold">My Flight</h2>
+          <h2 className="text-xl font-semibold">My Tickets</h2>
         </div>
       </div>
 

@@ -50,7 +50,7 @@ function Navigation(props) {
     };
 
     return (
-        <nav className="sticky z-20 top-0 left-0 right-0 px-2 max-w-full bg-white be-vietnam-pro-medium">
+        <nav className="sticky z-50 top-0 left-0 right-0 px-2 max-w-full bg-white be-vietnam-pro-medium">
             <div className="flex max-w-full">
                 <button
                     onClick={toggleMenu}
@@ -106,8 +106,11 @@ function Navigation(props) {
                                 } slide-from-up bg-white shadow-md border border-gray-200 w-full lg:absolute lg:top-full lg:left-0 lg:mt-1 lg:w-64 p-4 lg:p-2`}
                             >
                                 <ul>
-                                    <li className="py-2 hover:border-b-2 hover:border-[#6d24cf] cursor-pointer">
-                                        Flights
+                                    <li 
+                                        className="py-2 hover:border-b-2 hover:border-[#6d24cf] cursor-pointer"
+                                        onClick={() => nav("/flightstatus")}
+                                    >
+                                        Flight Status
                                     </li>
                                     <li className="py-2 hover:border-b-2 hover:border-[#6d24cf] cursor-pointer">
                                         Hotels
