@@ -299,7 +299,7 @@
 ```
 
 ### Get all flights by date
-- **Endpoint:** `/api/flights/by-date`
+- **Endpoint:** `/api/offers/by-date`
 - **Method:** `GET`
 - **Parameters:** `date`
 - **Description:** Retrieves all flights by date.

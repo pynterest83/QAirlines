@@ -100,6 +100,8 @@ function formatFlightResults(flights) {
     return flights.map(flight => ({
         FlightID: flight.FlightID,
         Status: flight.Status,
+        DepID: flight.DepID,
+        DestID: flight.DestID,
         DepTime: convertToTimeZone(flight.DepTime),
         ArrTime: convertToTimeZone(flight.ArrTime),
         BoardingTime: convertToTimeZone(flight.BoardingTime),
