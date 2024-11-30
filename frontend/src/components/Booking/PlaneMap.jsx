@@ -38,6 +38,7 @@ function PlaneMap(props) {
     }
     const old = useRef(0)
     useEffect(() => {
+        setAvailable([])
         old.current = PlaneImage.current.width
         scale.current = PlaneImage.current.width / PlaneImage.current.naturalWidth
         const resizeObserver = new ResizeObserver(() => {
@@ -50,11 +51,11 @@ function PlaneMap(props) {
         });
         resizeObserver.observe(PlaneImage.current);
 
-        fetch("maps/" + props.info[0].AircraftID + ".json").then(r => r.json().then(_data => {
+        fetch("http://localhost:5173/maps/" + props.info[0].AircraftID + ".json").then(r => r.json().then(_data => {
             rawData.current = _data
             ScaleMap()
         }))
-        fetch("maps/" + props.info[0].AircraftID + "_d.json").then(r => r.json().then(_data => {
+        fetch("http://localhost:5173/maps/" + props.info[0].AircraftID + "_d.json").then(r => r.json().then(_data => {
             setDescription(_data)
         }))
         fetch(Server + "seats/available?" + new URLSearchParams({
@@ -62,7 +63,6 @@ function PlaneMap(props) {
             class: props.info[0].ClassType
         })).then(r => {
             if (r.ok) r.json().then(_data => {
-                setAvailable(_data.availableSeats)
                 setList(_data.availableSeats)
             })
         })
@@ -70,7 +70,7 @@ function PlaneMap(props) {
             setShow(null)
         }
         return () => resizeObserver.disconnect()
-    }, []);
+    }, [props.info]);
     const [isShowing, setShow] = useState(null)
     const ImageContainer = useRef(null)
     const [mousePos, setMousePos] = useState({x:0, y:0})
@@ -92,7 +92,9 @@ function PlaneMap(props) {
     }
 
     useEffect(() => {
-        setAvailable(seatList.slice())
+        if (props.select.allowed)
+            setAvailable(seatList.slice())
+        else setAvailable([])
     }, [props.select]);
     function ChooseSeat(e) {
         e.preventDefault()
