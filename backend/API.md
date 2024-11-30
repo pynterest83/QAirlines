@@ -312,6 +312,8 @@
     {
       "FlightID": "VN100",
       "Status": "Scheduled",
+      "DepID": "HAN",
+      "DestID": "SGN",
       "DepTime": "2024-12-08T03:00:00+07:00",
       "ArrTime": "2024-12-08T07:00:00+07:00",
       "BoardingTime": "2024-12-08T02:30:00+07:00",
@@ -344,6 +346,8 @@
     {
       "FlightID": "VN103",
       "Status": "Scheduled",
+      "DepID": "HAN",
+      "DestID": "SGN",
       "DepTime": "2024-12-08T15:00:00+07:00",
       "ArrTime": "2024-12-08T23:00:00+07:00",
       "BoardingTime": "2024-12-08T14:30:00+07:00",
