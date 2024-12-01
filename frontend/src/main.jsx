@@ -12,6 +12,10 @@ import Booking from './pages/Booking.jsx';
 import ProtectedRoute from './admin/ProtectedRoute.jsx';
 import MyFlights from './pages/MyFlights.jsx';
 import FlightStatus from './pages/FlightStatus.jsx';
+import AdminAirCraft from './admin/AdminAirCraft.jsx';
+import AdminNotification from './admin/AdminNotification.jsx';
+import AdminFlights from './admin/AdminFlights.jsx';
+import AdminBanner from './admin/AdminBanner.jsx';
 
 const router = createBrowserRouter([
     {
@@ -57,6 +61,38 @@ const router = createBrowserRouter([
     {
         path: '/flightstatus',
         element: <FlightStatus />,
+    },
+    {
+        path: '/admin/aircraft',
+        element: (
+            <ProtectedRoute role="admin">
+                <AdminAirCraft />
+            </ProtectedRoute>
+        ),
+    },
+    {
+        path: '/admin/notification',
+        element: (
+            <ProtectedRoute role="admin">
+                <AdminNotification />
+            </ProtectedRoute>
+        ),
+    },
+    {
+        path: '/admin/flights',
+        element: (
+            <ProtectedRoute role="admin">
+                <AdminFlights />
+            </ProtectedRoute>
+        ),
+    },
+    {
+        path: '/admin/banner',
+        element: (
+            <ProtectedRoute role="admin">
+                <AdminBanner />
+            </ProtectedRoute>
+        ),
     }
 ]);
 
