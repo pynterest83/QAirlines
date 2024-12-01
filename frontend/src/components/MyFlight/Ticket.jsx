@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { AirportData } from "../../assets/data/AirportData";
 import { parseISO, format } from "date-fns";
 import { Server } from "../../Server";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 const Ticket = (props) => {
   const [showCancelDialog, setShowCancelDialog] = useState(false);
@@ -17,6 +19,27 @@ const Ticket = (props) => {
   const cancelDeadline = format(parseISO(props.cancelDL), "dd MMM yyyy HH:mm");
 
   const courtesy = props.passenger.Gender === "M" ? "Mr." : "Ms.";
+
+  const generatePDF = (containerId) => {
+    const ticketElement = document.getElementById(containerId);
+  
+    // Temporarily hide buttons for PDF
+    const buttons = ticketElement.querySelectorAll("button");
+    buttons.forEach((button) => (button.style.display = "none"));
+  
+    html2canvas(ticketElement, { scale: 2 }).then((canvas) => {
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF("p", "mm", "a4");
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+  
+      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+      pdf.save("ticket.pdf");
+  
+      // Restore buttons after generating PDF
+      buttons.forEach((button) => (button.style.display = ""));
+    });
+  };
 
   const handleCancelClick = () => {
     const currentDate = new Date();
@@ -59,8 +82,16 @@ const Ticket = (props) => {
   };
 
   return (
-    <div className="flex justify-center items-center">
-      <div className="bg-white w-full max-w-[1000px] p-6 rounded-xl shadow-lg">
+    <div id="ticket-container" className="flex justify-center items-center">
+      <div
+        className="bg-white w-full max-w-[1000px] p-6 rounded-xl shadow-lg"
+        style={{
+          backgroundImage: "url('/src/assets/images/worlds.png')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+
+        }}
+      >
         {/* Top section */}
         <div className="flex justify-between items-center">
           <h2 className="text-lg font-semibold tracking-wide text-[#6d24cf]">
@@ -139,7 +170,7 @@ const Ticket = (props) => {
             </div>
             {/* Cancel ticket button OR print ticket Button*/}
             <div className="flex justify-between mt-4">
-              <button className="be-vietnam-pro-semibold w-full px-6 py-2 bg-[#6d24cf] text-white rounded-md hover:bg-[#ffe06f] hover:text-black">Print Ticket</button>
+              <button onClick={() => generatePDF("ticket-container")} className="be-vietnam-pro-semibold w-full px-6 py-2 bg-[#6d24cf] text-white rounded-md hover:bg-[#ffe06f] hover:text-black">Print Ticket</button>
               <button onClick={handleCancelClick} className="be-vietnam-pro-semibold w-full px-6 py-2 bg-[#6d24cf] text-white rounded-md hover:bg-[#B22222] ml-4">Cancel Ticket</button>
             </div>
           </div>

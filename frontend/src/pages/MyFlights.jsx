@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Ticket from "../components/MyFlight/Ticket.jsx";
 import ErrorBox from "../components/MyFlight/ErrorBox.jsx";
 
-function MyFlight() {
+function MyFlights() {
   const props = useLocation().state;
   const [passengerID, setPassengerID] = useState(props.passengerID);
   const [firstName, setFirstName] = useState(props.firstName);
@@ -29,6 +29,10 @@ function MyFlight() {
       return res.json();
     }).then((data) => {
       setTicketData(data);
+      if (data.Passenger) {
+        setFirstName(data.Passenger.FirstName);
+        setLastName(data.Passenger.LastName);
+      }
     }).catch((error) => {
       console.error('There was a problem with the fetch operation:', error);
     });
@@ -118,4 +122,4 @@ function MyFlight() {
   );
 }
 
-export default MyFlight;
+export default MyFlights;
