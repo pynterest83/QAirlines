@@ -689,3 +689,86 @@
   ]
 }
 ```
+
+## Aircraft
+### Get All Aircrafts
+- **Endpoint:** `/api/aircrafts/list`
+- **Method:** `GET`
+- **Description:** Retrieves all aircrafts.
+- **Response:** JSON array of all aircrafts.
+- **Example:** `/api/aircrafts/list`
+```json
+[
+  {
+    "AircraftID": "A380",
+    "Model": "Airbus A380",
+    "Manufacturer": "Airbus",
+    "Capacity": 500,
+    "Seats": [
+      {
+        "SeatNo": "10A",
+        "Class": "Business"
+      },
+      {
+        "SeatNo": "10B",
+        "Class": "Business"
+      },
+      {
+        "SeatNo": "1A",
+        "Class": "First"
+      },
+      {
+        "SeatNo": "1B",
+        "Class": "First"
+      },
+      {
+        "SeatNo": "20A",
+        "Class": "Economy"
+      },
+      {
+        "SeatNo": "20B",
+        "Class": "Economy"
+      }
+    ]
+  },
+  {
+    "AircraftID": "B777",
+    "Model": "Boeing 777",
+    "Manufacturer": "Boeing",
+    "Capacity": 396,
+    "Seats": []
+  },
+  {
+    "AircraftID": "B787",
+    "Model": "Boeing 787 Dreamliner",
+    "Manufacturer": "Boeing",
+    "Capacity": 242,
+    "Seats": [
+      {
+        "SeatNo": "10A",
+        "Class": "Business"
+      },
+      {
+        "SeatNo": "10B",
+        "Class": "Business"
+      },
+      {
+        "SeatNo": "1A",
+        "Class": "First"
+      },
+      {
+        "SeatNo": "1B",
+        "Class": "First"
+      },
+      {
+        "SeatNo": "20A",
+        "Class": "Economy"
+      },
+      {
+        "SeatNo": "20B",
+        "Class": "Economy"
+      }
+    ]
+  }
+]
+```
