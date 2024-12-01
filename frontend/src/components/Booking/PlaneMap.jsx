@@ -51,16 +51,16 @@ function PlaneMap(props) {
         });
         resizeObserver.observe(PlaneImage.current);
 
-        fetch("http://localhost:5173/maps/" + props.info[0].AircraftID + ".json").then(r => r.json().then(_data => {
+        fetch("http://localhost:5173/maps/" + props.info.AircraftID + ".json").then(r => r.json().then(_data => {
             rawData.current = _data
             ScaleMap()
         }))
-        fetch("http://localhost:5173/maps/" + props.info[0].AircraftID + "_d.json").then(r => r.json().then(_data => {
+        fetch("http://localhost:5173/maps/" + props.info.AircraftID + "_d.json").then(r => r.json().then(_data => {
             setDescription(_data)
         }))
         fetch(Server + "seats/available?" + new URLSearchParams({
-            flightID: props.info[0].FlightID,
-            class: props.info[0].ClassType
+            flightID: props.info.FlightID,
+            class: props.info.ClassType
         })).then(r => {
             if (r.ok) r.json().then(_data => {
                 setList(_data.availableSeats)
@@ -109,7 +109,7 @@ function PlaneMap(props) {
         <div ref={ImageContainer} className="relative mx-auto bg-white w-full lg:w-1/2">
             <img ref={PlaneImage} className="w-full h-auto"
                  draggable="false"
-                 src={"/maps/" + props.info[0].AircraftID + ".svg"}
+                 src={"/maps/" + props.info.AircraftID + ".svg"}
                  useMap="#seatmap" alt=""/>
             <map name="seatmap">
                 {mapData.map((rect, index) =>

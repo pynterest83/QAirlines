@@ -12,20 +12,18 @@ function Ticket(props) {
     const seatChosen = useRef(null)
     const guardianSSN = useRef(null)
     const [chosenSeat, choose] = useState(false)
-    const [seat, setSeat] = useState(props.info.seatNo)
     const data = useRef(null)
-    const ticket_ref = useRef(null)
     function Copy() {
         if (props.type === "Adult") {
-            if (!(/^\d+$/.test(phoneNumber.current.value))) {
+            if (!(/^\d+$/.test(phoneNumber.current.value) || phoneNumber.current.value < 9 || phoneNumber.current.value > 15)) {
                 phoneNumber.current.setCustomValidity("invalid")
             }
-            if (!(/^\d+$/.test(ssn.current.value))) {
+            if (!(/^\d+$/.test(ssn.current.value)) || ssn.current.value.length !== 12) {
                 ssn.current.setCustomValidity("invalid")
             }
         }
         else {
-            if (!(/^\d+$/.test(guardianSSN.current.value))) {
+            if (!(/^\d+$/.test(guardianSSN.current.value)) || guardianSSN.current.value.length !== 12) {
                 guardianSSN.current.setCustomValidity("invalid")
             }
         }
@@ -34,7 +32,7 @@ function Ticket(props) {
             lastName: lastName.current.validity.valid ? lastName.current.value : data.current.lastName,
             dob: dob.current.validity.valid ? dob.current.value : data.current.dob,
             gender: gender.current.value === "Male" ? "M" : "F",
-            seatNo: props.info.seatNo ? props.info.seatNo : (props.setSeat ? props.setSeat : "")
+            seatNo: props.info.seatNo
         }
         if (props.type === "Adult") {
             data.current.email = email.current.validity.valid ? email.current.value : ""
@@ -47,13 +45,14 @@ function Ticket(props) {
         }
     }
 
+    function ChooseSeat() {
+        if (!props.info.seatNo) props.openSeatMap()
+    }
+    const firstRender = useRef(true)
     useEffect(() => {
-        if (props.setSeat) {
-            setSeat(props.setSeat)
-            Copy()
-        }
-    }, [props.setSeat]);
-
+        if (props.info.seatNo && !firstRender.current) Copy()
+        else firstRender.current = false
+    }, [props.info.seatNo]);
     useEffect(() => {
         firstName.current.value = props.info.firstName
         lastName.current.value = props.info.lastName
@@ -68,8 +67,7 @@ function Ticket(props) {
         else {
             guardianSSN.current.value = props.info.guardianSSN
         }
-        setSeat(props.info.seatNo)
-        if (props.info.seat) {
+        if (props.info.seatNo) {
             choose(true)
         }
         else {
@@ -80,7 +78,7 @@ function Ticket(props) {
             lastName: props.info.lastName,
             dob: props.info.dob,
             gender: props.info.gender === "Male" ? "M" : "F",
-            seatNo: props.info.seatNo !== "" ? props.info.seatNo : props.setSeat
+            seatNo: props.info.seatNo
         }
         if (props.type === "Adult") {
             data.current.email = props.info.email
@@ -91,14 +89,13 @@ function Ticket(props) {
         else {
             data.current.guardianSSN = props.info.guardianSSN
         }
-        props.scroll(ticket_ref.current.offsetTop)
         return function () {
             props.setInfo(data.current)
         }
     }, []);
 
     return (
-        <div ref={ticket_ref} className="w-full bg-white px-1">
+        <div className="p-8 shadow-[rgba(0,0,0,0.24)_0px_3px_8px] my-2 md:mx-36 rounded-2xl bg-white">
             <div className="flex flex-col">
                 <label htmlFor="firstname" className="be-vietnam-pro-light">First name</label>
                 <input required={true} ref={firstName}
@@ -125,7 +122,7 @@ function Ticket(props) {
             </div>
             <div className="flex flex-col mt-2">
                 <label htmlFor="dob" className="be-vietnam-pro-light">Date of birth</label>
-                <input ref={dob} type="date" id="dob"
+                <input ref={dob} type="date" id="dob" max={new Date().toISOString().split("T")[0]}
                        onChange={() => dob.current.setCustomValidity("")}
                        onBlur={() => Copy()}
                        required={true}
@@ -178,11 +175,11 @@ function Ticket(props) {
                 </div>}
             <div className="flex flex-col mt-2 mb-4">
                 <div className="be-vietnam-pro-light">Seat</div>
-                <div ref={seatChosen}
+                <div ref={seatChosen} onClick={ChooseSeat}
                     className={
                         (!chosenSeat ? "shadow-[0_2px_0_0_red] " : "shadow-[0_1px_0_0_#6d24cf] ")
                         + "min-h-6 h-fit be-vietnam-pro-medium focus:outline-none focus:shadow-[0_2px_0_0_#6d24cf]"}>
-                    {seat}
+                    {props.info.seatNo}
                 </div>
             </div>
         </div>

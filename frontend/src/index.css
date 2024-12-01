@@ -161,4 +161,13 @@
     .slide-from-up {
         animation: slide-down 0.4s;
     }
+    @keyframes open-popup {
+        from {
+            transform: scale(0.7) translate(-70%, -70%);
+        }
+    }
+    .popup-animation {
+        animation: open-popup 0.3s;
+        transform-origin: center center;
+    }
 }
