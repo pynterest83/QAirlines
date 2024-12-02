@@ -43,6 +43,7 @@ function Ticket(props) {
         else {
             data.current.guardianSSN = guardianSSN.current.validity.valid ? guardianSSN.current.value : ""
         }
+        props.setInfo(data.current)
     }
 
     function ChooseSeat() {
@@ -88,9 +89,6 @@ function Ticket(props) {
         }
         else {
             data.current.guardianSSN = props.info.guardianSSN
-        }
-        return function () {
-            props.setInfo(data.current)
         }
     }, []);
 

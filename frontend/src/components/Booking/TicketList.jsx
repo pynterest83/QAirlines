@@ -79,7 +79,7 @@ function TicketList(props) {
     const info_ref = useRef(null)
     function BookTicket() {
         let request = {
-            flightID: props.ID,
+            flightID: props.info.FlightID,
             passengers: tickets.current.map(ticket => ticket.Info)
         }
         fetch(Server + "tickets/book-ticket", {
@@ -110,7 +110,7 @@ function TicketList(props) {
     }
     return (
         <div ref={info_ref} className="flex flex-col flex-1 overflow-hidden">
-            <div className="select-none flex-1 overflow-x-hidden overflow-y-scroll thin-scrollbar w-full">
+            <div className="select-none flex-1 overflow-x-hidden w-full">
                 {tickets.current.map((passenger, index) =>
                     <div className="overflow-hidden"
                          key={index}>

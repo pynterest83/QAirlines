@@ -97,7 +97,7 @@ const router = createBrowserRouter([
 ]);
 
 createRoot(document.getElementById('root')).render(
-    <div>
+    <div className="thin-scrollbar">
         <div className="z-0 fixed top-0 left-0 bottom-0 right-0 bg-[#F5F5F5]"/>
         <RouterProvider router={router}/>
     </div>
