@@ -8,7 +8,10 @@ function Booking() {
     const [props, setState] = useState(useLocation().state)
     const responses = useRef([])
     const [completed, complete] = useState(false)
-    function Book(response) {
+    function Book(success= true, response) {
+        if (!success) {
+            return
+        }
         responses.current.push(response)
         if (props.trip.length > 1) {
             const temp = structuredClone(props)

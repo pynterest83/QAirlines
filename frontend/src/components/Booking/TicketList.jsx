@@ -9,6 +9,7 @@ function TicketList(props) {
     const [open, setOpen] = useState([])
     const [filled, fill] = useState([])
     function setInfo(data) {
+        if (bookingError) error(false)
         let temp = tickets.current.slice()
         let info = structuredClone(temp[choosingSeat.current])
         info.Info.firstName = data.firstName
@@ -28,9 +29,7 @@ function TicketList(props) {
         temp[choosingSeat.current] = info
         tickets.current = temp
         let _temp = filled.slice()
-        if (Object.values(data).every(o => !!o)) {
-            _temp[choosingSeat.current] = true
-        }
+        _temp[choosingSeat.current] = !!Object.values(data).every(o => !!o);
         fill(_temp)
     }
     useEffect(() => {
@@ -95,6 +94,10 @@ function TicketList(props) {
                 })
                 props.Book(data)
             })
+            else {
+                props.Book(false)
+                r.json().then(_error => error(_error.error))
+            }
         })
     }
     const [isMapOpen, openMap] = useState(false)
@@ -108,6 +111,7 @@ function TicketList(props) {
         openMap(true)
         selectable.current = {allowed: true}
     }
+    const [bookingError, error] = useState(null)
     return (
         <div ref={info_ref} className="flex flex-col flex-1 overflow-hidden">
             <div className="select-none flex-1 overflow-x-hidden w-full">
@@ -137,6 +141,11 @@ function TicketList(props) {
                                     info={tickets.current[index].Info} type={tickets.current[index].Type}/>}
                     </div>
                 )}
+                {bookingError &&
+                    <div className="mx-auto md:ml-auto md:mr-32 w-fit be-vietnam-pro-medium text-red-500">
+                        {bookingError}
+                    </div>
+                }
                 <div className="flex h-fit w-full py-1">
                     <button onClick={BookTicket}
                             disabled={!filled.every(e => !!e)}
@@ -147,15 +156,14 @@ function TicketList(props) {
                 </div>
             </div>
 
-
-                <div className= {
-                    (isMapOpen ? "" : "hidden ") +
-                    "fixed top-20 w-[100vw] h-[90vh] overflow-y-scroll bg-white"}>
-                    <PlaneMap select={selectable.current} info={props.info} choose={ChooseSeat}/>
-                    <button onClick={() => openMap(false)} className="fixed top-[85px] right-5 p-3 hover:bg-[#e6e6e6]">
-                        <AiOutlineClose/>
-                    </button>
-                </div>
+            <div className= {
+                (isMapOpen ? "" : "hidden ") +
+                "fixed top-20 w-[100vw] h-[90vh] overflow-y-scroll bg-white"}>
+                <PlaneMap select={selectable.current} info={props.info} choose={ChooseSeat}/>
+                <button onClick={() => openMap(false)} className="fixed top-[85px] right-5 p-3 hover:bg-[#e6e6e6]">
+                    <AiOutlineClose/>
+                </button>
+            </div>
 
         </div>
     )
