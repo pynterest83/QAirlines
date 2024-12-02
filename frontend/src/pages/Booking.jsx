@@ -48,8 +48,7 @@ function Booking() {
                     )}
                 </div>
                 <button onClick={() => nav("/")}
-                        className="p-3 bg-[#812af5] hover:bg-[#6d24cf] text-white rounded-xl be-vietnam-pro-bold">Back
-                    to homepage.
+                        className="p-3 bg-[#812af5] hover:bg-[#6d24cf] text-white rounded-xl be-vietnam-pro-bold">Back to homepage
                 </button>
             </div>}
             {completed && <div className="block fixed top-0 right-0 left-0 bottom-0 bg-black bg-opacity-50 z-20"></div>}

@@ -19,14 +19,14 @@ function BinarySearch(element, array) {
 }
 function PlaneMap(props) {
     const [mapData, setMapData] = useState([])
-    const rawData = useRef([])
-    const [mapDescription, setDescription] = useState(null)
+    const rawCoords = useRef([])
+    const mapDescription = useRef(null)
     const PlaneImage = useRef(null)
     const scale = useRef(1)
     const [availableSeat, setAvailable] = useState([])
     const [seatList, setList] = useState([])
     function ScaleMap() {
-        let temp = rawData.current.slice()
+        let temp = rawCoords.current.slice()
         temp.forEach((el, index) => {
             let coords = el.split(",")
             temp[index] = Math.round(coords[0] * scale.current)
@@ -52,11 +52,9 @@ function PlaneMap(props) {
         resizeObserver.observe(PlaneImage.current);
 
         fetch("http://localhost:5173/maps/" + props.info.AircraftID + ".json").then(r => r.json().then(_data => {
-            rawData.current = _data
+            rawCoords.current = Array.from(_data, (e) => e[0])
             ScaleMap()
-        }))
-        fetch("http://localhost:5173/maps/" + props.info.AircraftID + "_d.json").then(r => r.json().then(_data => {
-            setDescription(_data)
+            mapDescription.current = Array.from(_data, e => [e[1], e[2]])
         }))
         fetch(Server + "seats/available?" + new URLSearchParams({
             flightID: props.info.FlightID,
@@ -77,7 +75,7 @@ function PlaneMap(props) {
     const info = useRef("")
     const allowed = useRef(false)
     function Show(e, index) {
-        setShow(mapDescription[index][0])
+        setShow(mapDescription.current[index][0])
         let positions = mapData[index].split(",")
         setMousePos({
             x: Number(positions[0]),
@@ -87,8 +85,8 @@ function PlaneMap(props) {
         })
         e.stopPropagation()
         e.preventDefault()
-        info.current = mapDescription[index]
-        allowed.current = BinarySearch(mapDescription[index][0], availableSeat) !== null;
+        info.current = mapDescription.current[index]
+        allowed.current = BinarySearch(mapDescription.current[index][0], availableSeat) !== null;
     }
 
     useEffect(() => {
