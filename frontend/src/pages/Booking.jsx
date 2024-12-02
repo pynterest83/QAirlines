@@ -8,7 +8,7 @@ function Booking() {
     const [props, setState] = useState(useLocation().state)
     const responses = useRef([])
     const [completed, complete] = useState(false)
-    function Book(success= true, response) {
+    function Book(success, response) {
         if (!success) {
             return
         }

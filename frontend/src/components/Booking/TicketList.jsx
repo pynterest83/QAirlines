@@ -92,10 +92,10 @@ function TicketList(props) {
                 tickets.current.forEach((i, index) => {
                     tickets.current[index].Info.seatNo = ""
                 })
-                props.Book(data)
+                props.Book(true, data)
             })
             else {
-                props.Book(false)
+                props.Book(false, null)
                 r.json().then(_error => error(_error.error))
             }
         })
