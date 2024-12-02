@@ -158,8 +158,13 @@ function Flight(props) {
                         </div>
                         <div className="h-fit inline-block whitespace-pre-wrap text-right float-right">{contents[description]}</div>
                     </div>
+                    {props.numberOfPeople > props.info.ticketClasses[description].AvailableSeats &&
+                        <div className="be-vietnam-pro-medium text-red-600 py-2">Not enough available seat left</div>}
                     <div className="mt-4 md:mt-0 w-full clear-end md:block flex justify-center">
-                    <button onClick={ChooseTrip} className="p-4 bg-[#812af5] hover:bg-[#6d24cf] text-white rounded-xl be-vietnam-pro-bold">Confirm and continue</button>
+                    <button disabled={props.numberOfPeople > props.info.ticketClasses[description].AvailableSeats}
+                        onClick={ChooseTrip}
+                            className={(props.numberOfPeople > props.info.ticketClasses[description].AvailableSeats ? "opacity-50 " : "hover:bg-[#6d24cf] ") +
+                        "p-4 bg-[#812af5] text-white rounded-xl be-vietnam-pro-bold"}>Confirm and continue</button>
                     </div>
                 </div>
             }

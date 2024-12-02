@@ -338,7 +338,7 @@ function Search() {
             </div>
 
             <DateSelect from={from} to={to} classType={cabinClass} setDep={setDepartureDate} date={departureDate}/>
-            {flights !== null && <Flights confirm={Confirm} from={from} to={to} flights={flights}/>}
+            {flights !== null && <Flights numberOfPeople={adults + children} confirm={Confirm} from={from} to={to} flights={flights}/>}
         </div>
     )
 }

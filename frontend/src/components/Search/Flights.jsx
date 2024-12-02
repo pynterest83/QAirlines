@@ -9,7 +9,7 @@ function Flights(props) {
     if (props.flights !== undefined)
         return (
             <div ref={flightList} className="my-4 w-full scroll-mt-[80px]">
-                {props.flights.map(flight => <Flight confirm={props.confirm} from={props.from} to={props.to} key={flight.FlightID} info={flight}/>)}
+                {props.flights.map(flight => <Flight numberOfPeople={props.numberOfPeople} confirm={props.confirm} from={props.from} to={props.to} key={flight.FlightID} info={flight}/>)}
             </div>
         )
     else
