@@ -95,18 +95,37 @@ async function getTicketsByPassenger(identifier) {
         throw new Error('Guardian not found with the provided SSN or Passport');
     }
 
-    // Tìm tất cả hành khách phụ thuộc của người lớn
     const dependents = await Passenger.findAll({
         where: { GuardianID: guardian.PassID },
-        attributes: ['PassID']
+        attributes: ['PassID', 'FirstName', 'LastName', 'Gender', 'DOB', 'GuardianID']
     });
 
-    const dependentIDs = dependents.map(dependent => dependent.PassID);
-    const allPassengerIDs = [guardian.PassID, ...dependentIDs]; // Bao gồm cả người lớn và trẻ em
+    const allPassengers = [
+        {
+            PassID: guardian.PassID,
+            FirstName: guardian.FirstName,
+            LastName: guardian.LastName,
+            Gender: guardian.Gender,
+            DOB: guardian.DOB,
+            GuardianID: null
+        },
+        ...dependents.map(dependent => ({
+            PassID: dependent.PassID,
+            FirstName: dependent.FirstName,
+            LastName: dependent.LastName,
+            Gender: dependent.Gender,
+            DOB: dependent.DOB,
+            GuardianID: dependent.GuardianID
+        }))
+    ];
+
+    const passengerMap = new Map(
+        allPassengers.map(passenger => [passenger.PassID, passenger])
+    );
 
     // Lấy vé của tất cả hành khách này
     let tickets = await Ticket.findAll({
-        where: { PassID: { [Op.in]: allPassengerIDs } },
+        where: { PassID: { [Op.in]: Array.from(passengerMap.keys()) } },
         include: [
             {
                 model: Flight,
@@ -119,20 +138,26 @@ async function getTicketsByPassenger(identifier) {
                     attributes: ['Class']
                 }]
             }
-        ]
+        ],
+        distinct: true,
     });
+
+    tickets = Array.from(
+        new Map(
+            tickets.map(ticket => [`${ticket.TicketID}-${ticket.FlightID}-${ticket.SeatNo}`, ticket])
+        ).values()
+    );
 
     if (tickets.length === 0) {
         throw new Error('No tickets found for this guardian and dependents');
     }
 
-    tickets = Array.from(
-        new Map(tickets.map(ticket => [ticket.TicketID, ticket])).values()
-    );
-
+    // Kết hợp thông tin hành khách với thông tin vé
     const ret = tickets.map(ticket => {
+        const passenger = passengerMap.get(ticket.PassID);
         const flightSeat = ticket.FlightSeat || {};
         const seatClass = flightSeat.seatDetails || {};
+
         return {
             TicketID: ticket.TicketID,
             Class: seatClass.Class || 'N/A',
@@ -140,20 +165,22 @@ async function getTicketsByPassenger(identifier) {
             SeatNo: ticket.SeatNo,
             AircraftID: ticket.AircraftID,
             CancellationDeadline: ticket.CancellationDeadline,
-            FlightDetails: ticket.Flight
-        }
+            FlightDetails: ticket.Flight,
+            Passenger: passenger
+        };
     });
 
-    return [guardian, ret];
+    return ret;
 }
+
 
 // Lấy thông tin vé theo ID kèm theo hạng vé và thông tin hành khách
 async function getTicketByID(ticketID) {
     const ticket = await Ticket.findByPk(ticketID);
-    if (!ticket) throw new Error('Ticket not found');
+    if (!ticket) throw new Error('Không tìm thấy vé có ID này');
 
     const passenger = await Passenger.findByPk(ticket.PassID);
-    if (!passenger) throw new Error('Passenger not found');
+    if (!passenger) throw new Error('Không tìm thấy hành khách');
 
     const flight = await Flight.findByPk(ticket.FlightID, {
         include: [{
@@ -163,7 +190,7 @@ async function getTicketByID(ticketID) {
         }]
     });
 
-    if (!flight) throw new Error('Flight not found');
+    if (!flight) throw new Error('Không tìm thấy chuyến bay tương ứng');
 
     const flightSeat = await FlightSeat.findOne({
         where: { TicketID: ticketID },
