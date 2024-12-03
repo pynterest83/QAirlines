@@ -153,7 +153,7 @@ async function getTicketsByPassenger(identifier) {
     }
 
     // Kết hợp thông tin hành khách với thông tin vé
-    const ret = tickets.map(ticket => {
+    return tickets.map(ticket => {
         const passenger = passengerMap.get(ticket.PassID);
         const flightSeat = ticket.FlightSeat || {};
         const seatClass = flightSeat.seatDetails || {};
@@ -169,8 +169,6 @@ async function getTicketsByPassenger(identifier) {
             Passenger: passenger
         };
     });
-
-    return ret;
 }
 
 

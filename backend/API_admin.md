@@ -142,3 +142,40 @@
   }
 }
 ```
+
+## Aircraft
+### Create Aircraft
+- **Endpoint:** `/api/aircrafts/create`
+- **Method:** `POST`
+- **POST Body:** JSON object with aircraft details.
+- **Description:** Creates an aircraft.
+- **Response:** Confirmation of aircraft creation.
+- **Example:** `/api/aircrafts/create`
+- **Request Body:**
+```json
+{
+  "AircraftID": "A390",
+  "Model": "Airbus A390",
+  "Capacity": 500,
+  "Manufacturer": "Dummy",
+  "seats": [
+    { "SeatNo": "1A", "Class": "Economy" },
+    { "SeatNo": "1B", "Class": "Economy" },
+    { "SeatNo": "1C", "Class": "Business" },
+    { "SeatNo": "1D", "Class": "First" }
+  ]
+}
+
+```
+- **Response:**
+```json
+{
+  "message": "Aircraft created successfully",
+  "aircraft": {
+    "AircraftID": "A390",
+    "Model": "Airbus A390",
+    "Capacity": 500,
+    "Manufacturer": "Dummy"
+  }
+}
+```
