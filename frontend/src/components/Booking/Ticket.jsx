@@ -93,11 +93,11 @@ function Ticket(props) {
     }, []);
 
     return (
-        <div className="p-8 shadow-[rgba(0,0,0,0.24)_0px_3px_8px] my-2 md:mx-36 rounded-2xl bg-white">
+        <div className={(props.hidden ? "hidden " : "") + "p-8 shadow-[rgba(0,0,0,0.24)_0px_3px_8px] my-2 md:mx-36 rounded-2xl bg-white"}>
             <div className="flex flex-col">
                 <label htmlFor="firstname" className="be-vietnam-pro-light">First name</label>
                 <input required={true} ref={firstName}
-                       onBlur={() => Copy()}
+                       onBlur={Copy}
                        onChange={() => firstName.current.setCustomValidity("")}
                        id="firstname"
                        className="bg-transparent invalid:shadow-[0_2px_0_0_red] be-vietnam-pro-medium focus:outline-none focus:shadow-[0_2px_0_0_#6d24cf] shadow-[0_1px_0_0_#6d24cf]"/>
@@ -105,14 +105,14 @@ function Ticket(props) {
             <div className="flex flex-col mt-2">
                 <label htmlFor="lastname" className="be-vietnam-pro-light">Last name</label>
                 <input required={true} ref={lastName}
-                       onBlur={() => Copy()}
+                       onBlur={Copy}
                        onChange={() => lastName.current.setCustomValidity("")}
                        id="lastname"
                        className="bg-transparent invalid:shadow-[0_2px_0_0_red] be-vietnam-pro-medium focus:outline-none focus:shadow-[0_2px_0_0_#6d24cf] shadow-[0_1px_0_0_#6d24cf]"/>
             </div>
             <div className="flex flex-col mt-2">
                 <div className="be-vietnam-pro-light">Gender</div>
-                <select onChange={() => Copy()}
+                <select onChange={Copy}
                     className="bg-transparent invalid:shadow-[0_2px_0_0_red] mt-2 be-vietnam-pro-medium focus:outline-none focus:shadow-[0_2px_0_0_#6d24cf] shadow-[0_1px_0_0_#6d24cf]" ref={gender}>
                     <option>Male</option>
                     <option>Female</option>
@@ -122,7 +122,7 @@ function Ticket(props) {
                 <label htmlFor="dob" className="be-vietnam-pro-light">Date of birth</label>
                 <input ref={dob} type="date" id="dob" max={new Date().toISOString().split("T")[0]}
                        onChange={() => dob.current.setCustomValidity("")}
-                       onBlur={() => Copy()}
+                       onBlur={Copy}
                        required={true}
                        className="bg-transparent invalid:shadow-[0_2px_0_0_red] be-vietnam-pro-medium focus:outline-none focus:shadow-[0_2px_0_0_#6d24cf] shadow-[0_1px_0_0_#6d24cf]"/>
             </div>
@@ -131,7 +131,7 @@ function Ticket(props) {
                 <label htmlFor="email" className="be-vietnam-pro-light">Email</label>
                 <input required={true} ref={email} type="email" id="email"
                        onChange={() => email.current.setCustomValidity("")}
-                       onBlur={() => Copy()}
+                       onBlur={Copy}
                        className="bg-transparent invalid:shadow-[0_2px_0_0_red] be-vietnam-pro-medium focus:outline-none focus:shadow-[0_2px_0_0_#6d24cf] shadow-[0_1px_0_0_#6d24cf]"/>
             </div>}
             {props.type === "Adult" &&
@@ -140,7 +140,7 @@ function Ticket(props) {
                 <input ref={phoneNumber}
                        required={true}
                        id="phone"
-                       onBlur={() => Copy()}
+                       onBlur={Copy}
                        onChange={() => phoneNumber.current.setCustomValidity("")}
                        className="bg-transparent invalid:shadow-[0_2px_0_0_red] be-vietnam-pro-medium focus:outline-none focus:shadow-[0_2px_0_0_#6d24cf] shadow-[0_1px_0_0_#6d24cf]"/>
             </div>}
@@ -149,7 +149,7 @@ function Ticket(props) {
                 <label htmlFor="passport" className="be-vietnam-pro-light">Passport</label>
                 <input id="passport" ref={passport}
                        required={true}
-                       onBlur={() => Copy()}
+                       onBlur={Copy}
                        onChange={() => passport.current.setCustomValidity("")}
                        className="bg-transparent invalid:shadow-[0_2px_0_0_red] be-vietnam-pro-medium focus:outline-none focus:shadow-[0_2px_0_0_#6d24cf] shadow-[0_1px_0_0_#6d24cf]"/>
             </div>}
@@ -158,7 +158,7 @@ function Ticket(props) {
                 <label htmlFor="ssn" className="be-vietnam-pro-light">SSN</label>
                 <input id="ssn" ref={ssn}
                        required={true}
-                       onBlur={() => Copy()}
+                       onBlur={Copy}
                        onChange={() => ssn.current.setCustomValidity("")}
                        className="bg-transparent invalid:shadow-[0_2px_0_0_red] be-vietnam-pro-medium focus:outline-none focus:shadow-[0_2px_0_0_#6d24cf] shadow-[0_1px_0_0_#6d24cf]"/>
             </div>}
@@ -167,7 +167,7 @@ function Ticket(props) {
                     <label htmlFor="guardianSSN" className="be-vietnam-pro-light">Guardian SSN</label>
                     <input id="guardianSSN" ref={guardianSSN}
                            required={true}
-                           onBlur={() => Copy()}
+                           onBlur={Copy}
                            onChange={() => guardianSSN.current.setCustomValidity("")}
                            className="bg-transparent invalid:shadow-[0_2px_0_0_red] be-vietnam-pro-medium focus:outline-none focus:shadow-[0_2px_0_0_#6d24cf] shadow-[0_1px_0_0_#6d24cf]"/>
                 </div>}

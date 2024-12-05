@@ -23,7 +23,8 @@ function Flight(props) {
             Boarding: props.info.BoardingTime,
             From: props.from,
             To: props.to,
-            ClassType: description === 0 ? "Economy" : (description === 1 ? "Business" : "First")
+            ClassType: description === 0 ? "Economy" : (description === 1 ? "Business" : "First"),
+            TicketPrice: props.info.ticketClasses[description].Price
         }
         props.confirm(trip)
     }

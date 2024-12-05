@@ -3,6 +3,7 @@ import Ticket from "./Ticket.jsx";
 import {Server} from "../../Server.js";
 import PlaneMap from "./PlaneMap.jsx";
 import {AiOutlineClose} from "react-icons/ai";
+import Payments from "./Payments.jsx";
 
 function TicketList(props) {
     const tickets = useRef([])
@@ -78,27 +79,13 @@ function TicketList(props) {
     const info_ref = useRef(null)
     function BookTicket() {
         let request = {
-            flightID: props.info.FlightID,
-            passengers: tickets.current.map(ticket => ticket.Info)
-        }
-        fetch(Server + "tickets/book-ticket", {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json",
+            info: {
+                flightID: props.info.FlightID,
+                passengers: tickets.current.map(ticket => ticket.Info)
             },
-            body: JSON.stringify(request)
-        }).then(r => {
-            if (r.ok) r.json().then(data => {
-                tickets.current.forEach((i, index) => {
-                    tickets.current[index].Info.seatNo = ""
-                })
-                props.Book(true, data)
-            })
-            else {
-                props.Book(false, null)
-                r.json().then(_error => error(_error.error))
-            }
-        })
+            price: props.info.TicketPrice * (props.child + props.adult)
+        }
+        props.Book(request)
     }
     const [isMapOpen, openMap] = useState(false)
     const selectable = useRef({allowed: false})
@@ -136,9 +123,8 @@ function TicketList(props) {
                                 }
                             </div>
                         </div>
-                        {open[index] &&
-                            <Ticket setInfo={setInfo} openSeatMap={() => OpenSeatMap(index)}
-                                    info={tickets.current[index].Info} type={tickets.current[index].Type}/>}
+                        <Ticket hidden={!open[index]} setInfo={setInfo} openSeatMap={() => OpenSeatMap(index)}
+                                info={tickets.current[index].Info} type={tickets.current[index].Type}/>
                     </div>
                 )}
                 {bookingError &&
@@ -146,12 +132,17 @@ function TicketList(props) {
                         {bookingError}
                     </div>
                 }
-                <div className="flex h-fit w-full py-1">
+                <div className="flex h-fit w-full py-1 items-center justify-center">
+                    <Payments/>
                     <button onClick={BookTicket}
                             disabled={!filled.every(e => !!e)}
                             className={(filled.every(e => !!e) ? "hover:bg-[#6d24cf] " : "opacity-70 ") +
-                                "mx-auto md:ml-auto md:mr-32 p-4 bg-[#812af5] text-white rounded-xl be-vietnam-pro-bold mt-auto"}>Book
-                        ticket
+                                "ml-2 md:mr-32 mr-10 p-4 bg-[#812af5] text-white rounded-xl be-vietnam-pro-bold mt-auto"}>
+                        <i className="fas fa-shopping-cart mr-2"/>
+                        ${localStorage.getItem("token") ?
+                        Math.round(props.info.TicketPrice * (props.child + props.adult) * 0.95)
+                        : props.info.TicketPrice * (props.child + props.adult)}
+                        <div className="text-yellow-400 inline-block ml-2 be-vietnam-pro-medium">−5%</div>
                     </button>
                 </div>
             </div>

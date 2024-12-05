@@ -16,7 +16,6 @@ import AdminAirCraft from './admin/AdminAirCraft.jsx';
 import AdminNotification from './admin/AdminNotification.jsx';
 import AdminFlights from './admin/AdminFlights.jsx';
 import AdminBanner from './admin/AdminBanner.jsx';
-import Payment from './pages/Payment.jsx';
 
 const router = createBrowserRouter([
     {
@@ -95,10 +94,6 @@ const router = createBrowserRouter([
             </ProtectedRoute>
         ),
     },
-    {
-        path: '/payment',
-        element: <Payment />,
-    }
 ]);
 
 createRoot(document.getElementById('root')).render(
