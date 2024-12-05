@@ -1,6 +1,6 @@
 // noinspection ExceptionCaughtLocallyJS
 
-const { Flight, Seat, FlightSeat, Passenger, Ticket} = require("../../models/schemas");
+const { Flight, Seat, FlightSeat, Passenger, Ticket, TicketClass} = require("../../models/schemas");
 const {Op} = require("sequelize");
 async function updateFlight(flightID, updates) {
     // Find the flight by its ID
@@ -45,20 +45,11 @@ async function generateFlightID() {
 }
 
 async function createFlight(flightData) {
-    const requiredFields = ['Status', 'DepTime', 'ArrTime', 'BoardingTime', 'DepID', 'DestID', 'AircraftID'];
-    const missingFields = requiredFields.filter(field => !flightData[field]);
-
-    if (missingFields.length > 0) {
-        throw new Error(`Missing required fields: ${missingFields.join(', ')}`);
-    }
-
-    // Normalize AircraftID
-    flightData.AircraftID = flightData.AircraftID.trim().toUpperCase();
-
-    const transaction = await Flight.sequelize.transaction(); // Start a transaction for atomicity
+    const transaction = await Flight.sequelize.transaction();
     try {
         // Generate a unique FlightID
         const FlightID = await generateFlightID();
+        flightData.AircraftID = flightData.AircraftID.trim().toUpperCase();
 
         // Validate AircraftID and fetch associated seats
         const seats = await Seat.findAll({
@@ -70,7 +61,10 @@ async function createFlight(flightData) {
         }
 
         // Create the flight
-        const newFlight = await Flight.create({ ...flightData, FlightID }, { transaction });
+        const newFlight = await Flight.create(
+            { ...flightData, FlightID },
+            { transaction }
+        );
 
         // Populate the flightSeat table
         const flightSeats = seats.map(seat => ({
@@ -82,13 +76,24 @@ async function createFlight(flightData) {
 
         await FlightSeat.bulkCreate(flightSeats, { transaction });
 
-        await transaction.commit(); // Commit the transaction
+        // Create ticket prices
+        const { ticketPrices } = flightData;
+        const ticketClasses = Object.entries(ticketPrices).map(([className, price]) => ({
+            FlightID,
+            ClassName: className,
+            Price: price,
+        }));
+
+        await TicketClass.bulkCreate(ticketClasses, { transaction });
+
+        await transaction.commit();
         return newFlight;
     } catch (error) {
-        await transaction.rollback(); // Rollback on error
+        await transaction.rollback();
         throw new Error(`Failed to create flight: ${error.message}`);
     }
 }
+
 
 async function getFlights(flightIds = []) {
     const query = {};
