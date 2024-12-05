@@ -18,11 +18,9 @@ exports.handleCreateAircraft = async (req, res) => {
         const jsonFile = req.files?.json;
         const relatedImages = req.files?.images;
 
-        const parsedSeats = typeof seats === 'string' ? JSON.parse(seats) : seats;
-
         const imageArray = Array.isArray(relatedImages) ? relatedImages : relatedImages ? [relatedImages] : [];
 
-        await createAircraft(aircraft, parsedSeats, svgFile, jsonFile, imageArray);
+        await createAircraft(aircraft, svgFile, jsonFile, imageArray);
 
         res.status(201).json({
             message: 'Aircraft created successfully',
