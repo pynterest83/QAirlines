@@ -52,6 +52,15 @@ const Banner = () => {
                 className="w-full h-full object-cover"
                 style={{ objectFit: 'cover', width: '100%', height: '100%' }}
               />
+              <div className="absolute top-0 left-0 right-0 bottom-0 bg-black/40 p-5 "></div>
+              <div className="absolute bottom-[50px] md:top-[100px] left-[20px] md:left-[50px]">
+                <h1 className="text-[30px] md:text-[70px] font-bold leading-tight max-w-[300px] md:max-w-[800px] text-white">
+                  {data.title}
+                </h1>
+                <p className="text-white mt-2 md:mt-2 text-[14px] md:text-lg font-light">
+                  {data.description}
+                </p>
+              </div>
             </div>
           </SwiperSlide>
         ))}
@@ -69,6 +78,13 @@ const Banner = () => {
         className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 cursor-pointer w-[30px] h-[30px] border-[1px] border-white text-white flex justify-center items-center rounded-full hover:bg-white hover:text-black transition duration-200 hidden md:flex"
       >
         <HiOutlineArrowSmRight size={20} />
+      </div>
+
+      {/* Styled Button */}
+      <div className="absolute left-10 bottom-20 z-20 hidden md:block">
+        <button className="bg-white text-purple-600 font-semibold text-lg px-6 py-3 rounded-md shadow-md hover:bg-purple-600 hover:text-white transition duration-300">
+          Details <span className="ml-2">➔</span>
+        </button>
       </div>
 
       {/* HomeBox positioned at the top on small screens and at the bottom on medium and larger screens */}

@@ -130,11 +130,15 @@
         scrollbar-width: thin;
     }
     .gradient-button {
-      background: linear-gradient(90deg, rgba(109,36,207,1) 0%, rgba(255,224,111,1) 100%);
-    }
-    .gradient-button:hover {
-      background: linear-gradient(90deg, rgba(255,224,111,1) 0%,  rgba(109,36,207,1) 100%);
-    }
+        background: linear-gradient(90deg, rgba(109,36,207,1) 0%, rgba(255,224,111,1) 100%);
+        background-size: 200% 100%;
+        background-position: left center;
+        transition: background-position 0.5s ease;
+      }
+      
+      .gradient-button:hover {
+        background-position: right center;
+      }
     .gradient-border {
       border-left: 2px dashed transparent;
       border-image: linear-gradient(to bottom, #ffe06f, #6d24cf) 1;

@@ -14,6 +14,8 @@ const AdminAircraft = () => {
     const [model, setModel] = useState("");
     const [manufacturer, setManufacturer] = useState("");
     const [capacity, setCapacity] = useState("");
+    const [image, setImage] = useState(null);
+    const [jsonFile, setJsonFile] = useState(null);
     const [editMode, setEditMode] = useState(false);
     const [editId, setEditId] = useState(null);
 
@@ -31,14 +33,13 @@ const AdminAircraft = () => {
         fetchAircrafts();
     }, [token]);
 
-    const createAircraft = async (aircraftDetails) => {
+    const createAircraft = async (formData) => {
         const response = await fetch(`${Server}aircrafts/create`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             },
-            body: JSON.stringify(aircraftDetails)
+            body: formData
         });
 
         if (response.ok) {
@@ -49,14 +50,13 @@ const AdminAircraft = () => {
         }
     };
 
-    const updateAircraft = async (aircraftID, aircraftDetails) => {
+    const updateAircraft = async (aircraftID, formData) => {
         const response = await fetch(`${Server}aircrafts/update/${aircraftID}`, {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             },
-            body: JSON.stringify(aircraftDetails)
+            body: formData
         });
 
         if (response.ok) {
@@ -70,6 +70,8 @@ const AdminAircraft = () => {
             setModel("");
             setManufacturer("");
             setCapacity("");
+            setImage(null);
+            setJsonFile(null);
         } else {
             console.error('Failed to update aircraft:', response.statusText);
         }
@@ -102,16 +104,21 @@ const AdminAircraft = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const aircraftDetails = {
-            AircraftID: aircraftID,
-            Model: model,
-            Manufacturer: manufacturer,
-            Capacity: parseInt(capacity)
-        };
+        const formData = new FormData();
+        formData.append('AircraftID', aircraftID);
+        formData.append('Model', model);
+        formData.append('Manufacturer', manufacturer);
+        formData.append('Capacity', parseInt(capacity));
+        if (image) {
+            formData.append('image', image);
+        }
+        if (jsonFile) {
+            formData.append('jsonFile', jsonFile);
+        }
         if (editMode) {
-            updateAircraft(editId, aircraftDetails);
+            updateAircraft(editId, formData);
         } else {
-            createAircraft(aircraftDetails);
+            createAircraft(formData);
         }
     };
 
@@ -160,7 +167,43 @@ const AdminAircraft = () => {
                             className="mt-1 p-2 w-full border rounded-md"
                         />
                     </div>
-                    <button type="submit" className="bg-purple-800 text-white px-4 py-2 rounded-md">
+                    <div className="mb-4">
+                        <label className="block text-gray-700">Plane Diagram Image:</label>
+                        <div className="flex items-center">
+                            <input
+                                type="file"
+                                id="image"
+                                onChange={(e) => setImage(e.target.files[0])}
+                                className="hidden"
+                            />
+                            <label
+                                htmlFor="image"
+                                className="bg-blue-500 text-white px-4 py-2 rounded-md cursor-pointer hover:bg-blue-600 transition"
+                            >
+                                Choose File
+                            </label>
+                            {image && <span className="ml-2">{image.name}</span>}
+                        </div>
+                    </div>
+                    <div className="mb-4">
+                        <label className="block text-gray-700">JSON File:</label>
+                        <div className="flex items-center">
+                            <input
+                                type="file"
+                                id="jsonFile"
+                                onChange={(e) => setJsonFile(e.target.files[0])}
+                                className="hidden"
+                            />
+                            <label
+                                htmlFor="jsonFile"
+                                className="bg-blue-500 text-white px-4 py-2 rounded-md cursor-pointer hover:bg-blue-600 transition"
+                            >
+                                Choose File
+                            </label>
+                            {jsonFile && <span className="ml-2">{jsonFile.name}</span>}
+                        </div>
+                    </div>
+                    <button type="submit" className="bg-purple-800 text-white px-4 py-2 rounded-md hover:bg-purple-900 transition">
                         {editMode ? "Update Aircraft" : "Create Aircraft"}
                     </button>
                 </form>
@@ -185,13 +228,13 @@ const AdminAircraft = () => {
                                     <td className="px-4 py-2">
                                         <button 
                                             onClick={() => handleEdit(aircraft.AircraftID)} 
-                                            className="bg-yellow-500 text-white px-2 py-1 rounded-md mr-2"
+                                            className="bg-yellow-500 text-white px-2 py-1 rounded-md mr-2 hover:bg-yellow-600 transition"
                                         >
                                             Edit
                                         </button>
                                         <button 
                                             onClick={() => handleDelete(aircraft.AircraftID)} 
-                                            className="bg-red-500 text-white px-2 py-1 rounded-md"
+                                            className="bg-red-500 text-white px-2 py-1 rounded-md hover:bg-red-600 transition"
                                         >
                                             Delete
                                         </button>
