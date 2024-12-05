@@ -10,6 +10,11 @@
   - [Delete Promotion](#delete-promotion)
 - [Flight](#flight)
   - [Update Flight](#update-flight)
+  - [Create Flight](#create-flight)
+- [Aircraft](#aircraft)
+  - [Create Aircraft](#create-aircraft)
+- [Statistics](#statistics)
+  - [Tickets booked monthly in a year](#tickets-booked-monthly-in-a-year)
 
 ## Promotions
 ### Create Promotion
@@ -143,6 +148,38 @@
 }
 ```
 
+### Get passengers of a flight
+- **Endpoint:** `/api/flights/:flightId/details`
+- **Method:** `GET`
+- **Description:** Get passengers of a flight.
+- **Response:** List of passengers of the flight.
+- **Example:** `/api/flights/VN101/details`
+- **Response:**
+```json
+[
+  {
+    "TicketID": "T328760",
+    "Passenger": {
+      "DOB": "2015-05-01",
+      "PassID": "P16444",
+      "FirstName": "Jane",
+      "LastName": "Doe",
+      "Gender": "F"
+    }
+  },
+  {
+    "TicketID": "T372183",
+    "Passenger": {
+      "DOB": "1985-07-23",
+      "PassID": "P001",
+      "FirstName": "John",
+      "LastName": "Doe",
+      "Gender": "M"
+    }
+  }
+]
+```
+
 ## Aircraft
 ### Create Aircraft
 - **Endpoint:** `/api/aircrafts/create`
@@ -150,4 +187,68 @@
 - **Description:** Creates an aircraft.
 - **Response:** Confirmation of aircraft creation.
 - **Example:** `/api/aircrafts/create`
-![img.png](img.png)
+- ![img_1.png](img_1.png)
+
+## Statistics
+### Tickets booked monthly in a year
+- **Endpoint:** `/api/statistics/monthly`
+- **Method:** `GET`
+- **Description:** Get the number of tickets booked monthly in a year.
+- **Response:** Number of tickets booked monthly in a year.
+- **Example:** `/api/statistics/booking/monthly?year=2024`
+- **Response:**
+```json
+{
+  "year": "2024",
+  "monthlyStatistics": [
+    {
+      "month": 1,
+      "bookingCount": 0
+    },
+    {
+      "month": 2,
+      "bookingCount": 0
+    },
+    {
+      "month": 3,
+      "bookingCount": 0
+    },
+    {
+      "month": 4,
+      "bookingCount": 0
+    },
+    {
+      "month": 5,
+      "bookingCount": 0
+    },
+    {
+      "month": 6,
+      "bookingCount": 0
+    },
+    {
+      "month": 7,
+      "bookingCount": 0
+    },
+    {
+      "month": 8,
+      "bookingCount": 0
+    },
+    {
+      "month": 9,
+      "bookingCount": 0
+    },
+    {
+      "month": 10,
+      "bookingCount": 0
+    },
+    {
+      "month": 11,
+      "bookingCount": 0
+    },
+    {
+      "month": 12,
+      "bookingCount": 2
+    }
+  ]
+}
+```

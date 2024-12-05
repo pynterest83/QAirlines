@@ -1,11 +1,11 @@
-import React from 'react';
+import {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
 import { Server } from '../Server';
 
 const AdminLogin = () => {
     const navigate = useNavigate();
-
+    const [error, loginError] = useState(null)
     const handleLogin = async (e) => {
         e.preventDefault();
         const username = e.target.username.value;
@@ -31,22 +31,19 @@ const AdminLogin = () => {
             // Navigate to /admin
             navigate('/admin');
         } else {
-            // Handle login error
-            console.error('Admin login error:', data.error);
+            loginError(data.error)
         }
     };
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-50">
             <div className="z-10 w-full max-w-md bg-white rounded-lg shadow-md p-6">
-                {/* Image Section */}
                 <div className="mb-6">
-                <img
-                    src="logo.png"
+                <img alt=""
+                    src="/logo.png"
                     className="w-full"
                 />
                 </div>
-                {/* Login Form Section */}
                 <form onSubmit={handleLogin} className="space-y-4">
                 <div>
                     <label
@@ -55,7 +52,7 @@ const AdminLogin = () => {
                     >
                     Username
                     </label>
-                    <input
+                    <input onChange={() => {if(error) loginError(null)}}
                     type="text"
                     name="username"
                     className="w-full border-b border-gray-300 focus:border-blue-500 focus:outline-none py-2"
@@ -67,7 +64,7 @@ const AdminLogin = () => {
                     Password
                     </label>
                     <div className="relative">
-                    <input
+                    <input onChange={() => {if(error) loginError(null)}}
                         type="password"
                         name="password"
                         className="w-full border-b border-gray-300 focus:border-blue-500 focus:outline-none py-2 pr-10"
@@ -80,6 +77,7 @@ const AdminLogin = () => {
                     </button>
                     </div>
                 </div>
+                {error && <div className="text-red-600">{error}</div>}
                 <button
                     type="submit"
                     className="w-full bg-yellow-400 text-black py-2 rounded-lg font-semibold hover:bg-yellow-500 transition"

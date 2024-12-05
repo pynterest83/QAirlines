@@ -68,11 +68,17 @@ const getFlightsSchema = Joi.object({
         }),
 });
 
-module.exports = { getFlightsSchema };
+const getFlightDetailsSchema = Joi.object({
+    flightId: Joi.string().max(10).required().messages({
+        'string.empty': 'Flight ID is required',
+        'string.max': 'Flight ID must not exceed 10 characters',
+    }),
+});
 
 
 module.exports = {
     updateFlightSchema,
     createFlightSchema,
-    getFlightsSchema
+    getFlightsSchema,
+    getFlightDetailsSchema,
 };
