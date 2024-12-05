@@ -150,4 +150,4 @@
 - **Description:** Creates an aircraft.
 - **Response:** Confirmation of aircraft creation.
 - **Example:** `/api/aircrafts/create`
-![img.png](img.png)
+- ![img_1.png](img_1.png)

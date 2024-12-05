@@ -795,6 +795,7 @@
     "Capacity": 500,
     "ImagePath": null,
     "JsonPath": null,
+    "RelatedImages": null,
     "Seats": [
       {
         "SeatNo": "10A",
@@ -829,6 +830,7 @@
     "Capacity": 200,
     "ImagePath": "https://mnmeanwagbiimebjrsgm.supabase.co/storage/v1/object/public/aircraft-files/A400/A380.svg",
     "JsonPath": "https://mnmeanwagbiimebjrsgm.supabase.co/storage/v1/object/public/aircraft-files/A400/A380.json",
+    "RelatedImages": "https://mnmeanwagbiimebjrsgm.supabase.co/storage/v1/object/public/aircraft-files/A400/related-images/VN400.jpg,https://mnmeanwagbiimebjrsgm.supabase.co/storage/v1/object/public/aircraft-files/A400/related-images/VN400-2.jpg",
     "Seats": [
       {
         "SeatNo": "1A",

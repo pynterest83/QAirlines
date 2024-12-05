@@ -26,6 +26,10 @@ const Aircraft = sequelize.define('Aircraft', {
         type: DataTypes.STRING(255),
         allowNull: true,
     },
+    RelatedImages: {
+    type: DataTypes.TEXT,
+        allowNull: true,
+    },
 }, {
     timestamps: false,
     tableName: 'Aircraft',
