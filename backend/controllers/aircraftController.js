@@ -11,15 +11,22 @@ exports.handleGetAircrafts = async (req, res) => {
 }
 
 exports.handleCreateAircraft = async (req, res) => {
-    const { seats, ...aircraft } = req.body;
     try {
-        await createAircraft(aircraft, seats);
-        res.json({
+        const { seats, ...aircraft } = req.body;
+        const svgFile = req.files?.svg;
+        const jsonFile = req.files?.json;
+
+        // Xử lý seats (convert từ chuỗi JSON nếu cần)
+        const parsedSeats = typeof seats === 'string' ? JSON.parse(seats) : seats;
+
+        // Gọi service tạo aircraft
+        await createAircraft(aircraft, parsedSeats, svgFile, jsonFile);
+
+        res.status(201).json({
             message: 'Aircraft created successfully',
-            aircraft: aircraft
         });
     } catch (error) {
-        console.error('Error during aircraft creation:', error.message);
+        console.error('Error creating aircraft:', error.message);
         res.status(400).json({ error: error.message });
     }
-}
+};

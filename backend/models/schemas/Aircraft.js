@@ -1,4 +1,3 @@
-// models/Aircraft.js
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../db');
 
@@ -18,6 +17,14 @@ const Aircraft = sequelize.define('Aircraft', {
     Capacity: {
         type: DataTypes.INTEGER,
         allowNull: false,
+    },
+    ImagePath: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+    },
+    JsonPath: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
     },
 }, {
     timestamps: false,
