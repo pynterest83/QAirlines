@@ -776,3 +776,65 @@
   }
 ]
 ```
+
+## Aircraft
+### Get Aircraft by ID
+- **Endpoint:** `/api/aircrafts/list`
+- **Method:** `GET`
+- **Parameters:** `aircraftIds`
+- **Description:** Retrieves aircrafts by ID. Leave empty to get all aircrafts.
+- **Response:** JSON object of array of aircrafts.
+- **Example:** `/api/aircrafts/list?aircraftIds=A380,A400`
+- **Response:**
+```json
+[
+  {
+    "AircraftID": "A380",
+    "Model": "Airbus A380",
+    "Manufacturer": "Airbus",
+    "Capacity": 500,
+    "ImagePath": null,
+    "JsonPath": null,
+    "Seats": [
+      {
+        "SeatNo": "10A",
+        "Class": "Business"
+      },
+      {
+        "SeatNo": "10B",
+        "Class": "Business"
+      },
+      {
+        "SeatNo": "1A",
+        "Class": "First"
+      },
+      {
+        "SeatNo": "1B",
+        "Class": "First"
+      },
+      {
+        "SeatNo": "20A",
+        "Class": "Economy"
+      },
+      {
+        "SeatNo": "20B",
+        "Class": "Economy"
+      }
+    ]
+  },
+  {
+    "AircraftID": "A400",
+    "Model": "B52",
+    "Manufacturer": "Vietnam Airline",
+    "Capacity": 200,
+    "ImagePath": "https://mnmeanwagbiimebjrsgm.supabase.co/storage/v1/object/public/aircraft-files/A400/A380.svg",
+    "JsonPath": "https://mnmeanwagbiimebjrsgm.supabase.co/storage/v1/object/public/aircraft-files/A400/A380.json",
+    "Seats": [
+      {
+        "SeatNo": "1A",
+        "Class": "Economy"
+      }
+    ]
+  }
+]
+```
