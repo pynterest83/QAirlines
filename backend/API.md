@@ -536,38 +536,34 @@
 - **Response:**
 ```json
 {
-  "Passenger": {
-    "DOB": "1985-07-23",
-    "PassID": "P001",
-    "FirstName": "John",
-    "LastName": "Doe",
-    "Gender": "M",
-    "Email": "johndoe@example.com",
-    "PhoneNumber": "123456789",
-    "Passport": "B12345678",
-    "SSN": "123456789012",
-    "GuardianID": null
-  },
-  "Tickets": [
+  "tickets": [
     {
       "TicketID": "T372183",
       "Class": "Economy",
       "FlightID": "VN101",
       "SeatNo": "20A",
       "AircraftID": "B787",
-      "CancellationDeadline": "2024-12-05T01:00:00.000Z",
+      "CancellationDeadline": "2024-12-05T08:00:00.000Z",
       "FlightDetails": {
         "FlightID": "VN101",
         "Status": "Scheduled",
-        "DepTime": "2024-12-09T01:00:00.000Z",
-        "ArrTime": "2024-12-09T05:00:00.000Z",
-        "BoardingTime": "2024-12-09T00:30:00.000Z",
+        "DepTime": "2024-12-09T08:00:00.000Z",
+        "ArrTime": "2024-12-09T12:00:00.000Z",
+        "BoardingTime": "2024-12-09T07:30:00.000Z",
         "DepID": "SGN",
         "DestID": "HAN",
         "AircraftID": "B787",
         "OriginalDepTime": null,
         "OriginalArrTime": null,
         "OriginalBoardingTime": null
+      },
+      "Passenger": {
+        "PassID": "P001",
+        "FirstName": "John",
+        "LastName": "Doe",
+        "Gender": "M",
+        "DOB": "1985-07-23",
+        "GuardianID": null
       }
     },
     {
@@ -576,19 +572,27 @@
       "FlightID": "VN101",
       "SeatNo": "20B",
       "AircraftID": "B787",
-      "CancellationDeadline": "2024-12-05T01:00:00.000Z",
+      "CancellationDeadline": "2024-12-05T08:00:00.000Z",
       "FlightDetails": {
         "FlightID": "VN101",
         "Status": "Scheduled",
-        "DepTime": "2024-12-09T01:00:00.000Z",
-        "ArrTime": "2024-12-09T05:00:00.000Z",
-        "BoardingTime": "2024-12-09T00:30:00.000Z",
+        "DepTime": "2024-12-09T08:00:00.000Z",
+        "ArrTime": "2024-12-09T12:00:00.000Z",
+        "BoardingTime": "2024-12-09T07:30:00.000Z",
         "DepID": "SGN",
         "DestID": "HAN",
         "AircraftID": "B787",
         "OriginalDepTime": null,
         "OriginalArrTime": null,
         "OriginalBoardingTime": null
+      },
+      "Passenger": {
+        "PassID": "P16444",
+        "FirstName": "Jane",
+        "LastName": "Doe",
+        "Gender": "F",
+        "DOB": "2015-05-01",
+        "GuardianID": "P001"
       }
     }
   ]

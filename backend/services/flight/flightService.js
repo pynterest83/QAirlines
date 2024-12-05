@@ -1,3 +1,5 @@
+// noinspection ExceptionCaughtLocallyJS
+
 const { Flight, Seat, FlightSeat} = require("../../models/schemas");
 const {Op} = require("sequelize");
 async function updateFlight(flightID, updates) {
