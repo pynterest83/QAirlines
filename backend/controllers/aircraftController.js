@@ -1,8 +1,9 @@
 const { getAllAircraft, createAircraft } = require("../services/aircrafts/aircraftService");
 
 exports.handleGetAircrafts = async (req, res) => {
+    const aircraftIds = req.query.aircraftIds ? req.query.aircraftIds.split(',') : [];
     try {
-        const aircrafts = await getAllAircraft();
+        const aircrafts = await getAllAircraft(aircraftIds);
         res.json(aircrafts);
     } catch (error) {
         console.error('Error fetching aircrafts:', error.message);

@@ -1,8 +1,20 @@
 const { Aircraft, Seat } = require("../../models/schemas");
 const supabase = require("../supabase/supabaseClient");
 
-async function getAllAircraft() {
+async function getAllAircraft(aircraftIds) {
+    if (aircraftIds.length === 0) {
+        return await Aircraft.findAll({
+            include: [{
+                model: Seat,
+                attributes: ['SeatNo', 'Class'],
+                order: [['SeatNo', 'ASC']]
+            }]
+        });
+    }
     return await Aircraft.findAll({
+        where: {
+            AircraftID: aircraftIds
+        },
         include: [{
             model: Seat,
             attributes: ['SeatNo', 'Class'],
@@ -20,28 +32,34 @@ async function createAircraft(aircraft, seats, svgFile, jsonFile) {
     // Start transaction
     const transaction = await Aircraft.sequelize.transaction();
     try {
-        // Upload SVG
-        const svgPath = `${aircraft.AircraftID}/${svgFile.name}`;
-        const svgUpload = await supabase.storage
-            .from('aircraft-files')
-            .upload(svgPath, svgFile.data, {
-                contentType: 'image/svg+xml',
-                upsert: true,
-            });
-        if (svgUpload.error) throw svgUpload.error;
+        let svgUrl = null;
+        let jsonUrl = null;
 
-        // Upload JSON
-        const jsonPath = `${aircraft.AircraftID}/${jsonFile.name}`;
-        const jsonUpload = await supabase.storage
-            .from('aircraft-files')
-            .upload(jsonPath, jsonFile.data, {
-                contentType: 'application/json',
-                upsert: true,
-            });
-        if (jsonUpload.error) throw jsonUpload.error;
+        // Upload SVG if not null
+        if (svgFile) {
+            const svgPath = `${aircraft.AircraftID}/${svgFile.name}`;
+            const svgUpload = await supabase.storage
+                .from('aircraft-files')
+                .upload(svgPath, svgFile.data, {
+                    contentType: 'image/svg+xml',
+                    upsert: true,
+                });
+            if (svgUpload.error) throw svgUpload.error;
+            svgUrl = supabase.storage.from('aircraft-files').getPublicUrl(svgPath).data.publicUrl;
+        }
 
-        const svgUrl = supabase.storage.from('aircraft-files').getPublicUrl(svgPath).data.publicUrl;
-        const jsonurl = supabase.storage.from('aircraft-files').getPublicUrl(jsonPath).data.publicUrl;
+        // Upload JSON if not null
+        if (jsonFile) {
+            const jsonPath = `${aircraft.AircraftID}/${jsonFile.name}`;
+            const jsonUpload = await supabase.storage
+                .from('aircraft-files')
+                .upload(jsonPath, jsonFile.data, {
+                    contentType: 'application/json',
+                    upsert: true,
+                });
+            if (jsonUpload.error) throw jsonUpload.error;
+            jsonUrl = supabase.storage.from('aircraft-files').getPublicUrl(jsonPath).data.publicUrl;
+        }
 
         // Create Aircraft
         await Aircraft.create(
@@ -51,7 +69,7 @@ async function createAircraft(aircraft, seats, svgFile, jsonFile) {
                 Manufacturer: aircraft.Manufacturer,
                 Capacity: aircraft.Capacity,
                 ImagePath: svgUrl,
-                JsonPath: jsonurl,
+                JsonPath: jsonUrl,
             },
             { transaction }
         );
