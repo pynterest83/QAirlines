@@ -16,12 +16,11 @@ exports.handleCreateAircraft = async (req, res) => {
         const { seats, ...aircraft } = req.body;
         const svgFile = req.files?.svg;
         const jsonFile = req.files?.json;
+        const relatedImages = req.files?.images;
 
-        // Xử lý seats (convert từ chuỗi JSON nếu cần)
-        const parsedSeats = typeof seats === 'string' ? JSON.parse(seats) : seats;
+        const imageArray = Array.isArray(relatedImages) ? relatedImages : relatedImages ? [relatedImages] : [];
 
-        // Gọi service tạo aircraft
-        await createAircraft(aircraft, parsedSeats, svgFile, jsonFile);
+        await createAircraft(aircraft, svgFile, jsonFile, imageArray);
 
         res.status(201).json({
             message: 'Aircraft created successfully',

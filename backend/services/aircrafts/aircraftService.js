@@ -23,19 +23,19 @@ async function getAllAircraft(aircraftIds) {
     });
 }
 
-async function createAircraft(aircraft, seats, svgFile, jsonFile) {
+async function createAircraft(aircraft, svgFile, jsonFile, relatedImages) {
     const existingAircraft = await Aircraft.findByPk(aircraft.AircraftID);
     if (existingAircraft) {
         throw new Error('Aircraft already exists');
     }
 
-    // Start transaction
     const transaction = await Aircraft.sequelize.transaction();
     try {
         let svgUrl = null;
         let jsonUrl = null;
+        let seatData = [];
 
-        // Upload SVG if not null
+        // Upload SVG nếu có
         if (svgFile) {
             const svgPath = `${aircraft.AircraftID}/${svgFile.name}`;
             const svgUpload = await supabase.storage
@@ -48,7 +48,7 @@ async function createAircraft(aircraft, seats, svgFile, jsonFile) {
             svgUrl = supabase.storage.from('aircraft-files').getPublicUrl(svgPath).data.publicUrl;
         }
 
-        // Upload JSON if not null
+        // Upload JSON nếu có
         if (jsonFile) {
             const jsonPath = `${aircraft.AircraftID}/${jsonFile.name}`;
             const jsonUpload = await supabase.storage
@@ -59,9 +59,34 @@ async function createAircraft(aircraft, seats, svgFile, jsonFile) {
                 });
             if (jsonUpload.error) throw jsonUpload.error;
             jsonUrl = supabase.storage.from('aircraft-files').getPublicUrl(jsonPath).data.publicUrl;
+
+            const parsedJson = JSON.parse(jsonFile.data);
+            seatData = parsedJson.map(seat => ({
+                AircraftID: aircraft.AircraftID,
+                SeatNo: seat[1],
+                Class: seat[2].includes('First Class') ? 'First' : seat[2].includes('Business') ? 'Business' : 'Economy',
+            }));
         }
 
-        // Create Aircraft
+        // Upload các ảnh liên quan
+        let relatedImageUrls = "";
+        for (const image of relatedImages) {
+            const imagePath = `${aircraft.AircraftID}/related-images/${image.name}`;
+            const imageUpload = await supabase.storage
+                .from('aircraft-files')
+                .upload(imagePath, image.data, {
+                    contentType: image.mimetype,
+                    upsert: true,
+                });
+            if (imageUpload.error) throw imageUpload.error;
+
+            const imageUrl = supabase.storage.from('aircraft-files').getPublicUrl(imagePath).data.publicUrl;
+            relatedImageUrls += imageUrl + ",";
+        }
+        if (relatedImageUrls.length === 0) relatedImageUrls = null;
+        else relatedImageUrls = relatedImageUrls.slice(0, -1);
+
+        // Tạo Aircraft
         await Aircraft.create(
             {
                 AircraftID: aircraft.AircraftID,
@@ -70,16 +95,11 @@ async function createAircraft(aircraft, seats, svgFile, jsonFile) {
                 Capacity: aircraft.Capacity,
                 ImagePath: svgUrl,
                 JsonPath: jsonUrl,
+                RelatedImages: relatedImageUrls
             },
             { transaction }
         );
 
-        // Create Seats
-        const seatData = seats.map(seat => ({
-            AircraftID: aircraft.AircraftID,
-            SeatNo: seat.SeatNo,
-            Class: seat.Class,
-        }));
 
         await Seat.bulkCreate(seatData, { transaction });
 
@@ -90,6 +110,7 @@ async function createAircraft(aircraft, seats, svgFile, jsonFile) {
         throw error;
     }
 }
+
 
 module.exports = {
     getAllAircraft,

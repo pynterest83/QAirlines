@@ -117,6 +117,7 @@ const AdminNotification = () => {
         <div className="relative">
             <AdminNavigation />
             <div className="p-4">
+            <h2 className="text-xl font-bold mb-6">Add New Notification</h2>
             <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md mb-8">
                 <div className="mb-4">
                     <label className="block text-gray-700">Title:</label>
@@ -147,10 +148,11 @@ const AdminNotification = () => {
                         className="mt-1 p-2 w-full border rounded-md"
                     />
                 </div>
-                <button type="submit" className="bg-purple-800 text-white px-4 py-2 rounded-md">
+                <button type="submit" className="gradient-button w-full text-white px-4 py-2 rounded-md">
                     {editMode ? "Update Promotion" : "Create Promotion"}
                 </button>
             </form>
+            <h3 className="text-lg font-bold mb-4">Manage Notifications</h3>
             <div className="overflow-x-auto">
                 <table className="table-auto w-full bg-white rounded-lg shadow-md">
                     <thead>

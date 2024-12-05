@@ -150,6 +150,7 @@ const AdminFlights = () => {
         <div className="relative">
             <AdminNavigation />
             <div className="p-4">
+                <h2 className="text-xl font-bold mb-6">Add New Flight</h2>
                 <form onSubmit={handleNewFlightSubmit} className="bg-white p-6 rounded-lg shadow-md mb-8">
                     <div className="mb-4">
                         <label className="block text-gray-700">Status:</label>
@@ -225,10 +226,11 @@ const AdminFlights = () => {
                             className="mt-1 p-2 w-full border rounded-md"
                         />
                     </div>
-                    <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md">
+                    <button type="submit" className="w-full gradient-button text-white px-4 py-2 rounded-md">
                         Create Flight
                     </button>
                 </form>
+                <h3 className="text-lg font-bold mb-4">Manage Flights</h3>
                 <div className="overflow-x-auto">
                     <table className="table-auto w-full bg-white rounded-lg shadow-md">
                         <thead>

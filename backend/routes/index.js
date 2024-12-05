@@ -10,6 +10,7 @@ const promotionsRoutes = require('./api/promotions');
 const authRoutes = require('./api/auth');
 const flightRoutes = require('./api/flights');
 const aircraftRoutes = require('./api/aircrafts');
+const statisticRoutes = require('./api/statistic');
 
 // Đăng ký các route với URL cơ bản là /api
 router.use('/offers', offersRoutes);
@@ -19,5 +20,6 @@ router.use('/promotions', promotionsRoutes);
 router.use('/auth', authRoutes);
 router.use('/flights', flightRoutes);
 router.use('/aircrafts', aircraftRoutes);
+router.use('/statistics', statisticRoutes);
 
 module.exports = router;

@@ -1,6 +1,6 @@
 // noinspection ExceptionCaughtLocallyJS
 
-const { Flight, Seat, FlightSeat} = require("../../models/schemas");
+const { Flight, Seat, FlightSeat, Passenger, Ticket} = require("../../models/schemas");
 const {Op} = require("sequelize");
 async function updateFlight(flightID, updates) {
     // Find the flight by its ID
@@ -106,8 +106,25 @@ async function getFlights(flightIds = []) {
     });
 }
 
+const getFlightDetails = async (flightID) => {
+    const passengers = await Ticket.findAll({
+        where: { FlightID: flightID },
+        include: [{
+            model: Passenger,
+            attributes: ['PassID', 'FirstName', 'LastName', 'DOB', 'Gender']
+        }]
+    });
+
+    return passengers.map(ticket => ({
+        TicketID: ticket.TicketID,
+        Passenger: ticket.Passenger,
+    }));
+};
+
+
 module.exports = {
     updateFlight,
     createFlight,
-    getFlights
+    getFlights,
+    getFlightDetails
 };
