@@ -10,6 +10,11 @@
   - [Delete Promotion](#delete-promotion)
 - [Flight](#flight)
   - [Update Flight](#update-flight)
+  - [Create Flight](#create-flight)
+- [Aircraft](#aircraft)
+  - [Create Aircraft](#create-aircraft)
+- [Statistics](#statistics)
+  - [Tickets booked monthly in a year](#tickets-booked-monthly-in-a-year)
 
 ## Promotions
 ### Create Promotion
@@ -151,3 +156,67 @@
 - **Response:** Confirmation of aircraft creation.
 - **Example:** `/api/aircrafts/create`
 - ![img_1.png](img_1.png)
+
+## Statistics
+### Tickets booked monthly in a year
+- **Endpoint:** `/api/statistics/monthly`
+- **Method:** `GET`
+- **Description:** Get the number of tickets booked monthly in a year.
+- **Response:** Number of tickets booked monthly in a year.
+- **Example:** `/api/statistics/booking/monthly?year=2024`
+- **Response:**
+```json
+{
+  "year": "2024",
+  "monthlyStatistics": [
+    {
+      "month": 1,
+      "bookingCount": 0
+    },
+    {
+      "month": 2,
+      "bookingCount": 0
+    },
+    {
+      "month": 3,
+      "bookingCount": 0
+    },
+    {
+      "month": 4,
+      "bookingCount": 0
+    },
+    {
+      "month": 5,
+      "bookingCount": 0
+    },
+    {
+      "month": 6,
+      "bookingCount": 0
+    },
+    {
+      "month": 7,
+      "bookingCount": 0
+    },
+    {
+      "month": 8,
+      "bookingCount": 0
+    },
+    {
+      "month": 9,
+      "bookingCount": 0
+    },
+    {
+      "month": 10,
+      "bookingCount": 0
+    },
+    {
+      "month": 11,
+      "bookingCount": 0
+    },
+    {
+      "month": 12,
+      "bookingCount": 2
+    }
+  ]
+}
+```
