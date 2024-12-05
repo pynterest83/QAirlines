@@ -1,4 +1,4 @@
-const { updateFlight, createFlight, getFlights} = require("../services/flight/flightService");
+const { updateFlight, createFlight, getFlights, getFlightDetails} = require("../services/flight/flightService");
 
 exports.handleUpdate = async (req, res) => {
     const { flightID, ...updates } = req.body;
@@ -38,6 +38,18 @@ exports.handleGetFlights = async (req, res) => {
         res.json({ flights });
     } catch (error) {
         console.error('Error during fetching flights:', error.message);
+        res.status(400).json({ error: error.message });
+    }
+}
+
+exports.handleFlightDetails = async (req, res) => {
+    const { flightId } = req.params;
+
+    try {
+        const details = await getFlightDetails(flightId);
+        res.json(details);
+    } catch (error) {
+        console.error('Error during fetching flight details:', error.message);
         res.status(400).json({ error: error.message });
     }
 }
