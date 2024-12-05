@@ -170,4 +170,17 @@
         animation: open-popup 0.3s;
         transform-origin: center center;
     }
+    @keyframes slide-out {
+          from {
+            top: -20px;
+            opacity: 0;
+          }
+          to {
+            top: 0;
+            opacity: 1;
+          }
+        }
+    .slide-out {
+        animation: slide-out 0.3s;
+    }
 }
