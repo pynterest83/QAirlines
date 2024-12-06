@@ -123,12 +123,17 @@
 ```json
 {
   "Status": "Scheduled",
-  "DepTime": "2024-12-10T02:00:00.000Z",
-  "ArrTime": "2024-12-10T06:00:00.000Z",
-  "BoardingTime": "2024-12-10T01:30:00.000Z",
+  "DepTime": "2024-12-13T10:00:00.000Z",
+  "ArrTime": "2024-12-13T14:00:00.000Z",
+  "BoardingTime": "2024-12-13T09:30:00.000Z",
   "DepID": "SGN",
   "DestID": "HAN",
-  "AircraftID": "A380"
+  "AircraftID": "A400",
+  "ticketPrices": {
+    "Economy": 100,
+    "Business": 500,
+    "First": 1000
+  }
 }
 ```
 - **Response:**
@@ -137,13 +142,13 @@
   "message": "Flight created successfully",
   "flight": {
     "Status": "Scheduled",
-    "DepTime": "2024-12-10T02:00:00.000Z",
-    "ArrTime": "2024-12-10T06:00:00.000Z",
-    "BoardingTime": "2024-12-10T01:30:00.000Z",
+    "DepTime": "2024-12-13T10:00:00.000Z",
+    "ArrTime": "2024-12-13T14:00:00.000Z",
+    "BoardingTime": "2024-12-13T09:30:00.000Z",
     "DepID": "SGN",
     "DestID": "HAN",
-    "AircraftID": "A380",
-    "FlightID": "ON604"
+    "AircraftID": "A400",
+    "FlightID": "EK371"
   }
 }
 ```
@@ -186,7 +191,7 @@
 - **Method:** `POST`
 - **Description:** Creates an aircraft.
 - **Response:** Confirmation of aircraft creation.
-- **Example:** `/api/aircrafts/create`
+- **Example:** `/api/aircrafts/create`  
 ![img.png](img.png)
 
 ## Statistics

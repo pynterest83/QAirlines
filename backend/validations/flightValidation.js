@@ -29,35 +29,22 @@ const updateFlightSchema = Joi.object({
 });
 
 const createFlightSchema = Joi.object({
-    Status: Joi.string().max(20).required().messages({
-        'string.empty': 'Status is required',
-        'string.max': 'Status must not exceed 20 characters',
-    }),
-    DepTime: Joi.date().required().messages({
-        'date.base': 'DepTime must be a valid date',
-        'any.required': 'DepTime is required',
-    }),
-    ArrTime: Joi.date().required().messages({
-        'date.base': 'ArrTime must be a valid date',
-        'any.required': 'ArrTime is required',
-    }),
-    BoardingTime: Joi.date().required().messages({
-        'date.base': 'BoardingTime must be a valid date',
-        'any.required': 'BoardingTime is required',
-    }),
-    DepID: Joi.string().max(3).required().messages({
-        'string.empty': 'Departure ID is required',
-        'string.max': 'DepID must not exceed 3 characters',
-    }),
-    DestID: Joi.string().max(3).required().messages({
-        'string.empty': 'Destination ID is required',
-        'string.max': 'DestID must not exceed 3 characters',
-    }),
-    AircraftID: Joi.string().max(10).required().messages({
-        'string.empty': 'Aircraft ID is required',
-        'string.max': 'AircraftID must not exceed 10 characters',
+    Status: Joi.string().max(20).required(),
+    DepTime: Joi.date().required(),
+    ArrTime: Joi.date().required(),
+    BoardingTime: Joi.date().required(),
+    DepID: Joi.string().max(3).required(),
+    DestID: Joi.string().max(3).required(),
+    AircraftID: Joi.string().max(10).required(),
+    ticketPrices: Joi.object({
+        Economy: Joi.number().positive().required(),
+        Business: Joi.number().positive().required(),
+        First: Joi.number().positive().required(),
+    }).required().messages({
+        'any.required': 'Ticket prices for all classes are required',
     }),
 });
+
 
 const getFlightsSchema = Joi.object({
     flightIds: Joi.string()
