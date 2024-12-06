@@ -16,7 +16,6 @@ import AdminAirCraft from './admin/AdminAirCraft.jsx';
 import AdminNotification from './admin/AdminNotification.jsx';
 import AdminFlights from './admin/AdminFlights.jsx';
 import AdminBanner from './admin/AdminBanner.jsx';
-import Payment from './pages/Payment.jsx';
 
 const router = createBrowserRouter([
     {
@@ -95,15 +94,11 @@ const router = createBrowserRouter([
             </ProtectedRoute>
         ),
     },
-    {
-        path: '/payment',
-        element: <Payment />,
-    }
 ]);
 
 createRoot(document.getElementById('root')).render(
     <div className="thin-scrollbar">
-        <div className="z-0 fixed top-0 left-0 bottom-0 right-0 bg-[#F5F5F5]"/>
+        <div className="z-0 fixed top-0 left-0 bottom-0 right-0 bg-[#f2f4f7]"/>
         <RouterProvider router={router}/>
     </div>
 );

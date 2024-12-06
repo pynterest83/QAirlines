@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import { Server } from '../Server';
 import AdminNavigation from './components/AdminNavigation';
 
 const AdminFlights = () => {
     const token = localStorage.getItem("token");
-    if (!token) {
-        return <Navigate to="/adminLogin" />;
-    }
+    useEffect(() => {
+        fetchFlights().then();
+    }, [token]);
 
     const [flights, setFlights] = useState([]);
     const [newFlight, setNewFlight] = useState({
@@ -17,7 +17,12 @@ const AdminFlights = () => {
         BoardingTime: "",
         DepID: "",
         DestID: "",
-        AircraftID: ""
+        AircraftID: "",
+        ticketPrices: {
+            Economy: 0,
+            Business: 0,
+            First: 0
+        }
     });
     const [editFlight, setEditFlight] = useState({
         flightID: "",
@@ -40,9 +45,6 @@ const AdminFlights = () => {
         }
     };
 
-    useEffect(() => {
-        fetchFlights();
-    }, [token]);
 
     const createFlight = async (flightDetails) => {
         const response = await fetch(`${Server}flights/create`, {
@@ -56,7 +58,6 @@ const AdminFlights = () => {
 
         if (response.ok) {
             const data = await response.json();
-            console.log('Flight created:', data);
             setFlights([...flights, data.flight]);
             setNewFlight({
                 Status: "Scheduled",
@@ -65,7 +66,12 @@ const AdminFlights = () => {
                 BoardingTime: "",
                 DepID: "",
                 DestID: "",
-                AircraftID: ""
+                AircraftID: "",
+                ticketPrices: {
+                    Economy: 0,
+                    Business: 0,
+                    First: 0
+                }
             });
         } else {
             console.error('Failed to create flight:', response.statusText);
@@ -73,7 +79,6 @@ const AdminFlights = () => {
     };
 
     const updateFlight = async (flightDetails) => {
-        console.log('Updating flight:', flightDetails);
         const response = await fetch(`${Server}flights/update`, {
             method: 'PUT',
             headers: {
@@ -85,7 +90,6 @@ const AdminFlights = () => {
     
         if (response.ok) {
             const data = await response.json();
-            console.log('Flight updated:', data);
             setFlights(flights.map(flight => flight.flightID === data.flight.flightID ? data.flight : flight));
         } else {
             console.error('Failed to update flight:', response.statusText);
@@ -128,15 +132,23 @@ const AdminFlights = () => {
     };
 
     const handleNewFlightChange = (e, field) => {
-        setNewFlight({
+        if (field !== "Economy" && field !== "Business" && field !== "First")
+            setNewFlight({
+                ...newFlight,
+                [field]: e.target.value
+            });
+        else setNewFlight({
             ...newFlight,
-            [field]: e.target.value
-        });
+            ticketPrices: {
+                ...newFlight.ticketPrices,
+                [field]: e.target.value
+            }
+        })
     };
 
     const handleNewFlightSubmit = (e) => {
         e.preventDefault();
-        createFlight(newFlight);
+        createFlight(newFlight).then();
     };
 
     const formatDateTime = (dateTime) => {
@@ -146,10 +158,14 @@ const AdminFlights = () => {
         return { formattedDate, formattedTime };
     };
 
+    if (!token) {
+        return <Navigate to="/adminLogin" />;
+    }
     return (
         <div className="relative">
             <AdminNavigation />
             <div className="p-4">
+                <h2 className="text-xl font-bold mb-6">Add New Flight</h2>
                 <form onSubmit={handleNewFlightSubmit} className="bg-white p-6 rounded-lg shadow-md mb-8">
                     <div className="mb-4">
                         <label className="block text-gray-700">Status:</label>
@@ -225,17 +241,48 @@ const AdminFlights = () => {
                             className="mt-1 p-2 w-full border rounded-md"
                         />
                     </div>
-                    <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md">
+                    <div className="mb-4">
+                        <label className="block text-gray-700">Economy seats price:</label>
+                        <input
+                            type="text"
+                            value={newFlight.ticketPrices.Economy}
+                            onChange={(e) => handleNewFlightChange(e, 'Economy')}
+                            required
+                            className="mt-1 p-2 w-full border rounded-md"
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label className="block text-gray-700">Business seats price:</label>
+                        <input
+                            type="text"
+                            value={newFlight.ticketPrices.Business}
+                            onChange={(e) => handleNewFlightChange(e, 'Business')}
+                            required
+                            className="mt-1 p-2 w-full border rounded-md"
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label className="block text-gray-700">First class price:</label>
+                        <input
+                            type="text"
+                            value={newFlight.ticketPrices.First}
+                            onChange={(e) => handleNewFlightChange(e, 'First')}
+                            required
+                            className="mt-1 p-2 w-full border rounded-md"
+                        />
+                    </div>
+                    <button type="submit" className="w-full gradient-button text-white px-4 py-2 rounded-md">
                         Create Flight
                     </button>
                 </form>
+                <h3 className="text-lg font-bold mb-4">Manage Flights</h3>
                 <div className="overflow-x-auto">
                     <table className="table-auto w-full bg-white rounded-lg shadow-md">
                         <thead>
-                            <tr className="bg-gray-200">
-                                <th className="px-4 py-2">Flight Number</th>
-                                <th className="px-4 py-2">Status</th>
-                                <th className="px-4 py-2">From</th>
+                        <tr className="bg-gray-200">
+                            <th className="px-4 py-2">Flight Number</th>
+                            <th className="px-4 py-2">Status</th>
+                            <th className="px-4 py-2">From</th>
                                 <th className="px-4 py-2">To</th>
                                 <th className="px-4 py-2">Boarding Time</th>
                                 <th className="px-4 py-2">Departure Time</th>
@@ -326,22 +373,22 @@ const AdminFlights = () => {
                                         </td>
                                         <td className="px-4 py-2">
                                             {editFlight && editFlight.FlightID === flight.FlightID ? (
-                                                <button 
-                                                    onClick={() => handleEditSave(flight.FlightID)} 
+                                                <button
+                                                    onClick={() => handleEditSave(flight.FlightID)}
                                                     className="bg-green-500 text-white px-2 py-1 rounded-md mr-2"
                                                 >
                                                     Save
                                                 </button>
                                             ) : (
-                                                <button 
-                                                    onClick={() => setEditFlight(flight)} 
+                                                <button
+                                                    onClick={() => setEditFlight(flight)}
                                                     className="bg-yellow-500 text-white px-2 py-1 rounded-md mr-2"
                                                 >
                                                     Edit
                                                 </button>
                                             )}
-                                            <button 
-                                                onClick={() => handleDelete(flight.FlightID)} 
+                                            <button
+                                                onClick={() => handleDelete(flight.FlightID)}
                                                 className="bg-red-500 text-white px-2 py-1 rounded-md"
                                             >
                                                 Delete

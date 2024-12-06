@@ -25,6 +25,7 @@ function PlaneMap(props) {
     const scale = useRef(1)
     const [availableSeat, setAvailable] = useState([])
     const [seatList, setList] = useState([])
+    const [links, setLinks] = useState({image: "", json: ""})
     function ScaleMap() {
         let temp = rawCoords.current.slice()
         temp.forEach((el, index) => {
@@ -51,10 +52,11 @@ function PlaneMap(props) {
         });
         resizeObserver.observe(PlaneImage.current);
 
-        fetch("http://localhost:5173/maps/" + props.info.AircraftID + ".json").then(r => r.json().then(_data => {
-            rawCoords.current = Array.from(_data, (e) => e[0])
-            ScaleMap()
-            mapDescription.current = Array.from(_data, e => [e[1], e[2]])
+        fetch(Server + "aircrafts/list?aircraftIds=" + props.info.AircraftID).then(r => r.json().then(_data => {
+            setLinks({
+                image: _data[0].ImagePath,
+                json: _data[0].JsonPath
+            })
         }))
         fetch(Server + "seats/available?" + new URLSearchParams({
             flightID: props.info.FlightID,
@@ -69,6 +71,16 @@ function PlaneMap(props) {
         }
         return () => resizeObserver.disconnect()
     }, [props.info]);
+    useEffect(() => {
+        if (!links.json) return
+        fetch(links.json).then(r => {
+            if (r.ok) r.json().then(_data => {
+                rawCoords.current = Array.from(_data, (e) => e[0])
+                ScaleMap()
+                mapDescription.current = Array.from(_data, e => [e[1], e[2]])
+            })
+        })
+    }, [links]);
     const [isShowing, setShow] = useState(null)
     const ImageContainer = useRef(null)
     const [mousePos, setMousePos] = useState({x:0, y:0})
@@ -107,7 +119,7 @@ function PlaneMap(props) {
         <div ref={ImageContainer} className="relative mx-auto bg-white w-full lg:w-1/2">
             <img ref={PlaneImage} className="w-full h-auto"
                  draggable="false"
-                 src={"/maps/" + props.info.AircraftID + ".svg"}
+                 src={links.image}
                  useMap="#seatmap" alt=""/>
             <map name="seatmap">
                 {mapData.map((rect, index) =>
