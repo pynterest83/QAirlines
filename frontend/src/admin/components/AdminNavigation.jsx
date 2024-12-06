@@ -139,7 +139,7 @@ function Navigation(props) {
                             }
                             onClick={() => nav("/admin/aircraft")}
                         >
-                            <div>Air Craft</div>
+                            <div>Aircrafts</div>
                         </li>
                     </ul>
                     <hr className="lg:hidden h-0.5 bg-black" />

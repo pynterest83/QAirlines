@@ -1,25 +1,28 @@
+require('dotenv').config();
 const {Ticket} = require("../../models/schemas");
-const {Op, fn, col} = require("sequelize");
+const {Op, fn, col, literal} = require("sequelize");
 
 const getMonthlyBookingStatistic = async (year) => {
+    const command = process.env.DB_TYPE === 'postgres'
+        ? 'EXTRACT(MONTH FROM "CancellationDeadline")'
+        : 'MONTH(CancellationDeadline)';
     const statistics = await Ticket.findAll({
         attributes: [
-            [fn('MONTH', col('CancellationDeadline')), 'month'],
+            [literal(command), 'month'],
             [fn('COUNT', col('TicketID')), 'bookingCount']
         ],
         where: {
             CancellationDeadline: {
                 [Op.between]: [
-                    new Date(year, 0, 1), // Ngày đầu năm
-                    new Date(year, 11, 31) // Ngày cuối năm
+                    new Date(year, 0, 1), // Start of the year
+                    new Date(year, 11, 31) // End of the year
                 ],
             },
         },
-        group: [fn('MONTH', col('CancellationDeadline'))],
-        order: [[fn('MONTH', col('CancellationDeadline')), 'ASC']]
+        group: [literal(command)],
+        order: [[literal(command), 'ASC']]
     });
 
-    // Chuẩn hóa kết quả để đảm bảo đủ 12 tháng, kể cả khi không có dữ liệu
     const monthlyStatistics = Array.from({ length: 12 }, (_, i) => ({
         month: i + 1,
         bookingCount: 0
