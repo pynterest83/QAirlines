@@ -4,7 +4,7 @@ const {Op, fn, col, literal} = require("sequelize");
 const getMonthlyBookingStatistic = async (year) => {
     const statistics = await Ticket.findAll({
         attributes: [
-            [literal('EXTRACT(MONTH FROM `CancellationDeadline`)'), 'month'],
+            [literal("EXTRACT(MONTH FROM `CancellationDeadline`)"), 'month'],
             [fn('COUNT', col('TicketID')), 'bookingCount']
         ],
         where: {
@@ -15,8 +15,8 @@ const getMonthlyBookingStatistic = async (year) => {
                 ],
             },
         },
-        group: [literal('EXTRACT(MONTH FROM `CancellationDeadline`)')],
-        order: [[literal('EXTRACT(MONTH FROM `CancellationDeadline`)'), 'ASC']]
+        group: [literal("EXTRACT(MONTH FROM 'CancellationDeadline')")],
+        order: [[literal("EXTRACT(MONTH FROM 'CancellationDeadline')"), 'ASC']]
     });
 
     // Normalize results to ensure all 12 months are included, even if there's no data
