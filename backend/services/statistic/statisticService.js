@@ -1,9 +1,10 @@
+require('dotenv').config();
 const {Ticket} = require("../../models/schemas");
 const {Op, fn, col, literal} = require("sequelize");
 
 const getMonthlyBookingStatistic = async (year) => {
     const command = process.env.DB_TYPE === 'postgres'
-        ? 'EXTRACT(MONTH FROM "CancellationDeadline")' // PostgreSQL syntax
+        ? 'EXTRACT(MONTH FROM "CancellationDeadline")'
         : 'MONTH(CancellationDeadline)';
     const statistics = await Ticket.findAll({
         attributes: [
@@ -22,7 +23,6 @@ const getMonthlyBookingStatistic = async (year) => {
         order: [[literal(command), 'ASC']]
     });
 
-    // Normalize results to ensure all 12 months are included, even if there's no data
     const monthlyStatistics = Array.from({ length: 12 }, (_, i) => ({
         month: i + 1,
         bookingCount: 0
