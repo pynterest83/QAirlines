@@ -2,7 +2,9 @@ const {Ticket} = require("../../models/schemas");
 const {Op, fn, col, literal} = require("sequelize");
 
 const getMonthlyBookingStatistic = async (year) => {
-    const command = "EXTRACT(MONTH FROM `CancellationDeadline`)";
+    const command = process.env.DB_TYPE === 'postgres'
+        ? 'EXTRACT(MONTH FROM "CancellationDeadline")' // PostgreSQL syntax
+        : 'MONTH(CancellationDeadline)';
     const statistics = await Ticket.findAll({
         attributes: [
             [literal(command), 'month'],
