@@ -840,3 +840,33 @@
   }
 ]
 ```
+
+## Airports
+### Get Related Airports
+- **Endpoint:** `/api/airports/related`
+- **Method:** `GET`
+- **Parameters:** `airportId`
+- **Description:** Retrieves related airports.
+- **Response:** JSON array of related airports.
+- **Example:** `/api/airports/related?airportId=HAN`
+```json
+{
+  "airportID": "HAN",
+  "relatedAirports": [
+    {
+      "Type": "Destination",
+      "AirportID": "JFK",
+      "AirportName": "John F. Kennedy International Airport",
+      "City": "New York",
+      "Country": "USA"
+    },
+    {
+      "Type": "Both",
+      "AirportID": "SGN",
+      "AirportName": "Tan Son Nhat International Airport",
+      "City": "Ho Chi Minh City",
+      "Country": "Vietnam"
+    }
+  ]
+}
+```
