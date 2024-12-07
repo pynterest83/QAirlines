@@ -16,6 +16,7 @@ import AdminAirCraft from './admin/AdminAirCraft.jsx';
 import AdminNotification from './admin/AdminNotification.jsx';
 import AdminFlights from './admin/AdminFlights.jsx';
 import AdminBanner from './admin/AdminBanner.jsx';
+import Aircrafts from "./pages/Aircrafts.jsx";
 
 const router = createBrowserRouter([
     {
@@ -61,6 +62,10 @@ const router = createBrowserRouter([
     {
         path: '/flightstatus',
         element: <FlightStatus />,
+    },
+    {
+        path: '/aircrafts',
+        element: <Aircrafts/>
     },
     {
         path: '/admin/aircraft',

@@ -1,16 +1,16 @@
 import {useEffect, useRef, useState} from "react";
 import Ticket from "./Ticket.jsx";
-import {Server} from "../../Server.js";
 import PlaneMap from "./PlaneMap.jsx";
 import {AiOutlineClose} from "react-icons/ai";
 import Payments from "./Payments.jsx";
+import {Server} from "../../Server.js";
 
 function TicketList(props) {
     const tickets = useRef([])
     const [open, setOpen] = useState([])
     const [filled, fill] = useState([])
     function setInfo(data) {
-        if (bookingError) error(false)
+        if (bookingError) error(null)
         let temp = tickets.current.slice()
         let info = structuredClone(temp[choosingSeat.current])
         info.Info.firstName = data.firstName
@@ -79,13 +79,27 @@ function TicketList(props) {
     const info_ref = useRef(null)
     function BookTicket() {
         let request = {
-            info: {
                 flightID: props.info.FlightID,
                 passengers: tickets.current.map(ticket => ticket.Info)
-            },
-            price: props.info.TicketPrice * (props.child + props.adult)
         }
-        props.Book(request)
+        fetch(Server + "tickets/book-ticket", {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(request)
+        }).then(r => {
+            if (r.ok) r.json().then(data => {
+                tickets.current.forEach((i, index) => {
+                    tickets.current[index].Info.seatNo = ""
+                })
+                props.Book(data, true)
+            })
+            else {
+                props.Book(null, false)
+                r.json().then(e => error(e.error))
+            }
+        })
     }
     const [isMapOpen, openMap] = useState(false)
     const selectable = useRef({allowed: false})
@@ -155,7 +169,6 @@ function TicketList(props) {
                     <AiOutlineClose/>
                 </button>
             </div>
-
         </div>
     )
 }
