@@ -153,6 +153,48 @@
 }
 ```
 
+### Get flight's passengers details
+- **Endpoint:** `/api/flights/:flightId/passengers`
+- **Method:** `GET`
+- **Description:** Get passengers details of a flight.
+- **Response:** List of passengers details of the flight.
+- **Example:** `/api/flights/VN101/passengers`
+- **Response:**
+```json
+[
+  {
+    "TicketID": "T328760",
+    "Passenger": {
+      "DOB": "2015-05-01",
+      "PassID": "P16444",
+      "FirstName": "Jane",
+      "LastName": "Doe",
+      "Gender": "F",
+      "Email": null,
+      "PhoneNumber": null,
+      "Passport": null,
+      "SSN": null,
+      "GuardianID": "P001"
+    }
+  },
+  {
+    "TicketID": "T372183",
+    "Passenger": {
+      "DOB": "1985-07-23",
+      "PassID": "P001",
+      "FirstName": "John",
+      "LastName": "Doe",
+      "Gender": "M",
+      "Email": "johndoe@example.com",
+      "PhoneNumber": "123456789",
+      "Passport": "B12345678",
+      "SSN": "123456789012",
+      "GuardianID": null
+    }
+  }
+]
+```
+
 ### Get passengers of a flight
 - **Endpoint:** `/api/flights/:flightId/details`
 - **Method:** `GET`

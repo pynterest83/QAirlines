@@ -9,6 +9,6 @@ const {updateFlightSchema, createFlightSchema, getFlightsSchema, getFlightDetail
 router.put('/update', authenticateUser, checkAdmin, validate(updateFlightSchema, "body"), flightController.handleUpdate);
 router.post('/create', authenticateUser, checkAdmin, validate(createFlightSchema, "body"), flightController.handleCreate);
 router.get('/list', validate(getFlightsSchema, "query"), flightController.handleGetFlights);
-router.get('/:flightId/details', authenticateUser, checkAdmin, validate(getFlightDetailsSchema, "params"), flightController.handleFlightDetails);
+router.get('/:flightId/passengers', authenticateUser, checkAdmin, validate(getFlightDetailsSchema, "params"), flightController.handleFlightDetails);
 
 module.exports = router;
