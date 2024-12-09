@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const sequelize = require('./db');
 const cors = require('cors');
+app.use(cors());
 require('dotenv').config({
     path: './../.env'
 });
@@ -27,10 +28,12 @@ require('./models/schemas/associations');
 // Import routes
 const apiRoutes = require('./routes');
 
-
-app.use(cors());
 app.use(express.json());
 app.use('/api', apiRoutes);
+
+app.get('/', (req, res) => {
+    res.send('Hello World!')
+})
 
 // Kết nối và đồng bộ cơ sở dữ liệu
 sequelize.sync({ alter: true })
