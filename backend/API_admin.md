@@ -11,6 +11,7 @@
 - [Flight](#flight)
   - [Update Flight](#update-flight)
   - [Create Flight](#create-flight)
+  - [Get flight's passengers details](#get-flights-passengers-details)
 - [Aircraft](#aircraft)
   - [Create Aircraft](#create-aircraft)
 - [Statistics](#statistics)
