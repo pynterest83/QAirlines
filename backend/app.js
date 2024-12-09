@@ -4,11 +4,6 @@ const app = express();
 const sequelize = require('./db');
 const cors = require('cors');
 
-// Load environment variables
-require('dotenv').config({
-    path: './../.env'
-});
-
 // Import models
 require('./models/schemas/Aircraft');
 require('./models/schemas/Airport');

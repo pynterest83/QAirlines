@@ -13,11 +13,11 @@ const Airport = sequelize.define('Airport', {
     },
     City: {
         type: DataTypes.STRING(50),
-        allowNull: false,
+        allowNull: true,
     },
     Country: {
         type: DataTypes.STRING(50),
-        allowNull: false,
+        allowNull: true,
     },
 }, {
     timestamps: false,
