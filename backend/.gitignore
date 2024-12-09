@@ -59,3 +59,5 @@ jspm_packages/
 *.suo
 
 package-lock.json
+
+.env

@@ -37,7 +37,7 @@ sequelize.sync({ alter: true })
     .then(() => {
         console.log('Database & tables created!');
         const server = app.listen(port, host, () => {
-            console.log('Server is running on port 3000');
+            console.log('Server is running on ' + host + ':' + port);
         });
 
         // Graceful shutdown
