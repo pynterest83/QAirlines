@@ -50,7 +50,7 @@ jspm_packages/
 .node_repl_history
 
 # dotenv environment variables file
-.env
+../.env
 .env.test
 
 # IDEs and editors
@@ -58,4 +58,6 @@ jspm_packages/
 .vscode/
 *.suo
 
-db.js
+package-lock.json
+
+.env

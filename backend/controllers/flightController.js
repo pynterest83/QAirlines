@@ -53,3 +53,7 @@ exports.handleFlightDetails = async (req, res) => {
         res.status(400).json({ error: error.message });
     }
 }
+
+exports.handlePing = async (req, res) => {
+    res.json({ message: 'pong' });
+}

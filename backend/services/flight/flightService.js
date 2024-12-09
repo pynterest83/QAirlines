@@ -115,8 +115,7 @@ const getFlightDetails = async (flightID) => {
     const passengers = await Ticket.findAll({
         where: { FlightID: flightID },
         include: [{
-            model: Passenger,
-            attributes: ['PassID', 'FirstName', 'LastName', 'DOB', 'Gender']
+            model: Passenger
         }]
     });
 
