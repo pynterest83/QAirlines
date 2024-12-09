@@ -1,4 +1,6 @@
-require('dotenv').config();
+require('dotenv').config({
+    path: __dirname+'/./../../../.env'
+});
 const { createClient } = require('@supabase/supabase-js');
 
 const supabaseUrl = 'https://mnmeanwagbiimebjrsgm.supabase.co';
