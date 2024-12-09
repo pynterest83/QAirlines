@@ -3,6 +3,11 @@ const express = require('express');
 const app = express();
 const sequelize = require('./db');
 const cors = require('cors');
+require('dotenv').config({
+    path: './../.env'
+});
+const host = process.env.HOST || 'localhost';
+const port = process.env.PORT || 3000;
 
 // Import models
 require('./models/schemas/Aircraft');
@@ -31,7 +36,7 @@ app.use('/api', apiRoutes);
 sequelize.sync({ alter: true })
     .then(() => {
         console.log('Database & tables created!');
-        const server = app.listen(3000, () => {
+        const server = app.listen(port, host, () => {
             console.log('Server is running on port 3000');
         });
 
