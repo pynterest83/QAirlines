@@ -10,5 +10,6 @@ router.put('/update', authenticateUser, checkAdmin, validate(updateFlightSchema,
 router.post('/create', authenticateUser, checkAdmin, validate(createFlightSchema, "body"), flightController.handleCreate);
 router.get('/list', validate(getFlightsSchema, "query"), flightController.handleGetFlights);
 router.get('/:flightId/passengers', authenticateUser, checkAdmin, validate(getFlightDetailsSchema, "params"), flightController.handleFlightDetails);
+router.get('/ping', flightController.handlePing);
 
 module.exports = router;
