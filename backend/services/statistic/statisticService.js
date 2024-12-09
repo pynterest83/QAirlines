@@ -1,4 +1,6 @@
-require('dotenv').config();
+require('dotenv').config({
+    path: './../../../.env'
+});
 const {Ticket} = require("../../models/schemas");
 const {Op, fn, col, literal} = require("sequelize");
 

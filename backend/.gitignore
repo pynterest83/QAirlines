@@ -58,4 +58,4 @@ jspm_packages/
 .vscode/
 *.suo
 
-db.js
+package-lock.json
