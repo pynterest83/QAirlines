@@ -17,6 +17,8 @@
     - [Get My Tickets](#get-my-tickets)
 - [Promotions](#promotions)
     - [Get All Promotions](#get-all-promotions)
+- [Aircraft](#aircraft)
+    - [Get Aircrafts](#get-aircrafts)
 
 ## Authentication
 
@@ -695,12 +697,13 @@
 ```
 
 ## Aircraft
-### Get All Aircrafts
+### Get Aircrafts
 - **Endpoint:** `/api/aircrafts/list`
 - **Method:** `GET`
+- **Parameters:** `aircraftIds`<br />Leave empty to get all aircrafts.
 - **Description:** Retrieves all aircrafts.
 - **Response:** JSON array of all aircrafts.
-- **Example:** `/api/aircrafts/list`
+- **Example:** `/api/aircrafts/list?aircraftIds=A380,A400`
 ```json
 [
   {
@@ -708,71 +711,18 @@
     "Model": "Airbus A380",
     "Manufacturer": "Airbus",
     "Capacity": 500,
-    "Seats": [
-      {
-        "SeatNo": "10A",
-        "Class": "Business"
-      },
-      {
-        "SeatNo": "10B",
-        "Class": "Business"
-      },
-      {
-        "SeatNo": "1A",
-        "Class": "First"
-      },
-      {
-        "SeatNo": "1B",
-        "Class": "First"
-      },
-      {
-        "SeatNo": "20A",
-        "Class": "Economy"
-      },
-      {
-        "SeatNo": "20B",
-        "Class": "Economy"
-      }
-    ]
+    "ImagePath": null,
+    "JsonPath": null,
+    "RelatedImages": null
   },
   {
-    "AircraftID": "B777",
-    "Model": "Boeing 777",
-    "Manufacturer": "Boeing",
-    "Capacity": 396,
-    "Seats": []
-  },
-  {
-    "AircraftID": "B787",
-    "Model": "Boeing 787 Dreamliner",
-    "Manufacturer": "Boeing",
-    "Capacity": 242,
-    "Seats": [
-      {
-        "SeatNo": "10A",
-        "Class": "Business"
-      },
-      {
-        "SeatNo": "10B",
-        "Class": "Business"
-      },
-      {
-        "SeatNo": "1A",
-        "Class": "First"
-      },
-      {
-        "SeatNo": "1B",
-        "Class": "First"
-      },
-      {
-        "SeatNo": "20A",
-        "Class": "Economy"
-      },
-      {
-        "SeatNo": "20B",
-        "Class": "Economy"
-      }
-    ]
+    "AircraftID": "A400",
+    "Model": "B52",
+    "Manufacturer": "Vietnam Airline",
+    "Capacity": 200,
+    "ImagePath": "https://mnmeanwagbiimebjrsgm.supabase.co/storage/v1/object/public/aircraft-files/A400/A380.svg",
+    "JsonPath": "https://mnmeanwagbiimebjrsgm.supabase.co/storage/v1/object/public/aircraft-files/A400/A380.json",
+    "RelatedImages": "https://mnmeanwagbiimebjrsgm.supabase.co/storage/v1/object/public/aircraft-files/A400/related-images/VN400.jpg,https://mnmeanwagbiimebjrsgm.supabase.co/storage/v1/object/public/aircraft-files/A400/related-images/VN400-2.jpg"
   }
 ]
 ```
@@ -839,4 +789,34 @@
     ]
   }
 ]
+```
+
+## Airports
+### Get Related Airports
+- **Endpoint:** `/api/airports/related`
+- **Method:** `GET`
+- **Parameters:** `airportId`
+- **Description:** Retrieves related airports.
+- **Response:** JSON array of related airports.
+- **Example:** `/api/airports/related?airportId=HAN`
+```json
+{
+  "airportID": "HAN",
+  "relatedAirports": [
+    {
+      "Type": "Destination",
+      "AirportID": "JFK",
+      "AirportName": "John F. Kennedy International Airport",
+      "City": "New York",
+      "Country": "USA"
+    },
+    {
+      "Type": "Both",
+      "AirportID": "SGN",
+      "AirportName": "Tan Son Nhat International Airport",
+      "City": "Ho Chi Minh City",
+      "Country": "Vietnam"
+    }
+  ]
+}
 ```

@@ -3,24 +3,14 @@ const supabase = require("../supabase/supabaseClient");
 
 async function getAllAircraft(aircraftIds) {
     if (aircraftIds.length === 0) {
+        return await Aircraft.findAll();
+    } else {
         return await Aircraft.findAll({
-            include: [{
-                model: Seat,
-                attributes: ['SeatNo', 'Class'],
-                order: [['SeatNo', 'ASC']]
-            }]
+            where: {
+                AircraftID: aircraftIds
+            }
         });
     }
-    return await Aircraft.findAll({
-        where: {
-            AircraftID: aircraftIds
-        },
-        include: [{
-            model: Seat,
-            attributes: ['SeatNo', 'Class'],
-            order: [['SeatNo', 'ASC']]
-        }]
-    });
 }
 
 async function createAircraft(aircraft, svgFile, jsonFile, relatedImages) {

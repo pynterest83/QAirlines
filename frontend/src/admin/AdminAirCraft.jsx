@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import { Server } from "../Server";
 import AdminNavigation from "./components/AdminNavigation";
@@ -6,9 +6,6 @@ import airplaneLoader from '../assets/images/airplaneLoader.gif'; // Import the 
 
 const AdminAircraft = () => {
     const token = localStorage.getItem("token");
-    if (!token) {
-        return <Navigate to="/adminLogin" />;
-    }
 
     const [aircrafts, setAircrafts] = useState([]);
     const [aircraftID, setAircraftID] = useState("");
@@ -35,7 +32,7 @@ const AdminAircraft = () => {
             }
         };
 
-        fetchAircrafts();
+        fetchAircrafts().then();
     }, [token]);
 
     const createAircraft = async (formData) => {
@@ -80,7 +77,9 @@ const AdminAircraft = () => {
 
         createAircraft(formData);
     };
-
+    if (!token) {
+        return <Navigate to="/adminLogin" />;
+    }
     return (
         <div className="relative">
             <AdminNavigation />

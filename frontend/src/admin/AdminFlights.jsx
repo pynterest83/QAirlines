@@ -5,9 +5,6 @@ import AdminNavigation from './components/AdminNavigation';
 
 const AdminFlights = () => {
     const token = localStorage.getItem("token");
-    if (!token) {
-        return <Navigate to="/adminLogin" />;
-    }
     useEffect(() => {
         fetchFlights().then();
     }, [token]);
