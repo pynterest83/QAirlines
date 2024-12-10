@@ -23,11 +23,15 @@ const TicketBookingBox = () => {
     if (!fromCity || !toCity || !departureDate || (tripType === 'roundTrip' && !returnDate)) return
     nav("/search", {state:{
         tripType: tripType,
-        fromCity: fromCity.slice(0, fromCity.length - 1).split("(")[1],
-        toCity: toCity.slice(0, toCity.length - 1).split("(")[1],
+        fromCity: fromCity.slice(0, fromCity.length - 1).split("(").pop(),
+        toCity: toCity.slice(0, toCity.length - 1).split("(").pop(),
         departureDate: departureDate,
         returnDate: returnDate
       }})
+  }
+  function checker(e) {
+    if (!e.target.value) e.target.setCustomValidity("error")
+    else e.target.setCustomValidity("")
   }
   const SwapCities = () => {
     let temp = toCity
@@ -116,11 +120,11 @@ const TicketBookingBox = () => {
         <div className="flex flex-col md:flex-row items-stretch justify-between space-y-4 md:space-y-0">
           <div className="flex-grow flex items-center justify-between p-4 w-full md:w-auto">
             <div className="relative flex flex-col" ref={fromInputRef}>
-              <input required={true}
+              <input
                   id="fromCity"
                   type="text"
                   value={fromCity}
-                  onChange={handleFromCityChange}
+                  onChange={(e) => {checker(e); handleFromCityChange(e)}}
                   onKeyDown={(e) => handleKeyDown(e, fromSuggestions, fromSelectedIndex, setFromSelectedIndex, setFromCity, setFromSuggestions, toCity)}
                   placeholder=" "
                   className="invalid:shadow-[0_0_0_1px_red] peer pb-2 pt-6 pl-4 border rounded-md w-full focus:border-[#6d24cf] focus:outline-none"
@@ -158,11 +162,11 @@ const TicketBookingBox = () => {
               <HiArrowNarrowLeft className="text-2xl long-arrow"/>
             </div>
             <div className="relative flex flex-col" ref={toInputRef}>
-              <input required={true}
+              <input
                   id="toCity"
                   type="text"
                   value={toCity}
-                  onChange={handleToCityChange}
+                  onChange={(e) => {checker(e); handleToCityChange(e)}}
                   onKeyDown={(e) => handleKeyDown(e, toSuggestions, toSelectedIndex, setToSelectedIndex, setToCity, setToSuggestions, fromCity)}
                   placeholder=" "
                   className="invalid:shadow-[0_0_0_1px_red] peer pb-2 pt-6 pl-4 border rounded-md w-full focus:border-[#6d24cf] focus:outline-none"
@@ -204,10 +208,10 @@ const TicketBookingBox = () => {
                 <FaCalendarAlt className="text-gray-500"/>
                 <span className="text-gray-500 text-sm">Departure Date</span>
               </label>
-              <input required={true}
+              <input
                   type="date"
                   value={departureDate}
-                  onChange={(e) => setDepartureDate(e.target.value)}
+                  onChange={(e) => {setDepartureDate(e.target.value); checker(e)}}
                   min={today}
                   className="invalid:shadow-[0_0_0_1px_red] mt-1 p-2 border rounded-md w-full hover:border-[#6d24cf]"
               />
@@ -217,10 +221,10 @@ const TicketBookingBox = () => {
                       <FaCalendarAlt className="text-gray-500"/>
                       <span className="text-gray-500 text-sm">Return Date</span>
                     </label>
-                    <input required={true}
+                    <input
                         type="date"
                         value={returnDate}
-                        onChange={(e) => setReturnDate(e.target.value)}
+                        onChange={(e)=> { setReturnDate(e.target.value); checker(e)}}
                         min={today}
                         className="invalid:shadow-[0_0_0_1px_red] mt-1 p-2 border rounded-md w-full hover:border-[#6d24cf]"
                     />
