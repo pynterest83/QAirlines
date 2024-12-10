@@ -28,7 +28,7 @@ function Info(props) {
                 <img
                      className="h-full object-cover"
                      alt={props.info.Model}
-                     src="https://media.istockphoto.com/id/505118185/vi/anh/m%C3%A1y-bay-bay-tr%C3%AAn-b%E1%BA%A7u-tr%E1%BB%9Di-xanh.webp?s=2048x2048&w=is&k=20&c=DInYX1xbTFffSNrfxNcyI4CdFZOmossVpj4Ahn23C1g="/>
+                     src={props.info.RelatedImages}/>
                     <div className="text-transparent hover:text-white flex flex-col transition-opacity hover:bg-black hover:bg-opacity-50 absolute inset-[0_24px_0_24px] z-[5]">
                         <div className="mt-auto text-xl text-center">See the seat map</div>
                         <div onClick={() => hide(false)}
