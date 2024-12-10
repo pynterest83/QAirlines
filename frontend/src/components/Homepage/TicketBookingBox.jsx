@@ -1,6 +1,8 @@
 import {useEffect, useRef, useState} from "react";
 import {FaCalendarAlt } from "react-icons/fa";
 import {useNavigate} from "react-router-dom";
+import {HiArrowNarrowRight, HiArrowNarrowLeft} from "react-icons/hi";
+
 export const cityList = await (await fetch("/airports.json")).json()
 
 const TicketBookingBox = () => {
@@ -18,13 +20,19 @@ const TicketBookingBox = () => {
   const nav = useNavigate()
   const today = new Date().toISOString().split("T")[0];
   function SearchFlights() {
+    if (!fromCity || !toCity || !departureDate || (tripType === 'roundTrip' && !returnDate)) return
     nav("/search", {state:{
         tripType: tripType,
-        fromCity: fromCity,
-        toCity: toCity,
+        fromCity: fromCity.slice(0, fromCity.length - 1).split("(")[1],
+        toCity: toCity.slice(0, toCity.length - 1).split("(")[1],
         departureDate: departureDate,
         returnDate: returnDate
       }})
+  }
+  const SwapCities = () => {
+    let temp = toCity
+    setToCity(fromCity)
+    setFromCity(temp)
   }
   const handleClickOutside = (event) => {
     if (fromInputRef.current && !fromInputRef.current.contains(event.target)) {
@@ -51,7 +59,7 @@ const TicketBookingBox = () => {
   };
   const handleSuggestionClick = (city, setCity, setSuggestions, otherCity) => {
     if (city !== otherCity) {
-      setCity(city[0]);
+      setCity(city[2] + " (" + city[0] + ")");
       setSuggestions([]);
     }
   };
@@ -108,14 +116,14 @@ const TicketBookingBox = () => {
         <div className="flex flex-col md:flex-row items-stretch justify-between space-y-4 md:space-y-0">
           <div className="flex-grow flex items-center justify-between p-4 w-full md:w-auto">
             <div className="relative flex flex-col" ref={fromInputRef}>
-              <input
+              <input required={true}
                   id="fromCity"
                   type="text"
                   value={fromCity}
                   onChange={handleFromCityChange}
                   onKeyDown={(e) => handleKeyDown(e, fromSuggestions, fromSelectedIndex, setFromSelectedIndex, setFromCity, setFromSuggestions, toCity)}
                   placeholder=" "
-                  className="peer pb-2 pt-6 pl-4 border rounded-md w-full focus:border-[#6d24cf] focus:outline-none"
+                  className="invalid:shadow-[0_0_0_1px_red] peer pb-2 pt-6 pl-4 border rounded-md w-full focus:border-[#6d24cf] focus:outline-none"
               />
               <label
                   htmlFor="fromCity"
@@ -144,16 +152,20 @@ const TicketBookingBox = () => {
                   </ul>
               )}
             </div>
-
+            <div onClick={SwapCities}
+                 className="flex-1 flex flex-col items-center border-transparent border p-2 rounded hover:border-[#6d24cf]">
+              <HiArrowNarrowRight className="text-2xl long-arrow"/>
+              <HiArrowNarrowLeft className="text-2xl long-arrow"/>
+            </div>
             <div className="relative flex flex-col" ref={toInputRef}>
-              <input
+              <input required={true}
                   id="toCity"
                   type="text"
                   value={toCity}
                   onChange={handleToCityChange}
                   onKeyDown={(e) => handleKeyDown(e, toSuggestions, toSelectedIndex, setToSelectedIndex, setToCity, setToSuggestions, fromCity)}
                   placeholder=" "
-                  className="peer pb-2 pt-6 pl-4 border rounded-md w-full focus:border-[#6d24cf] focus:outline-none"
+                  className="invalid:shadow-[0_0_0_1px_red] peer pb-2 pt-6 pl-4 border rounded-md w-full focus:border-[#6d24cf] focus:outline-none"
               />
               <label
                   htmlFor="toCity"
@@ -192,12 +204,12 @@ const TicketBookingBox = () => {
                 <FaCalendarAlt className="text-gray-500"/>
                 <span className="text-gray-500 text-sm">Departure Date</span>
               </label>
-              <input
+              <input required={true}
                   type="date"
                   value={departureDate}
                   onChange={(e) => setDepartureDate(e.target.value)}
                   min={today}
-                  className="mt-1 p-2 border rounded-md w-full hover:border-[#6d24cf]"
+                  className="invalid:shadow-[0_0_0_1px_red] mt-1 p-2 border rounded-md w-full hover:border-[#6d24cf]"
               />
               {tripType === "roundTrip" && (
                   <div className="mt-4">
@@ -205,12 +217,12 @@ const TicketBookingBox = () => {
                       <FaCalendarAlt className="text-gray-500"/>
                       <span className="text-gray-500 text-sm">Return Date</span>
                     </label>
-                    <input
+                    <input required={true}
                         type="date"
                         value={returnDate}
                         onChange={(e) => setReturnDate(e.target.value)}
                         min={today}
-                        className="mt-1 p-2 border rounded-md w-full hover:border-[#6d24cf]"
+                        className="invalid:shadow-[0_0_0_1px_red] mt-1 p-2 border rounded-md w-full hover:border-[#6d24cf]"
                     />
                   </div>
               )}
