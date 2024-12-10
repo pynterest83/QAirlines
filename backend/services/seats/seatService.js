@@ -3,7 +3,7 @@ const Seat = require('../../models/schemas/Seat');
 const FlightSeat = require('../../models/schemas/FlightSeat');
 const { Op } = require('sequelize');
 
-// Truy vấn tất cả chỗ ngồi của một chuyến bay
+
 async function getAllSeats(flightID) {
     const flight = await Flight.findByPk(flightID);
     if (!flight) throw new Error('Flight not found');
@@ -26,7 +26,7 @@ async function getAllSeats(flightID) {
     }));
 }
 
-// Truy vấn danh sách chỗ ngồi trống theo hạng ghế
+
 async function getAvailableSeats(flightID, classType) {
     const flight = await Flight.findByPk(flightID);
     if (!flight) throw new Error('Flight not found');

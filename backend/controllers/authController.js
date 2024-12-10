@@ -1,6 +1,5 @@
 const authService = require('../services/auth/authService');
 
-// Đăng nhập
 exports.login = async (req, res) => {
     const { username, password } = req.body;
 
@@ -13,7 +12,6 @@ exports.login = async (req, res) => {
     }
 };
 
-// Đăng ký người dùng mới
 exports.register = async (req, res) => {
     const { username, password, role } = req.body;
 

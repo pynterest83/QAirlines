@@ -2,10 +2,8 @@ const Flight = require('../../models/schemas/Flight');
 const TicketClass = require('../../models/schemas/TicketClass');
 const { Op, fn, col} = require('sequelize');
 const sequelize = require('../../db');
-// const { convertToTimeZone } = require('../../utils/utils');
 const {Aircraft, FlightSeat, Seat} = require("../../models/schemas");
 
-// Hàm truy vấn chuyến bay khứ hồi
 async function queryRoundTrip(departure, destination, departure_date, return_date) {
     const outboundFlights = await Flight.findAll({
         where: {
@@ -100,12 +98,6 @@ function formatFlightResults(flights) {
         Status: flight.Status,
         DepID: flight.DepID,
         DestID: flight.DestID,
-        // DepTime: convertToTimeZone(flight.DepTime),
-        // ArrTime: convertToTimeZone(flight.ArrTime),
-        // BoardingTime: convertToTimeZone(flight.BoardingTime),
-        // OriginalDepTime: flight.OriginalDepTime ? convertToTimeZone(flight.OriginalDepTime) : null,
-        // OriginalArrTime: flight.OriginalArrTime ? convertToTimeZone(flight.OriginalArrTime) : null,
-        // OriginalBoardingTime: flight.OriginalBoardingTime ? convertToTimeZone(flight.OriginalBoardingTime) : null,
         DepTime: flight.DepTime,
         ArrTime: flight.ArrTime,
         BoardingTime: flight.BoardingTime,
@@ -125,7 +117,6 @@ function formatFlightResults(flights) {
     }));
 }
 
-// Hàm xử lý kết quả chuyến bay khứ hồi
 function formatRoundTripResults(outboundFlights, returnFlights) {
     return {
         type: "Round-trip",
@@ -134,8 +125,6 @@ function formatRoundTripResults(outboundFlights, returnFlights) {
     };
 }
 
-
-// Hàm truy vấn chuyến bay một chiều
 async function queryOneWay(departure, destination, departure_date) {
     const flights = await Flight.findAll({
         where: {
@@ -184,7 +173,6 @@ async function queryOneWay(departure, destination, departure_date) {
     return flights;
 }
 
-// Hàm xử lý kết quả chuyến bay một chiều
 function formatOneWayResults(flights) {
     return {
         type: "One-way",
@@ -192,7 +180,7 @@ function formatOneWayResults(flights) {
     };
 }
 
-// Hàm truy vấn chuyến bay trong khoảng thời gian. Sắp xêp theo thời gian khởi hành.
+
 async function queryFlightsWithinRange(departure, destination, start_date, end_date, ticket_class) {
     const flights = await Flight.findAll({
         where: {
@@ -226,7 +214,7 @@ async function queryFlightsWithinRange(departure, destination, start_date, end_d
     const datesSeen = new Set();
 
     for (const flight of flights) {
-        // const depDate = convertToTimeZone(flight.DepTime).split('T')[0];
+        
         console.log(flight.DepTime);
         const depDate = flight.DepTime.toISOString().split('T')[0];
         if (!datesSeen.has(depDate)) {
@@ -239,21 +227,21 @@ async function queryFlightsWithinRange(departure, destination, start_date, end_d
 }
 
 
-// Hàm xử lý kết quả chuyến bay trong khoảng thời gian
+
 function formatFlightsWithinRangeResults(flights) {
     return {
         type: "In-range",
         flights: flights.map(flight => ({
             FlightID: flight.FlightID,
             Status: flight.Status,
-            // DepTime: convertToTimeZone(flight.DepTime).split('T')[0],
+            
             DepTime: flight.DepTime.toISOString().split('T')[0],
             MinPrice: flight.ticketClasses[0].Price
         }))
     };
 }
 
-// Hàm lấy tất cả chuyến bay trong ngày
+
 async function queryFlightsByDate(date) {
     const flights = await Flight.findAll({
         where: {
@@ -300,7 +288,7 @@ async function queryFlightsByDate(date) {
     return flights;
 }
 
-// Hàm xử lý kết quả chuyến bay trong ngày
+
 function formatFlightsByDateResults(flights) {
     return {
         type: "By-date",
