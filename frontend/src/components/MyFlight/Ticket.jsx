@@ -6,7 +6,6 @@ import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
 const Ticket = (props) => {
-  console.log(props);
   const [showCancelDialog, setShowCancelDialog] = useState(false);
   const [showDeadlineDialog, setShowDeadlineDialog] = useState(false);
   const [cancelMessage, setCancelMessage] = useState("");

@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
 import { AirportData } from "../assets/data/AirportData";
 import FlightBox from "../components/FlightStatus/FlightBox";
 import Navigation from "../components/Navigation";
 import { Server } from "../Server";
+import {cityList} from "../components/Homepage/TicketBookingBox.jsx";
 
 const FlightStatus = () => {
   const [fromCity, setFromCity] = useState("");
@@ -69,13 +69,12 @@ const FlightStatus = () => {
   const handleFromCityChange = (e) => {
     const value = e.target.value.toUpperCase();
     setFromCity(value);
+    if (!value.length) {
+      setFromSuggestions([])
+      return
+    }
     setFromSuggestions(
-      Object.entries(AirportData)
-        .filter(([code, city]) => 
-          (city.toUpperCase().includes(value) || code.includes(value)) &&
-          city !== toCity && code !== 'FROM' && code !== 'TO'
-        )
-        .map(([code, city]) => `${city} (${code})`)
+        cityList.filter((e) => e[0].startsWith(value))
     );
     setFromSelectedIndex(-1);
   };
@@ -83,34 +82,33 @@ const FlightStatus = () => {
   const handleToCityChange = (e) => {
     const value = e.target.value.toUpperCase();
     setToCity(value);
+    if (!value.length) {
+      setFromSuggestions([])
+      return
+    }
     setToSuggestions(
-      Object.entries(AirportData)
-        .filter(([code, city]) => 
-          (city.toUpperCase().includes(value) || code.includes(value)) &&
-          city !== fromCity && code !== 'FROM' && code !== 'TO'
-        )
-        .map(([code, city]) => `${city} (${code})`)
+        cityList.filter((e) => e[0].startsWith(value))
     );
     setToSelectedIndex(-1);
   };
 
-  const handleSuggestionClick = (city, setCity, setSuggestions, otherCity, cityType) => {
+  const handleSuggestionClick = (city, setCity, setSuggestions, otherCity) => {
     if (city === otherCity) {
       setErrorMessage("From city and To city cannot be the same.");
     } else {
-      setCity(city);
+      setCity(city[0]);
       setSuggestions([]);
       setErrorMessage("");
     }
   };
 
-  const handleKeyDown = (e, suggestions, selectedIndex, setSelectedIndex, setCity, setSuggestions, otherCity, cityType) => {
+  const handleKeyDown = (e, suggestions, selectedIndex, setSelectedIndex, setCity, setSuggestions, otherCity) => {
     if (e.key === "ArrowDown") {
       setSelectedIndex((prevIndex) => (prevIndex + 1) % suggestions.length);
     } else if (e.key === "ArrowUp") {
       setSelectedIndex((prevIndex) => (prevIndex - 1 + suggestions.length) % suggestions.length);
     } else if (e.key === "Enter" && selectedIndex >= 0) {
-      handleSuggestionClick(suggestions[selectedIndex], setCity, setSuggestions, otherCity, cityType);
+      handleSuggestionClick(suggestions[selectedIndex], setCity, setSuggestions, otherCity);
     }
   };
 
@@ -209,7 +207,7 @@ const FlightStatus = () => {
                   type="text"
                   value={fromCity}
                   onChange={handleFromCityChange}
-                  onKeyDown={(e) => handleKeyDown(e, fromSuggestions, fromSelectedIndex, setFromSelectedIndex, setFromCity, setFromSuggestions, toCity, 'from')}
+                  onKeyDown={(e) => handleKeyDown(e, fromSuggestions, fromSelectedIndex, setFromSelectedIndex, setFromCity, setFromSuggestions, toCity)}
                   placeholder=" "
                   className="peer pb-2 pt-6 pl-4 border rounded-md w-full focus:border-[#6d24cf] focus:outline-none"
                 />
@@ -220,14 +218,21 @@ const FlightStatus = () => {
                   From
                 </label>
                 {fromSuggestions.length > 0 && (
-                  <ul className="absolute top-full left-0 w-full bg-white border rounded-md mt-1 z-10">
+                  <ul className="max-h-[240px] no-scrollbar overflow-scroll absolute top-full left-0 w-full bg-white border rounded-md mt-1 z-10">
                     {fromSuggestions.map((city, index) => (
                       <li
                         key={index}
                         className={`p-2 cursor-pointer hover:bg-gray-200 ${index === fromSelectedIndex ? "bg-gray-200" : ""}`}
-                        onClick={() => handleSuggestionClick(city, setFromCity, setFromSuggestions, toCity, 'from')}
+                        onClick={() => handleSuggestionClick(city, setFromCity, setFromSuggestions, toCity)}
                       >
-                        {city}
+                        <div>
+                          <div className="be-vietnam-pro-bold">{city[0]}</div>
+                          <div className="text-sm be-vietnam-pro-medium">{city[1]}</div>
+                        </div>
+                        <div className="text-xs be-vietnam-pro-medium">
+                          <div>{city[2]}</div>
+                          <div>{city[3]}</div>
+                        </div>
                       </li>
                     ))}
                   </ul>
@@ -241,7 +246,7 @@ const FlightStatus = () => {
                   type="text"
                   value={toCity}
                   onChange={handleToCityChange}
-                  onKeyDown={(e) => handleKeyDown(e, toSuggestions, toSelectedIndex, setToSelectedIndex, setToCity, setToSuggestions, fromCity, 'to')}
+                  onKeyDown={(e) => handleKeyDown(e, toSuggestions, toSelectedIndex, setToSelectedIndex, setToCity, setToSuggestions, fromCity)}
                   placeholder=" "
                   className="peer pb-2 pt-6 pl-4 border rounded-md w-full focus:border-[#6d24cf] focus:outline-none"
                 />
@@ -252,15 +257,22 @@ const FlightStatus = () => {
                   To
                 </label>
                 {toSuggestions.length > 0 && (
-                  <ul className="absolute top-full left-0 w-full bg-white border rounded-md mt-1 z-10">
+                  <ul className="max-h-[240px] no-scrollbar overflow-scroll absolute top-full left-0 w-full bg-white border rounded-md mt-1 z-10">
                     {toSuggestions.map((city, index) => (
-                      <li
-                        key={index}
-                        className={`p-2 cursor-pointer hover:bg-gray-200 ${index === toSelectedIndex ? "bg-gray-200" : ""}`}
-                        onClick={() => handleSuggestionClick(city, setToCity, setToSuggestions, fromCity, 'to')}
-                      >
-                        {city}
-                      </li>
+                        <li
+                            key={index}
+                            className={`p-2 cursor-pointer hover:bg-gray-200 ${index === toSelectedIndex ? "bg-gray-200" : ""}`}
+                            onClick={() => handleSuggestionClick(city, setToCity, setToSuggestions, fromCity)}
+                        >
+                          <div>
+                            <div className="be-vietnam-pro-bold">{city[0]}</div>
+                            <div className="text-sm be-vietnam-pro-medium">{city[1]}</div>
+                          </div>
+                          <div className="text-xs be-vietnam-pro-medium">
+                            <div>{city[2]}</div>
+                            <div>{city[3]}</div>
+                          </div>
+                        </li>
                     ))}
                   </ul>
                 )}
@@ -269,12 +281,12 @@ const FlightStatus = () => {
               {/* Date Input */}
               <div className="relative flex flex-col">
                 <input
-                  id="departureDate"
-                  type="date"
-                  value={departureDate}
-                  onChange={(e) => setDepartureDate(e.target.value)}
-                  min={today}
-                  placeholder=" "
+                    id="departureDate"
+                    type="date"
+                    value={departureDate}
+                    onChange={(e) => setDepartureDate(e.target.value)}
+                    min={today}
+                    placeholder=" "
                   className="peer pb-2 pt-6 pl-4 pr-2 border rounded-md w-full focus:border-[#6d24cf] focus:outline-none"
                 />
                 <label

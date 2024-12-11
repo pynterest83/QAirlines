@@ -8,7 +8,7 @@ const HomeBox = () => {
   const [activeMode, setActiveMode] = useState('booking'); // State to manage active mode
 
   return (
-    <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
+    <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg overflow-hidden overflow-visible">
       {/* Header */}
       <div className="flex">
         {/* Booking Tab */}

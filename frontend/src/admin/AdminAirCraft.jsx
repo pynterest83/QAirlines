@@ -1,14 +1,11 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import { Server } from "../Server";
 import AdminNavigation from "./components/AdminNavigation";
-import airplaneLoader from '../assets/images/airplaneLoader.gif';
+import airplaneLoader from '../assets/images/airplaneLoader.gif'; // Import the loading GIF
 
 const AdminAircraft = () => {
     const token = localStorage.getItem("token");
-    if (!token) {
-        return <Navigate to="/adminLogin" />;
-    }
 
     const [aircrafts, setAircrafts] = useState([]);
     const [aircraftID, setAircraftID] = useState("");
@@ -17,8 +14,8 @@ const AdminAircraft = () => {
     const [capacity, setCapacity] = useState("");
     const [svgFile, setSvgFile] = useState(null);
     const [jsonFile, setJsonFile] = useState(null);
-    const [imageFiles, setImageFiles] = useState([]); // For multiple images
-    const [loading, setLoading] = useState(false);
+    const [imageFile, setImageFile] = useState(null);
+    const [loading, setLoading] = useState(false); // Add loading state
 
     useEffect(() => {
         const fetchAircrafts = async () => {
@@ -67,6 +64,7 @@ const AdminAircraft = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
+        // Prepare FormData
         const formData = new FormData();
         formData.append("AircraftID", aircraftID);
         formData.append("Model", model);
@@ -75,25 +73,25 @@ const AdminAircraft = () => {
 
         if (svgFile) formData.append("svg", svgFile);
         if (jsonFile) formData.append("json", jsonFile);
-        if (imageFiles.length > 0) {
-            imageFiles.forEach((file) => {
-                formData.append("images", file); // Append each image file with the key "relatedImages"
-            });
-        }
+        if (imageFile) formData.append("images", imageFile);
 
         createAircraft(formData);
     };
-
+    if (!token) {
+        return <Navigate to="/adminLogin" />;
+    }
     return (
         <div className="relative">
             <AdminNavigation />
             <div className="p-6 bg-gray-100 min-h-screen">
                 <h2 className="text-xl font-bold mb-6">Create New Aircraft</h2>
                 <form onSubmit={handleSubmit} className="bg-white p-8 rounded-lg shadow-md mb-8">
+                    {/* Aircraft Details */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
-                        {/* Aircraft ID */}
                         <div>
-                            <label className="block text-gray-700 font-medium mb-1">Aircraft ID:</label>
+                            <label className="block text-gray-700 font-medium mb-1">
+                                Aircraft ID:
+                            </label>
                             <input
                                 type="text"
                                 value={aircraftID}
@@ -102,10 +100,10 @@ const AdminAircraft = () => {
                                 className="w-full border border-gray-300 rounded-md p-2"
                             />
                         </div>
-
-                        {/* Model */}
                         <div>
-                            <label className="block text-gray-700 font-medium mb-1">Model:</label>
+                            <label className="block text-gray-700 font-medium mb-1">
+                                Model:
+                            </label>
                             <input
                                 type="text"
                                 value={model}
@@ -114,10 +112,10 @@ const AdminAircraft = () => {
                                 className="w-full border border-gray-300 rounded-md p-2"
                             />
                         </div>
-
-                        {/* Manufacturer */}
                         <div>
-                            <label className="block text-gray-700 font-medium mb-1">Manufacturer:</label>
+                            <label className="block text-gray-700 font-medium mb-1">
+                                Manufacturer:
+                            </label>
                             <input
                                 type="text"
                                 value={manufacturer}
@@ -126,10 +124,10 @@ const AdminAircraft = () => {
                                 className="w-full border border-gray-300 rounded-md p-2"
                             />
                         </div>
-
-                        {/* Capacity */}
                         <div>
-                            <label className="block text-gray-700 font-medium mb-1">Capacity:</label>
+                            <label className="block text-gray-700 font-medium mb-1">
+                                Capacity:
+                            </label>
                             <input
                                 type="number"
                                 value={capacity}
@@ -140,60 +138,57 @@ const AdminAircraft = () => {
                         </div>
                     </div>
 
+                    {/* File Uploads */}
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6">
-                        {/* SVG File Upload */}
                         <div>
-                            <label className="block text-gray-700 font-medium mb-1">Upload SVG:</label>
+                            <label className="block text-gray-700 font-medium mb-1">
+                                Upload SVG:
+                            </label>
                             <input
                                 type="file"
-                                accept=".svg"
+                                accept="image/svg+xml"
                                 onChange={(e) => setSvgFile(e.target.files[0])}
                                 className="w-full border border-gray-300 rounded-md p-2"
                             />
+                            {svgFile && <p className="text-sm text-gray-500 mt-1">{svgFile.name}</p>}
                         </div>
-
-                        {/* JSON File Upload */}
                         <div>
-                            <label className="block text-gray-700 font-medium mb-1">Upload JSON:</label>
+                            <label className="block text-gray-700 font-medium mb-1">
+                                Upload JSON:
+                            </label>
                             <input
                                 type="file"
-                                accept=".json"
+                                accept="application/json"
                                 onChange={(e) => setJsonFile(e.target.files[0])}
                                 className="w-full border border-gray-300 rounded-md p-2"
                             />
+                            {jsonFile && <p className="text-sm text-gray-500 mt-1">{jsonFile.name}</p>}
                         </div>
-
-                        {/* Image Files Upload */}
                         <div>
                             <label className="block text-gray-700 font-medium mb-1">
-                                Upload Images:
+                                Upload Image:
                             </label>
                             <input
                                 type="file"
                                 accept="image/*"
-                                multiple // Allow multiple file uploads
-                                onChange={(e) => setImageFiles(Array.from(e.target.files))}
+                                onChange={(e) => setImageFile(e.target.files[0])}
                                 className="w-full border border-gray-300 rounded-md p-2"
                             />
-                            {imageFiles.length > 0 && (
-                                <ul className="text-sm text-gray-500 mt-1">
-                                    {imageFiles.map((file, index) => (
-                                        <li key={index}>{file.name}</li>
-                                    ))}
-                                </ul>
-                            )}
+                            {imageFile && <p className="text-sm text-gray-500 mt-1">{imageFile.name}</p>}
                         </div>
                     </div>
 
+                    {/* Submit Button */}
                     <button
                         type="submit"
                         className="w-full gradient-button text-white py-2 px-4 rounded-md"
-                        disabled={loading}
+                        disabled={loading} // Disable button while loading
                     >
                         {loading ? "Creating..." : "Create Aircraft"}
                     </button>
                 </form>
 
+                {/* Loading Indicator */}
                 {loading && (
                     <div className="flex justify-center items-center">
                         <img src={airplaneLoader} alt="Loading..." />
@@ -201,27 +196,29 @@ const AdminAircraft = () => {
                 )}
 
                 {/* Aircraft List */}
-                <h2 className="text-xl font-bold mb-4">Aircraft List</h2>
-                <table className="min-w-full bg-white border border-gray-200">
-                    <thead>
-                        <tr>
-                            <th className="py-2 px-4 border-b">Aircraft ID</th>
-                            <th className="py-2 px-4 border-b">Model</th>
-                            <th className="py-2 px-4 border-b">Manufacturer</th>
-                            <th className="py-2 px-4 border-b">Capacity</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {aircrafts.map((aircraft) => (
-                            <tr key={aircraft.id}>
-                                <td className="py-2 px-4 border-b">{aircraft.AircraftID}</td>
-                                <td className="py-2 px-4 border-b">{aircraft.Model}</td>
-                                <td className="py-2 px-4 border-b">{aircraft.Manufacturer}</td>
-                                <td className="py-2 px-4 border-b">{aircraft.Capacity}</td>
+                <h3 className="text-lg font-bold mb-4">Existing Aircrafts</h3>
+                <div className="overflow-x-auto">
+                    <table className="table-auto w-full bg-white rounded-lg shadow-md">
+                        <thead>
+                            <tr className="bg-gray-200">
+                                <th className="px-4 py-2">Aircraft ID</th>
+                                <th className="px-4 py-2">Model</th>
+                                <th className="px-4 py-2">Manufacturer</th>
+                                <th className="px-4 py-2">Capacity</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {aircrafts.map((aircraft) => (
+                                <tr key={aircraft.AircraftID} className="border-t">
+                                    <td className="px-4 py-2">{aircraft.AircraftID}</td>
+                                    <td className="px-4 py-2">{aircraft.Model}</td>
+                                    <td className="px-4 py-2">{aircraft.Manufacturer}</td>
+                                    <td className="px-4 py-2">{aircraft.Capacity}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     );
