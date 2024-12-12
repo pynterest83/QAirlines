@@ -13,6 +13,6 @@ router.use(fileUpload());
 router.post('/create', authenticateUser, checkAdmin, validate(createBannerSchema, "body"), bannerController.handleCreateBanner);
 router.get('/list', bannerController.handleGetBanners);
 router.put('/edit', authenticateUser, checkAdmin, validate(editBannerSchema, "body"), bannerController.handleEditBanner);
-router.delete('/delete/:bannerID', authenticateUser, checkAdmin, validate(deleteBannerSchema, "param"), bannerController.handleDeleteBanner);
+router.delete('/delete/:bannerID', authenticateUser, checkAdmin, validate(deleteBannerSchema, "params"), bannerController.handleDeleteBanner);
 
 module.exports = router;

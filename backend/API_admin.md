@@ -16,6 +16,10 @@
   - [Create Aircraft](#create-aircraft)
 - [Statistics](#statistics)
   - [Tickets booked monthly in a year](#tickets-booked-monthly-in-a-year)
+- [Banner](#banner)
+  - [Create Banner](#create-banner)
+  - [Get Banners](#get-banners)
+  - [Delete Banner](#delete-banner)
 
 ## Promotions
 ### Create Promotion
@@ -339,5 +343,18 @@
       "DiscountDescription": "Auth 20%"
     }
   ]
+}
+```
+
+### Delete Banner
+- **Endpoint:** `/api/banners/delete/:BannerID`
+- **Method:** `DELETE`
+- **Description:** Deletes a banner.
+- **Response:** Confirmation of banner deletion.
+- **Example:** `/api/banners/delete/BNV5FK8UAU`
+- **Response:**
+```json
+{
+  "message": "Banner deleted successfully"
 }
 ```
