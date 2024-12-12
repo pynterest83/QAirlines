@@ -10,8 +10,7 @@ exports.getRoundTripFlights = [
             if (outboundFlights.length === 0 || returnFlights.length === 0) {
                 return res.status(404).json({ error: 'No suitable flights found' });
             }
-
-            res.json(offerService.formatRoundTripResults(outboundFlights, returnFlights));
+            return res.json(offerService.formatRoundTripResults(outboundFlights, returnFlights));
         } catch (error) {
             console.error('Error fetching round-trip flights:', error.message);
             res.status(500).json({ error: error.message || 'An error occured' });
@@ -26,13 +25,12 @@ exports.getOneWayFlights = [
             const flights = await offerService.queryOneWay(departure, destination, departure_date);
 
             if (flights.length === 0) {
-                res.status(404).json({ error: 'No suitable flights found' });
+                return res.status(404).json({ error: 'No suitable flights found' });
             }
-
-            res.json(offerService.formatOneWayResults(flights));
+            return res.json(offerService.formatOneWayResults(flights));
         } catch (error) {
             console.error('Error fetching one-way flights:', error.message);
-            res.status(500).json({ error: error.message || 'An error occurred' });
+            return res.status(500).json({ error: error.message || 'An error occurred' });
         }
     },
 ];
@@ -46,11 +44,10 @@ exports.getFlightsWithinRange = [
             if (flights.length === 0) {
                 return res.status(404).json({ error: 'No suitable flights found' });
             }
-
-            res.json(offerService.formatFlightsWithinRangeResults(flights));
+            return res.json(offerService.formatFlightsWithinRangeResults(flights));
         } catch (error) {
             console.error('Error fetching flights within range:', error.message);
-            res.status(500).json({ error: error.message || 'An error occurred' });
+            return res.status(500).json({ error: error.message || 'An error occurred' });
         }
     },
 ]
@@ -60,15 +57,13 @@ exports.getFlightsByDate = [
         const { date } = req.query;
         try {
             const flights = await offerService.queryFlightsByDate(date);
-
             if (flights.length === 0) {
                 return res.status(404).json({ error: 'No suitable flights found' });
             }
-
-            res.json(offerService.formatFlightsByDateResults(flights));
+            return res.json(offerService.formatFlightsByDateResults(flights));
         } catch (error) {
             console.error('Error fetching flights by date:', error.message);
-            res.status(500).json({ error: error.message || 'An error occurred' });
+            return res.status(500).json({ error: error.message || 'An error occurred' });
         }
     },
 ]

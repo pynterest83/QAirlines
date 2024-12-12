@@ -31,10 +31,6 @@ const apiRoutes = require('./routes');
 app.use(express.json());
 app.use('/api', apiRoutes);
 
-app.get('/', (req, res) => {
-    res.send('Hello World!')
-})
-
 // Kết nối và đồng bộ cơ sở dữ liệu
 sequelize.sync({ alter: true })
     .then(() => {
