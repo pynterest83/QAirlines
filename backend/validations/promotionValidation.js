@@ -1,45 +1,43 @@
 const Joi = require('joi');
 
-// Schema cho tạo mới khuyến mãi
 const createPromotionSchema = Joi.object({
     Title: Joi.string()
         .max(100)
         .required()
         .messages({
-            'string.max': 'Tiêu đề không được vượt quá 100 ký tự',
-            'any.required': 'Tiêu đề là bắt buộc'
+            'string.max': 'Title must not exceed 100 characters',
+            'any.required': 'Title is required'
         }),
     Content: Joi.string()
         .required()
         .messages({
-            'any.required': 'Nội dung là bắt buộc'
+            'any.required': 'Content is required'
         }),
     Amount: Joi.number()
         .positive()
         .optional()
         .messages({
-            'number.positive': 'Số tiền khuyến mãi phải là số dương'
+            'number.positive': 'Amount must be a positive number'
         })
 });
 
-// Schema cho cập nhật khuyến mãi
 const updatePromotionSchema = Joi.object({
     Title: Joi.string()
         .max(100)
         .optional()
         .messages({
-            'string.max': 'Tiêu đề không được vượt quá 100 ký tự'
+            'string.max': 'Title must not exceed 100 characters'
         }),
     Content: Joi.string()
         .optional()
         .messages({
-            'any.required': 'Nội dung là bắt buộc'
+            'any.required': 'Content is required'
         }),
     Amount: Joi.number()
         .positive()
         .optional()
         .messages({
-            'number.positive': 'Số tiền khuyến mãi phải là số dương'
+            'number.positive': 'Amount must be a positive number'
         })
 });
 

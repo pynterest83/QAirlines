@@ -1,7 +1,6 @@
 const { Passenger, Ticket, FlightSeat, Flight, Seat, TicketClass} = require('../../models/schemas');
 const {Op} = require("sequelize");
 
-// Tìm hoặc tạo hành khách
 async function findOrCreatePassenger(data) {
     const { firstName, lastName, dob, gender, email, phoneNumber, passport, ssn, guardianID } = data;
 
@@ -39,7 +38,6 @@ async function findOrCreatePassenger(data) {
     return passenger;
 }
 
-// Đặt vé cho hành khách
 async function bookTicket(flightID, seatNo, passID) {
     const flight = await Flight.findByPk(flightID);
     if (!flight) throw new Error('Chuyến bay không tồn tại');
@@ -64,7 +62,6 @@ async function bookTicket(flightID, seatNo, passID) {
     return ticket;
 }
 
-// Hủy vé
 async function cancelTicket(ticketID) {
     const ticket = await Ticket.findByPk(ticketID);
     if (!ticket) throw new Error('Vé không tồn tại');
@@ -79,9 +76,7 @@ async function cancelTicket(ticketID) {
     return true;
 }
 
-// Lấy thông tin vé theo hành khách
 async function getTicketsByPassenger(identifier) {
-    // Tìm hành khách người lớn dựa trên SSN hoặc Passport
     const guardian = await Passenger.findOne({
         where: {
             [Op.or]: [
@@ -122,8 +117,6 @@ async function getTicketsByPassenger(identifier) {
     const passengerMap = new Map(
         allPassengers.map(passenger => [passenger.PassID, passenger])
     );
-
-    // Lấy vé của tất cả hành khách này
     let tickets = await Ticket.findAll({
         where: { PassID: { [Op.in]: Array.from(passengerMap.keys()) } },
         include: [
@@ -152,7 +145,6 @@ async function getTicketsByPassenger(identifier) {
         throw new Error('No tickets found for this guardian and dependents');
     }
 
-    // Kết hợp thông tin hành khách với thông tin vé
     return tickets.map(ticket => {
         const passenger = passengerMap.get(ticket.PassID);
         const flightSeat = ticket.FlightSeat || {};
@@ -172,7 +164,6 @@ async function getTicketsByPassenger(identifier) {
 }
 
 
-// Lấy thông tin vé theo ID kèm theo hạng vé và thông tin hành khách
 async function getTicketByID(ticketID) {
     const ticket = await Ticket.findByPk(ticketID);
     if (!ticket) throw new Error('Không tìm thấy vé có ID này');

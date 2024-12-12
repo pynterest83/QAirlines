@@ -3,10 +3,10 @@ const Joi = require('joi');
 const monthlyBookingStatisticsSchema = Joi.object({
     year: Joi.number().integer().min(2015).required()
         .messages({
-            'number.integer': 'Năm phải là số nguyên',
-            'number.min': 'Năm phải lớn hơn hoặc bằng 2015',
-            'any.required': 'Năm là bắt buộc'
+            'number.integer': 'Year must be an integer',
+            'number.min': 'Year must be greater than or equal to 2015',
+            'any.required': 'Year is required'
         }),
-})
+});
 
 module.exports = { monthlyBookingStatisticsSchema };
