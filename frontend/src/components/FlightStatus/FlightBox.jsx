@@ -34,6 +34,9 @@ const FlightBox = (props) => {
         return { left: '50%' }; // Middle of the line
       case 'ARRIVED':
         return { left: '100%' };
+      case 'DELAYED':
+        // change the color of the plane to red
+        return { left: '0%', color: 'red' };
       default:
         return null;
     }

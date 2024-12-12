@@ -24,16 +24,7 @@ const AdminFlights = () => {
             First: 0
         }
     });
-    const [editFlight, setEditFlight] = useState({
-        flightID: "",
-        Status: "Scheduled",
-        DepTime: "",
-        ArrTime: "",
-        BoardingTime: "",
-        DepID: "",
-        DestID: "",
-        AircraftID: ""
-    });
+    const [editFlight, setEditFlight] = useState(null); // Initialize editFlight to null
 
     const fetchFlights = async () => {
         const response = await fetch(`${Server}flights/list`);
@@ -44,7 +35,6 @@ const AdminFlights = () => {
             console.error('Failed to fetch flights:', response.statusText);
         }
     };
-
 
     const createFlight = async (flightDetails) => {
         const response = await fetch(`${Server}flights/create`, {
@@ -90,7 +80,8 @@ const AdminFlights = () => {
     
         if (response.ok) {
             const data = await response.json();
-            setFlights(flights.map(flight => flight.flightID === data.flight.flightID ? data.flight : flight));
+            setFlights(flights.map(flight => flight.FlightID === data.flight.flightID ? data.flight : flight));
+            setEditFlight(null); // Reset editFlight after successful update
         } else {
             console.error('Failed to update flight:', response.statusText);
         }
@@ -118,16 +109,19 @@ const AdminFlights = () => {
         });
     };
 
-    const handleEditSave = (flightID) => {
+    const handleEditSave = () => {
         const updatedFlight = {
-            flightID: flightID,
+            flightID: editFlight.FlightID,
             DepTime: editFlight.DepTime,
             BoardingTime: editFlight.BoardingTime,
             Status: editFlight.Status,
-            DestID: editFlight.DestID
+            DestID: editFlight.DestID,
+            ArrTime: editFlight.ArrTime,
+            DepID: editFlight.DepID,
+            AircraftID: editFlight.AircraftID
         };
         updateFlight(updatedFlight).then(() => {
-            window.location.reload();
+            window.location.reload(); 
         });
     };
 
@@ -176,7 +170,7 @@ const AdminFlights = () => {
                             className="mt-1 p-2 w-full border rounded-md"
                         >
                             <option value="Scheduled">Scheduled</option>
-                            <option value="Delaying">Delaying</option>
+                            <option value="Delayed">Delayed</option>
                             <option value="In-Flight">In-Flight</option>
                             <option value="Arrived">Arrived</option>
                         </select>
@@ -299,21 +293,22 @@ const AdminFlights = () => {
                                     <tr key={flight.FlightID} className="border-t">
                                         <td className="px-4 py-2">
                                             {editFlight && editFlight.FlightID === flight.FlightID ? (
-                                                flight.FlightID // Keep FlightID fixed
+                                                flight.FlightID 
                                             ) : (
                                                 flight.FlightID
                                             )}
                                         </td>
                                         <td className="px-4 py-2">
+                                            {/* Correctly check if editFlight is not null and its FlightID matches */}
                                             {editFlight && editFlight.FlightID === flight.FlightID ? (
                                                 <select
-                                                    value={newFlight.Status}
-                                                    onChange={(e) => handleNewFlightChange(e, 'Status')}
+                                                    value={editFlight.Status}
+                                                    onChange={(e) => handleEditChange(e, 'Status')}
                                                     required
                                                     className="mt-1 p-2 w-full border rounded-md"
                                                 >
                                                     <option value="Scheduled">Scheduled</option>
-                                                    <option value="Delaying">Delaying</option>
+                                                    <option value="Delayed">Delayed</option>
                                                     <option value="In-Flight">In-Flight</option>
                                                     <option value="Arrived">Arrived</option>
                                                 </select>
@@ -323,14 +318,14 @@ const AdminFlights = () => {
                                         </td>
                                         <td className="px-4 py-2">
                                             {editFlight && editFlight.FlightID === flight.FlightID ? (
-                                                flight.DepID // Keep DepID fixed
+                                                flight.DepID 
                                             ) : (
                                                 flight.DepID
                                             )}
                                         </td>
                                         <td className="px-4 py-2">
                                             {editFlight && editFlight.FlightID === flight.FlightID ? (
-                                                flight.DestID // Keep DestID fixed
+                                                flight.DestID 
                                             ) : (
                                                 flight.DestID
                                             )}
@@ -372,9 +367,10 @@ const AdminFlights = () => {
                                             )}
                                         </td>
                                         <td className="px-4 py-2">
+                                            {/* Conditionally render based on editFlight */}
                                             {editFlight && editFlight.FlightID === flight.FlightID ? (
                                                 <button
-                                                    onClick={() => handleEditSave(flight.FlightID)}
+                                                    onClick={handleEditSave}
                                                     className="bg-green-500 text-white px-2 py-1 rounded-md mr-2"
                                                 >
                                                     Save
