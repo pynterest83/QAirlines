@@ -1,13 +1,12 @@
 const Joi = require('joi');
 
-// Schema đặt vé
 const bookTicketSchema = Joi.object({
     flightID: Joi.string()
         .max(10)
         .required()
         .messages({
-            'string.max': 'Mã chuyến bay không được vượt quá 10 ký tự',
-            'any.required': 'Mã chuyến bay là bắt buộc'
+            'string.max': 'Flight ID must not exceed 10 characters',
+            'any.required': 'Flight ID is required'
         }),
     passengers: Joi.array()
         .items(
@@ -16,107 +15,104 @@ const bookTicketSchema = Joi.object({
                     .max(50)
                     .required()
                     .messages({
-                        'string.max': 'Tên không được vượt quá 50 ký tự',
-                        'any.required': 'Tên là bắt buộc'
+                        'string.max': 'First name must not exceed 50 characters',
+                        'any.required': 'First name is required'
                     }),
                 lastName: Joi.string()
                     .max(50)
                     .required()
                     .messages({
-                        'string.max': 'Họ không được vượt quá 50 ký tự',
-                        'any.required': 'Họ là bắt buộc'
+                        'string.max': 'Last name must not exceed 50 characters',
+                        'any.required': 'Last name is required'
                     }),
                 dob: Joi.date()
                     .less('now')
                     .required()
                     .messages({
-                        'date.less': 'Ngày sinh phải nhỏ hơn ngày hiện tại',
-                        'any.required': 'Ngày sinh là bắt buộc'
+                        'date.less': 'Date of birth must be before the current date',
+                        'any.required': 'Date of birth is required'
                     }),
                 gender: Joi.string()
                     .valid('M', 'F')
                     .required()
                     .messages({
-                        'any.only': 'Giới tính phải là "M" (Nam) hoặc "F" (Nữ)',
-                        'any.required': 'Giới tính là bắt buộc'
+                        'any.only': 'Gender must be "M" (Male) or "F" (Female)',
+                        'any.required': 'Gender is required'
                     }),
                 email: Joi.string()
                     .email()
                     .optional()
                     .messages({
-                        'string.email': 'Email không hợp lệ'
+                        'string.email': 'Invalid email'
                     }),
                 phoneNumber: Joi.string()
                     .pattern(/^\+?\d{9,15}$/)
                     .optional()
                     .messages({
-                        'string.pattern.base': 'Số điện thoại phải có từ 9 đến 15 chữ số và có thể bắt đầu bằng dấu "+"'
+                        'string.pattern.base': 'Phone number must be between 9 and 15 digits and can start with a "+"'
                     }),
                 passport: Joi.string()
                     .max(20)
                     .optional()
                     .messages({
-                        'string.max': 'Hộ chiếu không được vượt quá 20 ký tự'
+                        'string.max': 'Passport must not exceed 20 characters'
                     }),
                 ssn: Joi.string()
                     .length(12)
                     .optional()
                     .messages({
-                        'string.length': 'SSN phải có đúng 12 chữ số'
+                        'string.length': 'SSN must be exactly 12 digits'
                     }),
                 seatNo: Joi.string()
                     .max(5)
                     .required()
                     .messages({
-                        'string.max': 'Số ghế không được vượt quá 5 ký tự',
-                        'any.required': 'Số ghế là bắt buộc'
+                        'string.max': 'Seat number must not exceed 5 characters',
+                        'any.required': 'Seat number is required'
                     }),
                 guardianSSN: Joi.string()
                     .length(12)
                     .optional()
                     .messages({
-                        'string.length': 'SSN của người giám hộ phải có đúng 12 chữ số'
+                        'string.length': 'Guardian SSN must be exactly 12 digits'
                     }),
             })
         )
         .min(1)
         .required()
         .messages({
-            'array.min': 'Phải có ít nhất 1 hành khách',
-            'any.required': 'Danh sách hành khách là bắt buộc'
+            'array.min': 'There must be at least 1 passenger',
+            'any.required': 'Passenger list is required'
         }),
 });
 
-// Schema hủy vé
 const cancelTicketSchema = Joi.object({
     ticketID: Joi.string()
         .max(10)
         .required()
         .messages({
-            'string.max': 'Mã vé không được vượt quá 10 ký tự',
-            'any.required': 'Mã vé là bắt buộc'
+            'string.max': 'Ticket ID must not exceed 10 characters',
+            'any.required': 'Ticket ID is required'
         }),
 });
 
-// Schema kiểm tra input cho /my-tickets
 const myTicketsSchema = Joi.object({
     identifier: Joi.string()
         .required()
-        .regex(/^\d{12}$|^[A-Z0-9]{6,9}$/) // SSN: 12 chữ số hoặc Passport: 6-9 ký tự
+        .regex(/^\d{12}$|^[A-Z0-9]{6,9}$/)
         .messages({
-            'string.pattern.base': 'Identifier phải là SSN hợp lệ (12 chữ số) hoặc Passport (6-9 ký tự chữ và số)',
-            'any.required': 'Identifier là bắt buộc'
+            'string.pattern.base': 'Identifier must be a valid SSN (12 digits) or Passport (6-9 alphanumeric characters)',
+            'any.required': 'Identifier is required'
         })
 });
 
-// Schema kiểm tra input cho /by-id
 const ticketByIdSchema = Joi.object({
     ticketId: Joi.string()
         .max(10)
         .required()
         .messages({
-            'string.max': 'Mã vé không được vượt quá 10 ký tự',
-            'any.required': 'Mã vé là bắt buộc'
+            'string.max': 'Ticket ID must not exceed 10 characters',
+            'any.required': 'Ticket ID is required'
         }),
 });
 

@@ -7,7 +7,7 @@ function generatePromotionID() {
 }
 
 async function createPromotion(data) {
-    const PromotionID = generatePromotionID(); // Sinh PromotionID tại đây
+    const PromotionID = generatePromotionID(); 
     return await Promotion.create({ ...data, PromotionID });
 }
 

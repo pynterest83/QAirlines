@@ -48,7 +48,7 @@ const createFlightSchema = Joi.object({
 
 const getFlightsSchema = Joi.object({
     flightIds: Joi.string()
-        .pattern(/^[A-Za-z0-9,]*$/) // Allows alphanumeric characters and commas
+        .pattern(/^[A-Za-z0-9,]*$/)
         .optional()
         .messages({
             'string.pattern.base': 'Flight IDs must be a comma-separated list of alphanumeric values.',

@@ -28,6 +28,7 @@ function MyFlights() {
       }
       return res.json();
     }).then((data) => {
+      console.log(data);
       setTicketData(data);
       if (data.Passenger) {
         setFirstName(data.Passenger.FirstName);
@@ -101,12 +102,12 @@ function MyFlights() {
           </button>
         </div>
       </div>
-      {ticketData && ticketData.Tickets && ticketData.Tickets.length > 0 ? (
-        ticketData.Tickets.map((ticket, index) => (
+      {ticketData && ticketData.tickets && ticketData.tickets.length > 0 ? (
+        ticketData.tickets.map((ticket, index) => (
           <div key={index} className="mb-4"> {/* Add margin-bottom to each Ticket component */}
             <Ticket
               flight={ticket.FlightDetails}
-              passenger={ticketData.Passenger}
+              passenger={ticket.Passenger}
               class={ticket.Class}
               ticketID={ticket.TicketID}
               seatNo={ticket.SeatNo}

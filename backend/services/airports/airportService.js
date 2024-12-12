@@ -14,8 +14,6 @@ const getRelatedAirports = async (airportID) => {
         attributes: ['DepID', 'DestID'],
         raw: true
     });
-
-    // Tập hợp thông tin loại chuyến bay cho mỗi sân bay
     const airportTypeMap = {};
 
     flights.forEach(flight => {
@@ -34,10 +32,6 @@ const getRelatedAirports = async (airportID) => {
             console.log('Airport type map:', airportTypeMap[flight.DepID]);
         }
     });
-
-    // console.log('Airport type map:', airportTypeMap);
-
-    // Lấy danh sách các sân bay liên quan
     const relatedAirports = await Airport.findAll({
         where: {
             AirportID: {
@@ -46,8 +40,6 @@ const getRelatedAirports = async (airportID) => {
         },
         attributes: ['AirportID', 'AirportName', 'City', 'Country']
     });
-
-    // Thêm loại chuyến bay vào kết quả
     return relatedAirports.map(airport => ({
         Type: airportTypeMap[airport.AirportID],
         AirportID: airport.AirportID,

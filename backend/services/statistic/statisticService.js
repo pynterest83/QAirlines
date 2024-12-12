@@ -1,4 +1,6 @@
-require('dotenv').config();
+require('dotenv').config({
+    path: './../../../.env'
+});
 const {Ticket} = require("../../models/schemas");
 const {Op, fn, col, literal} = require("sequelize");
 
@@ -14,8 +16,8 @@ const getMonthlyBookingStatistic = async (year) => {
         where: {
             CancellationDeadline: {
                 [Op.between]: [
-                    new Date(year, 0, 1), // Start of the year
-                    new Date(year, 11, 31) // End of the year
+                    new Date(year, 0, 1), 
+                    new Date(year, 11, 31) 
                 ],
             },
         },
