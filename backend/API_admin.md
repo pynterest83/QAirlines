@@ -300,3 +300,44 @@
   ]
 }
 ```
+
+## Banner
+### Create Banner
+- **Endpoint:** `/api/banners/create`
+- **Method:** `POST`
+- **POST Body:** JSON object with banner details.
+- **Description:** Creates a banner.
+- **Response:** Confirmation of banner creation.
+- **Example:** `/api/banners/create`  
+![img_1.png](img_1.png)
+
+### Get Banners
+- **Endpoint:** `/api/banners/list`
+- **Method:** `GET`
+- **Query:** `bannerIds` (optional)
+- **Description:** Get all banners.
+- **Response:** List of banners.
+- **Example:** `/api/banners/list?bannerIds=BNV5FK8UAU,BNI5MC7EMB`
+- **Response:**
+```json
+{
+  "banners": [
+    {
+      "BannerID": "BNV5FK8UAU",
+      "Title": "Beijing",
+      "Description": "Beijing Desc",
+      "ImageURL": "https://mnmeanwagbiimebjrsgm.supabase.co/storage/v1/object/public/banner-files/BNV5FK8UAU/Screenshot%20from%202023-12-13%2001-47-28.png",
+      "DiscountTitle": "Discover Beijing with 20% off",
+      "DiscountDescription": "Auth 20%"
+    },
+    {
+      "BannerID": "BNI5MC7EMB",
+      "Title": "Beijing2",
+      "Description": "Beijing Desc",
+      "ImageURL": "https://mnmeanwagbiimebjrsgm.supabase.co/storage/v1/object/public/banner-files/BNI5MC7EMB/Screenshot%20from%202024-12-13%2001-47-28.png",
+      "DiscountTitle": "Discover Beijing with 20% off",
+      "DiscountDescription": "Auth 20%"
+    }
+  ]
+}
+```
