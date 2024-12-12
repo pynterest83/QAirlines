@@ -22,6 +22,9 @@ function FlightInDay({ date }) {
             },
         })
             .then((response) => {
+                if (response.status === 404) {
+                    throw new Error('No flights available for this date');
+                }
                 if (!response.ok) {
                     throw new Error('Error fetching flights');
                 }
@@ -30,14 +33,12 @@ function FlightInDay({ date }) {
             .then((data) => {
                 if (data && data.flights) {
                     setFlights(data.flights);
-                } else {
-                    setError('No flights available for this date');
                 }
                 setLoading(false);
             })
             .catch((err) => {
                 console.error('Error:', err);
-                setError('Error fetching data');
+                setError(err.message);
                 setLoading(false);
             });
     }, [date, token]);
@@ -80,7 +81,7 @@ function FlightInDay({ date }) {
     }
 
     if (error) {
-        return <div className="text-center text-red-600 mt-10">Error: {error}</div>;
+        return <div className="text-center text-red-600 mt-10">{error}</div>;
     }
 
     return (
