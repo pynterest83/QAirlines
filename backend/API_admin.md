@@ -16,6 +16,7 @@
   - [Create Aircraft](#create-aircraft)
 - [Statistics](#statistics)
   - [Tickets booked monthly in a year](#tickets-booked-monthly-in-a-year)
+  - [Income monthly in a year](#income-monthly-in-a-year)
 - [Banner](#banner)
   - [Create Banner](#create-banner)
   - [Get Banners](#get-banners)
