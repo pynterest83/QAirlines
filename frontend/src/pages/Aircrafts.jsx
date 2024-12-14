@@ -14,7 +14,7 @@ function Aircrafts() {
     }, []);
     return (
         <div className="relative">
-            <Navigation/>
+            <Navigation selecting="help"/>
             {aircrafts.map(aircraft =>
                 <Info info={aircraft} key={aircraft.AircraftID}/>
             )}
