@@ -3,7 +3,7 @@ require('dotenv').config({
 });
 
 const {literal, col, Op, fn} = require("sequelize");
-const {Ticket, TicketClass, Flight, Seat, FlightSeat} = require("../../models/schemas");
+const {Ticket, TicketClass, Seat, FlightSeat} = require("../../models/schemas");
 
 const getMonthlyBookingStatistic = async (year) => {
     const command = process.env.DB_TYPE === 'postgres'
@@ -44,11 +44,7 @@ const getMonthlyIncomeStatistic = async (year) => {
         const startDate = new Date(`${year}-01-01`);
         const endDate = new Date(`${parseInt(year) + 1}-01-01`);
 
-        const command = process.env.DB_TYPE === 'postgres'
-            ? 'EXTRACT(MONTH FROM "DepTime")'
-            : 'MONTH(DepTime)';
-
-        // Step 1: Get all tickets with associated flight seats and classes
+        // Step 1: Get all tickets with associated flight seats and classes for the specified year
         const ticketData = await FlightSeat.findAll({
             where: {
                 TicketID: { [Op.not]: null },
@@ -56,7 +52,12 @@ const getMonthlyIncomeStatistic = async (year) => {
             include: [
                 {
                     model: Ticket,
-                    attributes: ['TicketID', 'FlightID'],
+                    attributes: ['TicketID', 'FlightID', 'CancellationDeadline'],
+                    where: {
+                        CancellationDeadline: {
+                            [Op.between]: [startDate, endDate],
+                        },
+                    },
                 },
                 {
                     model: Seat,
@@ -82,22 +83,6 @@ const getMonthlyIncomeStatistic = async (year) => {
 
         console.log('Class Price Map:', classPriceMap);
 
-        // Step 3: Calculate total income by flight and month
-        const flightData = await Flight.findAll({
-            attributes: [
-                'FlightID',
-                [literal(command), 'month'],
-                'DepTime',
-            ],
-            where: {
-                DepTime: {
-                    [Op.between]: [startDate, endDate],
-                },
-            },
-        });
-
-        console.log('Flight Data:', JSON.stringify(flightData, null, 2));
-
         const monthlyIncomeMap = {};
 
         ticketData.forEach((seat) => {
@@ -109,10 +94,9 @@ const getMonthlyIncomeStatistic = async (year) => {
             const flightID = ticket.FlightID;
             const className = seatDetails.Class;
 
-            const flight = flightData.find((f) => f.FlightID === flightID);
-            if (!flight) return;
+            const cancellationDate = new Date(ticket.CancellationDeadline);
+            const month = cancellationDate.getUTCMonth() + 1; // Months are zero-based
 
-            const month = flight.getDataValue('month');
             const priceKey = `${className}-${flightID}`;
             const price = classPriceMap[priceKey] || 0;
 
@@ -121,7 +105,7 @@ const getMonthlyIncomeStatistic = async (year) => {
 
         console.log('Monthly Income Map:', monthlyIncomeMap);
 
-        // Step 4: Format the result for all 12 months
+        // Step 3: Format the result for all 12 months
         const result = Array.from({ length: 12 }, (_, i) => ({
             month: i + 1,
             totalIncome: monthlyIncomeMap[i + 1] || 0,
@@ -135,7 +119,6 @@ const getMonthlyIncomeStatistic = async (year) => {
         throw new Error('Failed to calculate monthly income statistics');
     }
 };
-
 
 module.exports = {
     getMonthlyBookingStatistic,
