@@ -305,6 +305,70 @@
 }
 ```
 
+### Income monthly in a year
+- **Endpoint:** `/api/statistics/income/monthly`
+- **Method:** `GET`
+- **Query:** `year`
+- **Description:** Get the income monthly in a year.
+- **Response:** Income monthly in a year.
+- **Example:** `/api/statistics/income/monthly?year=2024`
+- **Response:**
+```json
+{
+  "year": "2024",
+  "monthlyStatistics": [
+    {
+      "month": 1,
+      "totalIncome": 0
+    },
+    {
+      "month": 2,
+      "totalIncome": 0
+    },
+    {
+      "month": 3,
+      "totalIncome": 0
+    },
+    {
+      "month": 4,
+      "totalIncome": 0
+    },
+    {
+      "month": 5,
+      "totalIncome": 0
+    },
+    {
+      "month": 6,
+      "totalIncome": 0
+    },
+    {
+      "month": 7,
+      "totalIncome": 0
+    },
+    {
+      "month": 8,
+      "totalIncome": 0
+    },
+    {
+      "month": 9,
+      "totalIncome": 0
+    },
+    {
+      "month": 10,
+      "totalIncome": 0
+    },
+    {
+      "month": 11,
+      "totalIncome": 0
+    },
+    {
+      "month": 12,
+      "totalIncome": 3700
+    }
+  ]
+}
+```
+
 ## Banner
 ### Create Banner
 - **Endpoint:** `/api/banners/create`

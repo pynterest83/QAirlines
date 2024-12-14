@@ -9,5 +9,6 @@ const router = express.Router();
 
 
 router.get('/booking/monthly', authenticateUser, checkAdmin, validate(monthlyBookingStatisticsSchema, 'query'), statisticController.handleMonthlyBooking);
+router.get('/income/monthly', authenticateUser, checkAdmin, validate(monthlyBookingStatisticsSchema, 'query'), statisticController.handleMonthlyIncome);
 
 module.exports = router;

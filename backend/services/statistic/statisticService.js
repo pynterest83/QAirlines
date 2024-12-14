@@ -1,8 +1,9 @@
 require('dotenv').config({
     path: './../../../.env'
 });
-const {Ticket} = require("../../models/schemas");
-const {Op, fn, col, literal} = require("sequelize");
+
+const {literal, col, Op, fn} = require("sequelize");
+const {Ticket, TicketClass, Flight, Seat, FlightSeat} = require("../../models/schemas");
 
 const getMonthlyBookingStatistic = async (year) => {
     const command = process.env.DB_TYPE === 'postgres'
@@ -38,6 +39,105 @@ const getMonthlyBookingStatistic = async (year) => {
     return monthlyStatistics;
 };
 
+const getMonthlyIncomeStatistic = async (year) => {
+    try {
+        const startDate = new Date(`${year}-01-01`);
+        const endDate = new Date(`${parseInt(year) + 1}-01-01`);
+
+        const command = process.env.DB_TYPE === 'postgres'
+            ? 'EXTRACT(MONTH FROM "DepTime")'
+            : 'MONTH(DepTime)';
+
+        // Step 1: Get all tickets with associated flight seats and classes
+        const ticketData = await FlightSeat.findAll({
+            where: {
+                TicketID: { [Op.not]: null },
+            },
+            include: [
+                {
+                    model: Ticket,
+                    attributes: ['TicketID', 'FlightID'],
+                },
+                {
+                    model: Seat,
+                    as: 'seatDetails',
+                    attributes: ['Class'],
+                },
+            ],
+        });
+
+        console.log('Ticket Data:', JSON.stringify(ticketData, null, 2));
+
+        // Step 2: Map ticket classes to their prices
+        const ticketClasses = await TicketClass.findAll({
+            attributes: ['ClassName', 'FlightID', 'Price'],
+        });
+
+        console.log('Ticket Classes:', JSON.stringify(ticketClasses, null, 2));
+
+        const classPriceMap = ticketClasses.reduce((acc, item) => {
+            acc[`${item.ClassName}-${item.FlightID}`] = parseFloat(item.Price);
+            return acc;
+        }, {});
+
+        console.log('Class Price Map:', classPriceMap);
+
+        // Step 3: Calculate total income by flight and month
+        const flightData = await Flight.findAll({
+            attributes: [
+                'FlightID',
+                [literal(command), 'month'],
+                'DepTime',
+            ],
+            where: {
+                DepTime: {
+                    [Op.between]: [startDate, endDate],
+                },
+            },
+        });
+
+        console.log('Flight Data:', JSON.stringify(flightData, null, 2));
+
+        const monthlyIncomeMap = {};
+
+        ticketData.forEach((seat) => {
+            const ticket = seat.Ticket;
+            const seatDetails = seat.seatDetails;
+
+            if (!ticket || !seatDetails) return;
+
+            const flightID = ticket.FlightID;
+            const className = seatDetails.Class;
+
+            const flight = flightData.find((f) => f.FlightID === flightID);
+            if (!flight) return;
+
+            const month = flight.getDataValue('month');
+            const priceKey = `${className}-${flightID}`;
+            const price = classPriceMap[priceKey] || 0;
+
+            monthlyIncomeMap[month] = (monthlyIncomeMap[month] || 0) + price;
+        });
+
+        console.log('Monthly Income Map:', monthlyIncomeMap);
+
+        // Step 4: Format the result for all 12 months
+        const result = Array.from({ length: 12 }, (_, i) => ({
+            month: i + 1,
+            totalIncome: monthlyIncomeMap[i + 1] || 0,
+        }));
+
+        console.log('Final Result:', result);
+
+        return result;
+    } catch (error) {
+        console.error('Error calculating monthly income statistics:', error.message);
+        throw new Error('Failed to calculate monthly income statistics');
+    }
+};
+
+
 module.exports = {
-    getMonthlyBookingStatistic
+    getMonthlyBookingStatistic,
+    getMonthlyIncomeStatistic,
 };
