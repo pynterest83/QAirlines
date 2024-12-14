@@ -12,6 +12,7 @@ const flightRoutes = require('./api/flights');
 const aircraftRoutes = require('./api/aircrafts');
 const statisticRoutes = require('./api/statistic');
 const airportsRoutes = require('./api/airports');
+const bannerRoutes = require('./api/banner');
 
 
 router.use('/offers', offersRoutes);
@@ -23,5 +24,6 @@ router.use('/flights', flightRoutes);
 router.use('/aircrafts', aircraftRoutes);
 router.use('/statistics', statisticRoutes);
 router.use('/airports', airportsRoutes);
+router.use('/banners', bannerRoutes);
 
 module.exports = router;

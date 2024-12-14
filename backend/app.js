@@ -21,6 +21,7 @@ require('./models/schemas/Ticket');
 require('./models/schemas/TicketClass');
 require('./models/schemas/Promotion');
 require('./models/schemas/User');
+require('./models/schemas/Banner');
 
 // Import associations
 require('./models/schemas/associations');
