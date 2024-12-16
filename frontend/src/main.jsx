@@ -20,6 +20,7 @@ import Aircrafts from "./pages/Aircrafts.jsx";
 import BannerPage from './pages/BannerPage.jsx';
 import Discounts from './pages/Discounts.jsx';
 import Network from './pages/Network.jsx';
+import Classes from "./pages/Classes.jsx";
 
 const router = createBrowserRouter([
     {
@@ -113,6 +114,10 @@ const router = createBrowserRouter([
     {
         path: '/network',
         element: <Network />
+    },
+    {
+        path: '/classes',
+        element: <Classes/>
     }
 ]);
 
