@@ -13,7 +13,7 @@ function Classes() {
                 <div className="be-vietnam-pro-medium text-[18px] mb-6">
                     QAirline offers three ticket classes for passengers: Economy, Business and First Class.
                 </div>
-                <figure className="mx-auto w-[50%] mb-6">
+                <figure className="mx-auto md:max-w-[50%] mb-6">
                     <img className="rounded-xl"
                         src="https://www.vietnamairlines.com/~/media/Upload/A320neo/DSC00834.JPG"
                         alt="Economy"/>
@@ -21,7 +21,7 @@ function Classes() {
                         An example of economy-class seats on an Airbus A320 Neo-300
                     </figcaption>
                 </figure>
-                <figure className="mx-auto w-[50%] mb-6">
+                <figure className="mx-auto md:max-w-[50%] mb-6">
                     <img className="rounded-xl"
                         src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Cathay_Pacific_-_A330-300_-_Business_Class_%288108289508%29.jpg/1280px-Cathay_Pacific_-_A330-300_-_Business_Class_%288108289508%29.jpg"
                         alt="Business"/>
@@ -31,7 +31,7 @@ function Classes() {
                         system.
                     </figcaption>
                 </figure>
-                <figure className="mx-auto w-[50%] mb-6">
+                <figure className="mx-auto md:max-w-[50%] mb-6">
                     <img className="rounded-xl"
                         src="https://media.cntraveler.com/photos/5ce2ebfbd1be0293a1fc6a41/master/w_1920%2Cc_limit/Air-France-La-Premiere.jpg"
                         alt="Business"/>
