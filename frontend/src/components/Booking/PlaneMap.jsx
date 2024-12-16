@@ -41,7 +41,7 @@ function PlaneMap(props) {
     function SetMap() {
         scale.current = PlaneImage.current.width / PlaneImage.current.naturalWidth
         ScaleMap()
-
+        props.load(false)
     }
     useEffect(() => {
         setAvailable([])

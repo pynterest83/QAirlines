@@ -14,6 +14,12 @@ function DateSelect(props) {
     function SetDateList(_date, numberOfDate) {
         let date_begin = Date.parse(_date) - 86400000 * numberOfDate
         let date_end = date_begin + 2 * numberOfDate * 86400000
+        let temp = []
+        for (let i = 0; i <= 2 * numberOfDate; i++) {
+            let date = new Date(date_begin + i * 86400000).toISOString().split("T")[0]
+            temp.push({Date: date, Price: null})
+        }
+        setDates(temp)
         fetch(Server + "offers/in-range?" + new URLSearchParams({
             departure: props.from,
             destination: props.to,
@@ -51,6 +57,7 @@ function DateSelect(props) {
         }
     }, [dates]);
     useEffect(() => {
+        console.log("Here")
         SetDateList(props.date, 4)
     }, [props.classType]);
     return (

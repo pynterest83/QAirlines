@@ -4,7 +4,7 @@ import PlaneMap from "./PlaneMap.jsx";
 import {AiOutlineClose} from "react-icons/ai";
 import Payments from "./Payments.jsx";
 import {Server} from "../../Server.js";
-
+import loaderGif from '../../assets/images/airplaneLoader.gif'
 function TicketList(props) {
     const tickets = useRef([])
     const [open, setOpen] = useState([])
@@ -78,6 +78,7 @@ function TicketList(props) {
     }
     const info_ref = useRef(null)
     function BookTicket() {
+        load(true)
         let request = {
                 flightID: props.info.FlightID,
                 passengers: tickets.current.map(ticket => ticket.Info)
@@ -99,11 +100,13 @@ function TicketList(props) {
                 props.Book(null, false)
                 r.json().then(e => error(e.error))
             }
+            load(false)
         })
     }
     const [isMapOpen, openMap] = useState(false)
     const selectable = useRef({allowed: false})
     const choosingSeat = useRef(-1)
+    const [loading, load] = useState(true)
     function ChooseSeat(seat) {
         tickets.current[choosingSeat.current].Info.seatNo = seat
         selectable.current = {allowed: false}
@@ -115,6 +118,13 @@ function TicketList(props) {
     const [bookingError, error] = useState(null)
     return (
         <div ref={info_ref} className="flex flex-col flex-1 overflow-hidden">
+            {loading &&
+                <div className="fixed top-20 w-[100vw] h-[90vh] overflow-y-scroll bg-black bg-opacity-20 z-30">
+                    <img className="top-1/2 h-72 absolute mx-auto left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                         src={loaderGif}
+                         alt="Loading..."/>
+                </div>
+            }
             <div className="select-none flex-1 overflow-x-hidden w-full">
                 {tickets.current.map((passenger, index) =>
                     <div className="overflow-hidden"
@@ -164,7 +174,7 @@ function TicketList(props) {
             <div className= {
                 (isMapOpen ? "" : "hidden ") +
                 "fixed top-20 w-[100vw] h-[90vh] overflow-y-scroll bg-white"}>
-                <PlaneMap select={selectable.current} info={props.info} choose={ChooseSeat}/>
+                <PlaneMap load={load} select={selectable.current} info={props.info} choose={ChooseSeat}/>
                 <button onClick={() => openMap(false)} className="fixed top-[85px] right-5 p-3 hover:bg-[#e6e6e6]">
                     <AiOutlineClose/>
                 </button>

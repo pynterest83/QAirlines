@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from "react";
-import { AirportData } from "../assets/data/AirportData";
 import FlightBox from "../components/FlightStatus/FlightBox";
 import Navigation from "../components/Navigation";
 import { Server } from "../Server";
 import {cityList} from "../components/Homepage/TicketBookingBox.jsx";
+import loaderGif from "../assets/images/airplaneLoader.gif";
 
 const FlightStatus = () => {
   const [fromCity, setFromCity] = useState("");
@@ -21,7 +21,7 @@ const FlightStatus = () => {
   const [isFirstTimeDate, setIsFirstTimeDate] = useState(true);
   const [isFirstTimeFlightID, setIsFirstTimeFlightID] = useState(true);
   const today = new Date().toISOString().split("T")[0];
-
+  const [loading, load] = useState(false)
   const fromInputRef = useRef(null);
   const toInputRef = useRef(null);
 
@@ -123,6 +123,7 @@ const FlightStatus = () => {
   };
 
   const SearchFlights = async () => {
+    load(true)
     try {
       let response;
       if (searchType === "date") {
@@ -134,7 +135,6 @@ const FlightStatus = () => {
         // Extract city codes from fromCity and toCity
         const fromCityCode = fromCity.match(/\(([^)]+)\)/)?.[1] || fromCity;
         const toCityCode = toCity.match(/\(([^)]+)\)/)?.[1] || toCity;
-      
         if (!toCityCode) {
           // Fetch all flights if toCityCode is blank
           response = await fetch(`${Server}flights/list`);
@@ -144,7 +144,9 @@ const FlightStatus = () => {
             `${Server}offers/one-way?departure=${fromCityCode}&destination=${toCityCode}&departure_date=${departureDate}`
           );
         }
+        load(false)
       } else if (searchType === "FlightID") {
+        load(false)
         if (flightID.length !== 5) {
           setErrorMessage("Flight ID must be exactly 5 characters long.");
           return;
@@ -166,11 +168,12 @@ const FlightStatus = () => {
           setFlightsByFlightID(data.flights || []);
         }
       }
+      load(false)
     } catch (error) {
+      load(false)
       console.error("Error fetching flights:", error);
     }
   };
-
   return (
     <div className="relative">
       <Navigation selecting={"booking"} />
@@ -340,35 +343,45 @@ const FlightStatus = () => {
           )}
         </div>
         {errorMessage && <div className="text-red-500 mt-2">{errorMessage}</div>}
-        {searchType === "date" ? (
-          Array.isArray(flightsByDate) && flightsByDate.length > 0 ? (
-            flightsByDate.map((flight, index) => <FlightBox key={index} {...flight} />)
-          ) : (
-            <div className="my-4 w-[95%] md:w-4/6 h-fit mx-auto bg-white rounded-2xl border border-black p-4">
-              <img className="h-24 mx-auto" src="/no-results.png" alt="Not found" />
-              <div className="be-vietnam-pro-bold mx-auto text-xl text-center mt-8">
-                No flights found.
+        {loading ?
+            <div className="relative my-4 w-[95%] md:w-4/6 h-48 mx-auto bg-white rounded-2xl border border-black p-4">
+              <img className="-top-12 h-72 absolute mx-auto left-1/2 transform -translate-x-1/2"
+                   src={loaderGif}
+                   alt="Loading..."/>
+              <div className="be-vietnam-pro-bold mx-auto text-xl text-center mt-36">
+                Finding flights...
               </div>
-              <div className="be-vietnam-pro-medium mx-auto text-base text-center mt-1">
-                We couldn&#39;t find any flight on this day. Consider trying a different date.
-              </div>
-            </div>
-          )
-        ) : (
-          Array.isArray(flightsByFlightID) && flightsByFlightID.length > 0 ? (
-            flightsByFlightID.map((flight, index) => <FlightBox key={index} {...flight} />)
-          ) : (
-            <div className="my-4 w-[95%] md:w-4/6 h-fit mx-auto bg-white rounded-2xl border border-black p-4">
-              <img className="h-24 mx-auto" src="/no-results.png" alt="Not found" />
-              <div className="be-vietnam-pro-bold mx-auto text-xl text-center mt-8">
-                No flights found.
-              </div>
-              <div className="be-vietnam-pro-medium mx-auto text-base text-center mt-1">
-                We couldn&#39;t find any flight with this ID. Consider trying a different ID.
-              </div>
-            </div>
-          )
-        )}
+            </div> :
+            searchType === "date" ? (
+                Array.isArray(flightsByDate) && flightsByDate.length > 0 ? (
+                    flightsByDate.map((flight, index) => <FlightBox key={index} {...flight} />)
+                ) : (
+                    <div className="my-4 w-[95%] md:w-4/6 h-fit mx-auto bg-white rounded-2xl border border-black p-4">
+                      <img className="h-24 mx-auto" src="/no-results.png" alt="Not found" />
+                      <div className="be-vietnam-pro-bold mx-auto text-xl text-center mt-8">
+                        No flights found.
+                      </div>
+                      <div className="be-vietnam-pro-medium mx-auto text-base text-center mt-1">
+                        We couldn&#39;t find any flight on this day. Consider trying a different date.
+                      </div>
+                    </div>
+                )
+            ) : (
+                Array.isArray(flightsByFlightID) && flightsByFlightID.length > 0 ? (
+                    flightsByFlightID.map((flight, index) => <FlightBox key={index} {...flight} />)
+                ) : (
+                    <div className="my-4 w-[95%] md:w-4/6 h-fit mx-auto bg-white rounded-2xl border border-black p-4">
+                      <img className="h-24 mx-auto" src="/no-results.png" alt="Not found" />
+                      <div className="be-vietnam-pro-bold mx-auto text-xl text-center mt-8">
+                        No flights found.
+                      </div>
+                      <div className="be-vietnam-pro-medium mx-auto text-base text-center mt-1">
+                        We couldn&#39;t find any flight with this ID. Consider trying a different ID.
+                      </div>
+                    </div>
+                )
+            )
+        }
       </div>
     </div>
   );

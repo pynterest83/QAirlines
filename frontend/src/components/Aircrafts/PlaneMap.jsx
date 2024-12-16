@@ -1,4 +1,5 @@
 import {useEffect, useRef, useState} from "react";
+import loaderGif from "../../assets/images/airplaneLoader.gif";
 
 function PlaneMap(props) {
     const [mapData, setMapData] = useState([])
@@ -6,6 +7,7 @@ function PlaneMap(props) {
     const mapDescription = useRef(null)
     const PlaneImage = useRef(null)
     const scale = useRef(1)
+    const [loading, load] = useState(true)
     function ScaleMap() {
         let temp = rawCoords.current.slice()
         temp.forEach((el, index) => {
@@ -26,8 +28,10 @@ function PlaneMap(props) {
                 rawCoords.current = Array.from(_data, (e) => e[0])
                 ScaleMap()
                 mapDescription.current = Array.from(_data, e => [e[1], e[2]])
+                load(false)
             })
         })
+
     }
     useEffect(() => {
         const resizeObserver = new ResizeObserver(() => {
@@ -63,6 +67,14 @@ function PlaneMap(props) {
     }
     return (
         <div ref={ImageContainer} className="relative mx-auto bg-white w-full lg:w-1/2">
+            {
+                loading &&
+                <div className="fixed inset-0 bg-black bg-opacity-20">
+                    <img className="top-1/2 h-72 absolute mx-auto left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                         src={loaderGif}
+                         alt="Loading..."/>
+                </div>
+            }
             <img onLoad={SetMap} ref={PlaneImage} className="w-full h-auto"
                  draggable="false"
                  src={props.image}
