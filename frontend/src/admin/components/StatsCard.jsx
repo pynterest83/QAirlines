@@ -1,7 +1,6 @@
-// StatsCards.jsx
 import React from 'react';
 
-const StatsCards = () => {
+const StatsCard = ({ totalBookings, totalIncome, availableAirlines, totalFlights }) => {
   return (
     <div className="flex flex-wrap justify-center gap-4 my-8">
       {/* Total Passengers Card */}
@@ -10,7 +9,7 @@ const StatsCards = () => {
           <i className="fas fa-users text-3xl"></i>
         </div>
         <p className="text-lg">Total Passengers</p>
-        <p className="text-3xl font-bold mt-2">4</p>
+        <p className="text-3xl font-bold mt-2">{totalBookings}</p>
       </div>
 
       {/* Amount Card */}
@@ -19,7 +18,7 @@ const StatsCards = () => {
           <i className="fas fa-money-bill-wave text-3xl"></i>
         </div>
         <p className="text-lg">Amount</p>
-        <p className="text-3xl font-bold mt-2">$2710</p>
+        <p className="text-3xl font-bold mt-2">${totalIncome}</p>
       </div>
 
       {/* Flights Card */}
@@ -28,7 +27,7 @@ const StatsCards = () => {
           <i className="fas fa-plane text-3xl"></i>
         </div>
         <p className="text-lg">Flights</p>
-        <p className="text-3xl font-bold mt-2">20</p>
+        <p className="text-3xl font-bold mt-2">{totalFlights}</p>
       </div>
 
       {/* Available Airlines Card */}
@@ -37,10 +36,10 @@ const StatsCards = () => {
           <i className="fas fa-plane-departure text-3xl"></i>
         </div>
         <p className="text-lg">Available Airlines</p>
-        <p className="text-3xl font-bold mt-2">11</p>
+        <p className="text-3xl font-bold mt-2">{availableAirlines}</p>
       </div>
     </div>
   );
 };
 
-export default StatsCards;
+export default StatsCard;
