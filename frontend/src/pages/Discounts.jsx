@@ -8,7 +8,7 @@ const Discounts = () => {
   const navigate = useNavigate();
 
   const handleDetailsClick = (banner) => {
-    navigate("/banner", { state: { banner } });
+    navigate("/banner", { state: { data: banner } });
   };
 
   console.log(BannerData);
