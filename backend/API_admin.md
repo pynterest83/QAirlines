@@ -169,34 +169,84 @@
 ```json
 [
   {
-    "TicketID": "T328760",
+    "TicketID": "T746697",
     "Passenger": {
-      "DOB": "2015-05-01",
-      "PassID": "P16444",
-      "FirstName": "Jane",
-      "LastName": "Doe",
-      "Gender": "F",
-      "Email": null,
-      "PhoneNumber": null,
-      "Passport": null,
-      "SSN": null,
-      "GuardianID": "P001"
-    }
+      "DOB": "2024-12-02",
+      "PassID": "P249209",
+      "FirstName": "Quang",
+      "LastName": "Chu",
+      "Gender": "M",
+      "Email": "quangdtm2004@gmail.com",
+      "PhoneNumber": "0986168118",
+      "Passport": "01234567890123456789",
+      "SSN": "123456789012",
+      "GuardianID": null
+    },
+    "SeatClass": "Economy"
   },
   {
-    "TicketID": "T372183",
+    "TicketID": "T502580",
+    "Passenger": {
+      "DOB": "2024-12-02",
+      "PassID": "P736650",
+      "FirstName": "Quang",
+      "LastName": "Chu",
+      "Gender": "M",
+      "Email": "q@gmail.com",
+      "PhoneNumber": "0987654321",
+      "Passport": "09876543210987654321",
+      "SSN": "098765432109",
+      "GuardianID": null
+    },
+    "SeatClass": "Economy"
+  },
+  {
+    "TicketID": "T825696",
+    "Passenger": {
+      "DOB": "2024-12-02",
+      "PassID": "P686902",
+      "FirstName": "Quang",
+      "LastName": "Phuc",
+      "Gender": "M",
+      "Email": "p@gmail.com",
+      "PhoneNumber": "0987654321",
+      "Passport": "09876543210987654321",
+      "SSN": "098765432109",
+      "GuardianID": null
+    },
+    "SeatClass": "Economy"
+  },
+  {
+    "TicketID": "T761919",
+    "Passenger": {
+      "DOB": "2024-12-01",
+      "PassID": "P178666",
+      "FirstName": "a",
+      "LastName": "b",
+      "Gender": "M",
+      "Email": "abc@gmail.com",
+      "PhoneNumber": "0987654321",
+      "Passport": "09876543210987654321",
+      "SSN": "098765432109",
+      "GuardianID": null
+    },
+    "SeatClass": "Economy"
+  },
+  {
+    "TicketID": "T76623",
     "Passenger": {
       "DOB": "1985-07-23",
-      "PassID": "P001",
+      "PassID": "P547889",
       "FirstName": "John",
       "LastName": "Doe",
       "Gender": "M",
       "Email": "johndoe@example.com",
-      "PhoneNumber": "123456789",
-      "Passport": "B12345678",
-      "SSN": "123456789012",
+      "PhoneNumber": "123445789",
+      "Passport": "J12345678",
+      "SSN": "123457869012",
       "GuardianID": null
-    }
+    },
+    "SeatClass": "Business"
   }
 ]
 ```

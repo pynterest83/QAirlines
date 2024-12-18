@@ -40,7 +40,7 @@ async function findOrCreatePassenger(data) {
 
 async function bookTicket(flightID, seatNo, passID) {
     const flight = await Flight.findByPk(flightID);
-    if (!flight) throw new Error('Chuyến bay không tồn tại');
+    if (!flight) throw new Error('Flight not found');
 
     const ticketID = `T${Math.floor(Math.random() * 1000000)}`;
     const cancellationDeadline = new Date(new Date(flight.DepTime).getTime() - 72 * 60 * 60 * 1000);
@@ -166,10 +166,10 @@ async function getTicketsByPassenger(identifier) {
 
 async function getTicketByID(ticketID) {
     const ticket = await Ticket.findByPk(ticketID);
-    if (!ticket) throw new Error('Không tìm thấy vé có ID này');
+    if (!ticket) throw new Error('Cannot find ticket with the provided ID');
 
     const passenger = await Passenger.findByPk(ticket.PassID);
-    if (!passenger) throw new Error('Không tìm thấy hành khách');
+    if (!passenger) throw new Error('Cannot find passenger associated with the ticket');
 
     const flight = await Flight.findByPk(ticket.FlightID, {
         include: [{
@@ -179,7 +179,7 @@ async function getTicketByID(ticketID) {
         }]
     });
 
-    if (!flight) throw new Error('Không tìm thấy chuyến bay tương ứng');
+    if (!flight) throw new Error('Cannot find flight associated with the ticket');
 
     const flightSeat = await FlightSeat.findOne({
         where: { TicketID: ticketID },
