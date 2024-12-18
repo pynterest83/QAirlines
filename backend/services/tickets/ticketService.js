@@ -210,15 +210,7 @@ async function getTicketByID(ticketID) {
             DOB: passenger.DOB ? passenger.DOB : null,
             Gender: passenger.Gender
         },
-        Flight: {
-            FlightID: flight.FlightID,
-            DepTime: flight.DepTime ? flight.DepTime.toISOString() : null,
-            ArrTime: flight.ArrTime ? flight.ArrTime.toISOString() : null,
-            BoardingTime: flight.BoardingTime ? flight.BoardingTime.toISOString() : null,
-            DepID: flight.DepID,
-            DestID: flight.DestID,
-            AircraftID: flight.AircraftID
-        }
+        Flight: flight
     };
 }
 
