@@ -4,6 +4,7 @@ import Navigation from "../components/Navigation";
 import { Server } from "../Server";
 import {cityList} from "../components/Homepage/TicketBookingBox.jsx";
 import loaderGif from "../assets/images/airplaneLoader.gif";
+import ScrollToTop from "../scroll.jsx";
 
 const FlightStatus = () => {
   const [fromCity, setFromCity] = useState("");
@@ -176,6 +177,7 @@ const FlightStatus = () => {
   };
   return (
     <div className="relative">
+      <ScrollToTop />
       <Navigation selecting={"booking"} />
       <div className="max-w-[1000px] mx-auto p-4">
         <div className="sticky top-[64px] bg-white z-20 p-4 rounded-lg shadow-md">

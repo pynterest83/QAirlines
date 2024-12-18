@@ -3,6 +3,7 @@ import { Navigate } from 'react-router-dom';
 import { Server } from '../Server';
 import AdminNavigation from './components/AdminNavigation';
 import airplaneLoader from '../assets/images/airplaneLoader.gif';
+import ScrollToTop from "../scroll.jsx";
 
 const AdminBanner = () => {
     const token = localStorage.getItem("token");
@@ -143,6 +144,7 @@ const AdminBanner = () => {
 
     return (
         <div className="relative">
+            <ScrollToTop />
             <AdminNavigation />
             <div className="p-4">
                 <h2 className="text-xl font-bold mb-6">Add New Banner</h2>

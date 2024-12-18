@@ -7,6 +7,7 @@ import {HiArrowNarrowRight} from "react-icons/hi";
 import {HiArrowsRightLeft } from "react-icons/hi2";
 import {FaCalendarAlt} from "react-icons/fa";
 import DateSelect from "../components/Search/DateSelect.jsx"
+import ScrollToTop from "../scroll.jsx";
 
 function Search() {
     const props = useLocation().state
@@ -131,6 +132,7 @@ function Search() {
     }
     return (
         <div className="relative">
+            <ScrollToTop/>
             <Navigation selecting={"booking"}/>
 
             <div

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import { Server } from '../Server';
 import AdminNavigation from './components/AdminNavigation';
+import ScrollToTop from "../scroll.jsx";
 
 const AdminNotification = () => {
     const token = localStorage.getItem("token");
@@ -115,6 +116,7 @@ const AdminNotification = () => {
 
     return (
         <div className="relative">
+            <ScrollToTop />
             <AdminNavigation />
             <div className="p-4">
             <h2 className="text-xl font-bold mb-6">Add New Notification</h2>
