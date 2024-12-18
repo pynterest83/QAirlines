@@ -257,9 +257,6 @@ function formatFlightsWithinRangeResults(flights) {
 async function queryFlightsByDate(date) {
     const flights = await Flight.findAll({
         where: {
-            Status: {
-                [Op.in]: ['Scheduled', 'Delayed']
-            },
             [Op.and]: [
                 sequelize.where(sequelize.fn('DATE', sequelize.col('DepTime')), date)
             ]
