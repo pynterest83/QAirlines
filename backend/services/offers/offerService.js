@@ -9,6 +9,9 @@ async function queryRoundTrip(departure, destination, departure_date, return_dat
         where: {
             DepID: departure,
             DestID: destination,
+            Status: {
+                [Op.in]: ['Scheduled', 'Delayed']
+            },
             [Op.and]: [
                 sequelize.where(sequelize.fn('DATE', sequelize.col('DepTime')), departure_date)
             ]
@@ -30,6 +33,9 @@ async function queryRoundTrip(departure, destination, departure_date, return_dat
         where: {
             DepID: destination,
             DestID: departure,
+            Status: {
+                [Op.in]: ['Scheduled', 'Delayed']
+            },
             [Op.and]: [
                 sequelize.where(sequelize.fn('DATE', sequelize.col('DepTime')), return_date)
             ]
@@ -130,6 +136,9 @@ async function queryOneWay(departure, destination, departure_date) {
         where: {
             DepID: departure,
             DestID: destination,
+            Status: {
+                [Op.in]: ['Scheduled', 'Delayed']
+            },
             [Op.and]: [
                 sequelize.where(sequelize.fn('DATE', sequelize.col('DepTime')), departure_date)
             ]
@@ -186,6 +195,9 @@ async function queryFlightsWithinRange(departure, destination, start_date, end_d
         where: {
             DepID: departure,
             DestID: destination,
+            Status: {
+                [Op.in]: ['Scheduled', 'Delayed']
+            },
             [Op.and]: [
                 sequelize.where(sequelize.fn('DATE', sequelize.col('DepTime')), {
                     [Op.between]: [start_date, end_date]
@@ -245,6 +257,9 @@ function formatFlightsWithinRangeResults(flights) {
 async function queryFlightsByDate(date) {
     const flights = await Flight.findAll({
         where: {
+            Status: {
+                [Op.in]: ['Scheduled', 'Delayed']
+            },
             [Op.and]: [
                 sequelize.where(sequelize.fn('DATE', sequelize.col('DepTime')), date)
             ]
