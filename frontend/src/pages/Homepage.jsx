@@ -4,11 +4,13 @@ import Notification from "../components/Homepage/Notification.jsx";
 import Footer from "../components/Homepage/Footer.jsx";
 import News from "../components/Homepage/News.jsx";
 import Info from "../components/Homepage/Info.jsx";
+import ScrollToTop from "../scroll.jsx";
 
 function Homepage() {
 
     return (
         <>
+            <ScrollToTop/>
             <Navigation/>
             <Banner/>
             <Notification/>

@@ -189,7 +189,9 @@ function Navigation(props) {
                                     <li className="py-2 hover:border-b-2 hover:border-[#6d24cf] cursor-pointer">
                                         Flights Network
                                     </li>
-                                    <li className="py-2 hover:border-b-2 hover:border-[#6d24cf] cursor-pointer">
+                                    <li className="py-2 hover:border-b-2 hover:border-[#6d24cf] cursor-pointer"
+                                        onClick={() => nav("/classes")}
+                                    >
                                         Flight Classes
                                     </li>
                                 </ul>
