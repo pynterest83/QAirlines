@@ -88,16 +88,57 @@ async function getFlights(flightIds = []) {
 }
 
 const getFlightDetails = async (flightID) => {
-    const passengers = await Ticket.findAll({
-        where: { FlightID: flightID },
-        include: [{
-            model: Passenger
-        }]
+    console.log(`Fetching flight details for FlightID: ${flightID}`);
+
+    const flightSeats = await FlightSeat.findAll({
+        where: {
+            FlightID: flightID,
+            TicketID: { [Op.not]: null }
+        },
+        include: [
+            {
+                model: Ticket,
+                attributes: ['TicketID', 'PassID']
+            },
+            {
+                model: Seat,
+                as: 'seatDetails',
+                attributes: ['Class']
+            }
+        ]
     });
-    return passengers.map(ticket => ({
-        TicketID: ticket.TicketID,
-        Passenger: ticket.Passenger,
-    }));
+
+    console.log('FlightSeats:', JSON.stringify(flightSeats, null, 2));
+
+    const passengerIDs = flightSeats.map(fs => fs.Ticket?.PassID).filter(Boolean);
+
+    const passengers = await Passenger.findAll({
+        where: {
+            PassID: passengerIDs
+        }
+    });
+
+    console.log('Passengers:', JSON.stringify(passengers, null, 2));
+
+    const passengerMap = passengers.reduce((acc, passenger) => {
+        acc[passenger.PassID] = passenger;
+        return acc;
+    }, {});
+
+    const result = flightSeats.map(flightSeat => {
+        const ticket = flightSeat.Ticket;
+        const seatDetails = flightSeat.seatDetails;
+
+        return {
+            TicketID: ticket.TicketID,
+            Passenger: passengerMap[ticket.PassID] || null,
+            SeatClass: seatDetails?.Class || null
+        };
+    });
+
+    console.log('Final Flight Details:', JSON.stringify(result, null, 2));
+
+    return result;
 };
 
 module.exports = {
