@@ -20,6 +20,7 @@ const AdminBanner = () => {
         image: null
     });
     const [editBanner, setEditBanner] = useState(null);
+    const [loading, setLoading] = useState(false); // Add loading state
 
     const fetchBanners = async () => {
         const response = await fetch(`${Server}banners/list`);
@@ -32,6 +33,7 @@ const AdminBanner = () => {
     };
 
     const createBanner = async (bannerDetails) => {
+        setLoading(true); // Set loading to true
         const formData = new FormData();
         for (const key in bannerDetails) {
             formData.append(key, bannerDetails[key]);
@@ -58,6 +60,7 @@ const AdminBanner = () => {
         } else {
             console.error('Failed to create banner:', response.statusText);
         }
+        setLoading(false); // Set loading to false
     };
 
     const updateBanner = async (bannerDetails) => {
@@ -200,6 +203,11 @@ const AdminBanner = () => {
                         Create Banner
                     </button>
                 </form>
+                {loading && (
+                    <div className="flex justify-center items-center">
+                        <img src={airplaneLoader} alt="Loading..." />
+                    </div>
+                )}
                 <h3 className="text-lg font-bold mb-4">Manage Banners</h3>
                 <div className="overflow-x-auto">
                     <table className="table-auto w-full bg-white rounded-lg shadow-md">

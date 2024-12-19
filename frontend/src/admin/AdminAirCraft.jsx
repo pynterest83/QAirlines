@@ -64,20 +64,25 @@ const AdminAircraft = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
+    
         // Prepare FormData
         const formData = new FormData();
         formData.append("AircraftID", aircraftID);
         formData.append("Model", model);
         formData.append("Manufacturer", manufacturer);
         formData.append("Capacity", parseInt(capacity));
-
+    
         if (svgFile) formData.append("svg", svgFile);
         if (jsonFile) formData.append("json", jsonFile);
-        if (imageFile) formData.append("images", imageFile);
-
+    
+        if (imageFile) {
+            Array.from(imageFile).forEach((file) => {
+                formData.append("images", file);
+            });
+        }
+    
         createAircraft(formData);
-    };
+    };    
     if (!token) {
         return <Navigate to="/adminLogin" />;
     }
@@ -173,7 +178,8 @@ const AdminAircraft = () => {
                             <input
                                 type="file"
                                 accept="image/*"
-                                onChange={(e) => setImageFile(e.target.files[0])}
+                                multiple
+                                onChange={(e) => setImageFile(e.target.files)}
                                 className="w-full border border-gray-300 rounded-md p-2"
                             />
                             {imageFile && <p className="text-sm text-gray-500 mt-1">{imageFile.name}</p>}
