@@ -9,6 +9,14 @@ dotenv.config({
 });
 
 export default defineConfig({
+  build: {
+    target: 'esnext' //browsers can handle the latest ES features
+  },
+  esbuild: {
+    supported: {
+      'top-level-await': true
+    },
+  },
   plugins: [react()],
   define: {
     'import.meta.env.SERVER': JSON.stringify(process.env.SERVER)
