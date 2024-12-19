@@ -13,7 +13,7 @@ const HomeBox = () => {
       <div className="flex">
         {/* Booking Tab */}
         <div
-          className={`w-1/2 text-center p-4 cursor-pointer flex items-center justify-center space-x-2 ${
+          className={`w-1/2 text-center p-4 cursor-pointer rounded-tl-lg flex items-center justify-center space-x-2 ${
             activeMode === 'booking' ? 'bg-[#6d24cf] text-white' : 'bg-gray-200'
           }`}
           onClick={() => setActiveMode('booking')}
@@ -24,7 +24,7 @@ const HomeBox = () => {
 
         {/* My Flight Tab */}
         <div
-          className={`w-1/2 text-center p-4 cursor-pointer flex items-center justify-center space-x-2 ${
+          className={`w-1/2 text-center p-4 cursor-pointer rounded-tr-lg flex items-center justify-center space-x-2 ${
             activeMode === 'myFlight' ? 'bg-[#ffe06f]' : 'bg-gray-200'
           }`}
           onClick={() => setActiveMode('myFlight')}

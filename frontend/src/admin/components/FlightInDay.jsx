@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { Server } from '../../Server';
+import { Pie } from 'react-chartjs-2';
+import 'chart.js/auto';
 
 function FlightInDay({ date }) {
     const [flights, setFlights] = useState([]);
@@ -76,6 +78,27 @@ function FlightInDay({ date }) {
         }
     };
 
+    const getPieChartData = (passengers) => {
+        const classCounts = passengers.reduce((acc, passenger) => {
+            acc[passenger.SeatClass] = (acc[passenger.SeatClass] || 0) + 1;
+            return acc;
+        }, {});
+
+        return {
+            labels: ['Economy', 'Business', 'First'],
+            datasets: [
+                {
+                    data: [
+                        classCounts['Economy'] || 0,
+                        classCounts['Business'] || 0,
+                        classCounts['First'] || 0,
+                    ],
+                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
+                },
+            ],
+        };
+    };
+
     if (loading) {
         return <div className="text-center text-gray-600 mt-10">Loading...</div>;
     }
@@ -127,44 +150,52 @@ function FlightInDay({ date }) {
                                             </div>
                                         ) : passengerData[flight.FlightID] &&
                                           passengerData[flight.FlightID].length > 0 ? (
-                                            <table className="table-auto w-full border-collapse mt-3">
-                                                <thead className="bg-gray-200">
-                                                    <tr>
-                                                        <th className="px-4 py-2 text-left">Ticket ID</th>
-                                                        <th className="px-4 py-2 text-left">First Name</th>
-                                                        <th className="px-4 py-2 text-left">Last Name</th>
-                                                        <th className="px-4 py-2 text-left">Gender</th>
-                                                        <th className="px-4 py-2 text-left">DOB</th>
-                                                        <th className="px-4 py-2 text-left">Email</th>
-                                                        <th className="px-4 py-2 text-left">Phone</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {passengerData[flight.FlightID].map((passenger) => (
-                                                        <tr key={passenger.TicketID} className="hover:bg-gray-100">
-                                                            <td className="px-4 py-2">{passenger.TicketID}</td>
-                                                            <td className="px-4 py-2">
-                                                                {passenger.Passenger.FirstName}
-                                                            </td>
-                                                            <td className="px-4 py-2">
-                                                                {passenger.Passenger.LastName}
-                                                            </td>
-                                                            <td className="px-4 py-2">
-                                                                {passenger.Passenger.Gender}
-                                                            </td>
-                                                            <td className="px-4 py-2">
-                                                                {new Date(passenger.Passenger.DOB).toLocaleDateString()}
-                                                            </td>
-                                                            <td className="px-4 py-2">
-                                                                {passenger.Passenger.Email || 'N/A'}
-                                                            </td>
-                                                            <td className="px-4 py-2">
-                                                                {passenger.Passenger.PhoneNumber || 'N/A'}
-                                                            </td>
+                                            <>
+                                                <table className="table-auto w-full border-collapse mt-3">
+                                                    <thead className="bg-gray-200">
+                                                        <tr>
+                                                            <th className="px-4 py-2 text-left">Ticket ID</th>
+                                                            <th className="px-4 py-2 text-left">First Name</th>
+                                                            <th className="px-4 py-2 text-left">Last Name</th>
+                                                            <th className="px-4 py-2 text-left">Gender</th>
+                                                            <th className="px-4 py-2 text-left">DOB</th>
+                                                            <th className="px-4 py-2 text-left">Email</th>
+                                                            <th className="px-4 py-2 text-left">Phone</th>
                                                         </tr>
-                                                    ))}
-                                                </tbody>
-                                            </table>
+                                                    </thead>
+                                                    <tbody>
+                                                        {passengerData[flight.FlightID].map((passenger) => (
+                                                            <tr key={passenger.TicketID} className="hover:bg-gray-100">
+                                                                <td className="px-4 py-2">{passenger.TicketID}</td>
+                                                                <td className="px-4 py-2">
+                                                                    {passenger.Passenger.FirstName}
+                                                                </td>
+                                                                <td className="px-4 py-2">
+                                                                    {passenger.Passenger.LastName}
+                                                                </td>
+                                                                <td className="px-4 py-2">
+                                                                    {passenger.Passenger.Gender}
+                                                                </td>
+                                                                <td className="px-4 py-2">
+                                                                    {new Date(passenger.Passenger.DOB).toLocaleDateString()}
+                                                                </td>
+                                                                <td className="px-4 py-2">
+                                                                    {passenger.Passenger.Email || 'N/A'}
+                                                                </td>
+                                                                <td className="px-4 py-2">
+                                                                    {passenger.Passenger.PhoneNumber || 'N/A'}
+                                                                </td>
+                                                            </tr>
+                                                        ))}
+                                                    </tbody>
+                                                </table>
+                                                <div className="mt-6">
+                                                    <h3 className="text-lg font-bold mb-4">Ticket Class Distribution</h3>
+                                                    <div className="w-full md:w-1/2 lg:w-1/3 mx-auto">
+                                                        <Pie data={getPieChartData(passengerData[flight.FlightID])} />
+                                                    </div>
+                                                </div>
+                                            </>
                                         ) : (
                                             <div className="text-center text-gray-500">
                                                 No passengers found for this flight.

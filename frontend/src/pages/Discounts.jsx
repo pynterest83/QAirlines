@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { BannerData } from "../assets/data/BannerData";
 import Navigation from "../components/Navigation.jsx";
 import bg1 from '../assets/images/bg1.jpg';
+import ScrollToTop from "../scroll.jsx";
 
 const Discounts = () => {
   const navigate = useNavigate();
@@ -15,6 +16,7 @@ const Discounts = () => {
 
   return (
     <div className="relative">
+      <ScrollToTop />
       <Navigation selecting="info" />
       {/* Hero Section */}
       <div className="relative">

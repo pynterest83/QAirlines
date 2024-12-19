@@ -18,14 +18,23 @@ const Ticket = (props) => {
   const boardingTime = format(parseISO(props.flight.BoardingTime), "HH:mm");
   const cancelDeadline = format(parseISO(props.cancelDL), "dd MMM yyyy HH:mm");
 
+  const originalDepDate = props.flight.OriginalDepTime ? format(parseISO(props.flight.OriginalDepTime), "dd MMM yyyy") : null;
+  const originalDepTime = props.flight.OriginalDepTime ? format(parseISO(props.flight.OriginalDepTime), "HH:mm") : null;
+  const originalArrDate = props.flight.OriginalArrTime ? format(parseISO(props.flight.OriginalArrTime), "dd MMM yyyy") : null;
+  const originalArrTime = props.flight.OriginalArrTime ? format(parseISO(props.flight.OriginalArrTime), "HH:mm") : null;
+  const originalBoardingDate = props.flight.OriginalBoardingTime ? format(parseISO(props.flight.OriginalBoardingTime), "dd MMM yyyy") : null;
+  const originalBoardingTime = props.flight.OriginalBoardingTime ? format(parseISO(props.flight.OriginalBoardingTime), "HH:mm") : null;
+
   const courtesy = props.passenger.Gender === "M" ? "Mr." : "Ms.";
 
   const generatePDF = (containerId) => {
     const ticketElement = document.getElementById(containerId);
   
-    // Temporarily hide buttons for PDF
+    // Temporarily hide buttons, status, and original times for PDF
     const buttons = ticketElement.querySelectorAll("button");
+    const statusElements = ticketElement.querySelectorAll(".status, .original-time");
     buttons.forEach((button) => (button.style.display = "none"));
+    statusElements.forEach((element) => (element.style.display = "none"));
   
     html2canvas(ticketElement, { scale: 2 }).then((canvas) => {
       const imgData = canvas.toDataURL("image/png");
@@ -36,8 +45,9 @@ const Ticket = (props) => {
       pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
       pdf.save("ticket.pdf");
   
-      // Restore buttons after generating PDF
+      // Restore buttons, status, and original times after generating PDF
       buttons.forEach((button) => (button.style.display = ""));
+      statusElements.forEach((element) => (element.style.display = ""));
     });
   };
 
@@ -89,7 +99,6 @@ const Ticket = (props) => {
           backgroundImage: "url('/src/assets/images/worlds.png')",
           backgroundSize: "cover",
           backgroundPosition: "center",
-
         }}
       >
         {/* Top section */}
@@ -98,6 +107,9 @@ const Ticket = (props) => {
             BOARDING PASS
           </h2>
           <img className="w-56 py-3" src="/logo.png" alt="Logo"/>
+        </div>
+        <div className="text-lg font-bold text-[#6d24cf] mb-4">
+          {props.ticketID}
         </div>
 
         {/* Main content */}
@@ -109,12 +121,18 @@ const Ticket = (props) => {
               <h1 className="text-2xl font-bold text-[#6d24cf]">{props.flight.DepID}</h1>
               <p className="text-sm text-gray-500">{AirportData[props.flight.DepID]}</p>
               <p className="text-sm text-gray-500">{depDate} - {depTime}</p>
+              {props.flight.Status === "Delayed" && originalDepDate && originalDepTime && (
+                <p className="text-sm text-red-500 original-time">Original: {originalDepDate} - {originalDepTime}</p>
+              )}
             </div>
             <div>
               <h3 className="text-sm font-medium text-gray-500">TO:</h3>
               <h1 className="text-2xl font-bold text-[#6d24cf]">{props.flight.DestID}</h1>
               <p className="text-sm text-gray-500">{AirportData[props.flight.DestID]}</p>
               <p className="text-sm text-gray-500">{arrDate} - {arrTime}</p>
+              {props.flight.Status === "Delayed" && originalArrDate && originalArrTime && (
+                <p className="text-sm text-red-500 original-time">Original: {originalArrDate} - {originalArrTime}</p>
+              )}
             </div>
             {/* Icon and map illustration */}
             <div className="flex items-center justify-center mt-6">
@@ -135,6 +153,10 @@ const Ticket = (props) => {
                 <h3 className="text-sm font-medium text-gray-500">Class</h3>
                 <p className="text-[#6d24cf] font-semibold">{props.class}</p>
               </div>
+              <div>
+                <h3 className="text-sm font-medium text-gray-500">Status</h3>
+                <p className="text-[#6d24cf] font-semibold status">{props.flight.Status}</p>
+              </div>
             </div>
             <div className="flex justify-between mb-4">
               <div>
@@ -144,6 +166,9 @@ const Ticket = (props) => {
               <div>
                 <h3 className="text-sm font-medium text-gray-500">Boarding</h3>
                 <p className="text-[#6d24cf] font-semibold">{boardingDate} - {boardingTime}</p>
+                {props.flight.Status === "Delayed" && originalBoardingDate && originalBoardingTime && (
+                  <p className="text-sm text-red-500 original-time">Original: {originalBoardingDate} - {originalBoardingTime}</p>
+                )}
               </div>
               <div>
                 <h3 className="text-sm font-medium text-gray-500">Depart</h3>

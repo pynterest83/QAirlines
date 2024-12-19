@@ -5,6 +5,7 @@ import StatsCard from "../admin/components/StatsCard.jsx";
 import Graph from "../admin/components/Graph.jsx"
 import FlightInDay from "../admin/components/FlightInDay.jsx"
 import AdminNavigation from "../admin/components/AdminNavigation.jsx"
+import ScrollToTop from "../scroll.jsx";
 
 import {
     Chart as ChartJS,
@@ -162,6 +163,7 @@ function Admin() {
 
     return (
         <div className="relative bg-gray-100 min-h-screen">
+            <ScrollToTop />
             <AdminNavigation />
             
             {/* StatsCards Section */}

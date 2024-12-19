@@ -1,8 +1,8 @@
-// frontend/src/pages/UserLogin.jsx
 import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode'; // Use named import
 import { Server } from '../Server';
+import ScrollToTop from "../scroll.jsx";
 
 const UserLogin = () => {
     const navigate = useNavigate();
@@ -41,6 +41,7 @@ const UserLogin = () => {
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-50">
+            <ScrollToTop />
             <div className="z-10 w-full max-w-md bg-white rounded-lg shadow-md p-6">
                 {/* Image Section */}
                 <div className="mb-6">

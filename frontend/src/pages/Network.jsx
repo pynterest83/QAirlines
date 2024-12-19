@@ -5,10 +5,12 @@ import Navigation from "../components/Navigation.jsx";
 import bg2 from '../assets/images/bg2.jpg';
 import international from '../assets/images/international.png';
 import regional from '../assets/images/regional.png';
+import ScrollToTop from "../scroll.jsx";
 
 const Network = () => {
   return (
     <div className="relative">
+      <ScrollToTop />
       <Navigation selecting="info" />
       {/* Hero Section */}
       <div className="relative">
