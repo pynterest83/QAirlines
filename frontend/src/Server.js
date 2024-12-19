@@ -1,1 +1,1 @@
-export const Server = "http://localhost:3000/api/"
+export const Server = import.meta.env.SERVER;
