@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 
 // Load .env from root directory
 dotenv.config({
-  path: path.resolve(__dirname, '../.env')
+  path: path.resolve(__dirname, '.env')
 });
 
 export default defineConfig({
