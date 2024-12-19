@@ -2,8 +2,7 @@ import {useEffect, useRef, useState} from "react";
 import {FaCalendarAlt } from "react-icons/fa";
 import {useNavigate} from "react-router-dom";
 import {HiArrowNarrowRight, HiArrowNarrowLeft} from "react-icons/hi";
-
-export const cityList = await (await fetch("/airports.json")).json()
+import cityList from "../../airports.json";
 
 const TicketBookingBox = () => {
   const [tripType, setTripType] = useState("oneWay");
