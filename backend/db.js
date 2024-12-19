@@ -17,7 +17,6 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
         acquire: 30000,
         idle: 10000
     },
-    timezone: '+00:00',
     logging: console.log
 });
 
