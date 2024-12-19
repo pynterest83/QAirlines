@@ -110,7 +110,14 @@ const getFlightDetails = async (flightID) => {
 
     console.log('FlightSeats:', JSON.stringify(flightSeats, null, 2));
 
-    const passengerIDs = flightSeats.map(fs => fs.Ticket?.PassID).filter(Boolean);
+    const uniqueFlightSeats = flightSeats.reduce((acc, seat) => {
+        if (!acc.find(s => s.Ticket?.TicketID === seat.Ticket?.TicketID)) {
+            acc.push(seat);
+        }
+        return acc;
+    }, []);
+
+    const passengerIDs = uniqueFlightSeats.map(fs => fs.Ticket?.PassID).filter(Boolean);
 
     const passengers = await Passenger.findAll({
         where: {
@@ -125,7 +132,7 @@ const getFlightDetails = async (flightID) => {
         return acc;
     }, {});
 
-    const result = flightSeats.map(flightSeat => {
+    const result = uniqueFlightSeats.map(flightSeat => {
         const ticket = flightSeat.Ticket;
         const seatDetails = flightSeat.seatDetails;
 
