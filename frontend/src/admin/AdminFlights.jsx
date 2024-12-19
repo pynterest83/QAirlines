@@ -162,7 +162,7 @@ const AdminFlights = () => {
             <AdminNavigation />
             <div className="p-4">
                 <h2 className="text-xl font-bold mb-6">Add New Flight</h2>
-                <form onSubmit={handleNewFlightSubmit} className="bg-white p-6 rounded-lg shadow-md mb-8">
+                <form onSubmit={handleNewFlightSubmit} className="bg-white p-6 rounded-lg shadow-md mb-8 grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="mb-4">
                         <label className="block text-gray-700">Status:</label>
                         <select
@@ -267,7 +267,7 @@ const AdminFlights = () => {
                             className="mt-1 p-2 w-full border rounded-md"
                         />
                     </div>
-                    <button type="submit" className="w-full gradient-button text-white px-4 py-2 rounded-md">
+                    <button type="submit" className="w-full gradient-button text-white px-4 py-2 rounded-md col-span-1 md:col-span-2">
                         Create Flight
                     </button>
                 </form>
@@ -279,12 +279,12 @@ const AdminFlights = () => {
                             <th className="px-4 py-2">Flight Number</th>
                             <th className="px-4 py-2">Status</th>
                             <th className="px-4 py-2">From</th>
-                                <th className="px-4 py-2">To</th>
-                                <th className="px-4 py-2">Boarding Time</th>
-                                <th className="px-4 py-2">Departure Time</th>
-                                <th className="px-4 py-2">Arrival Time</th>
-                                <th className="px-4 py-2">Actions</th>
-                            </tr>
+                            <th className="px-4 py-2">To</th>
+                            <th className="px-4 py-2">Boarding Time</th>
+                            <th className="px-4 py-2">Departure Time</th>
+                            <th className="px-4 py-2">Arrival Time</th>
+                            <th className="px-4 py-2">Actions</th>
+                        </tr>
                         </thead>
                         <tbody>
                             {flights.map(flight => {

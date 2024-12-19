@@ -19,7 +19,7 @@ function Navigation(props) {
                     setIsLoggedIn(true);
                     setUsername(decodedToken.Username);
                 } else {
-                    localStorage.removeItem("token");
+                    // localStorage.removeItem("token");
                 }
             } catch (error) {
                 console.error("Invalid token:", error);
