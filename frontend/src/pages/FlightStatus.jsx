@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import FlightBox from "../components/FlightStatus/FlightBox";
 import Navigation from "../components/Navigation";
 import { Server } from "../Server";
-import {cityList} from "../components/Homepage/TicketBookingBox.jsx";
+import cityList from "../airports.json";
 import loaderGif from "../assets/images/airplaneLoader.gif";
 import ScrollToTop from "../scroll.jsx";
 

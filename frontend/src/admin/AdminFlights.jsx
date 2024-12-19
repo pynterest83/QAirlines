@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Navigate } from 'react-router-dom';
 import { Server } from '../Server';
 import AdminNavigation from './components/AdminNavigation';
 import ScrollToTop from "../scroll.jsx";
+import cityList from "../airports.json";
 
 const AdminFlights = () => {
     const token = localStorage.getItem("token");
@@ -26,6 +27,11 @@ const AdminFlights = () => {
         }
     });
     const [editFlight, setEditFlight] = useState(null); // Initialize editFlight to null
+
+    const [fromSuggestions, setFromSuggestions] = useState([]);
+    const [toSuggestions, setToSuggestions] = useState([]);
+    const fromInputRef = useRef(null);
+    const toInputRef = useRef(null);
 
     const fetchFlights = async () => {
         const response = await fetch(`${Server}flights/list`);
@@ -153,6 +159,55 @@ const AdminFlights = () => {
         return { formattedDate, formattedTime };
     };
 
+    const handleClickOutside = (event) => {
+        if (fromInputRef.current && !fromInputRef.current.contains(event.target)) {
+            setFromSuggestions([]);
+        }
+        if (toInputRef.current && !toInputRef.current.contains(event.target)) {
+            setToSuggestions([]);
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
+    const handleSuggestionClick = (city, field) => {
+        handleNewFlightChange({ target: { value: city[0] }}, field);
+        if (field === 'DepID') {
+            setFromSuggestions([]);
+        } else {
+            setToSuggestions([]);
+        }
+    };
+
+    const handleFromCityChange = (e) => {
+        const value = e.target.value.toUpperCase();
+        handleNewFlightChange(e, 'DepID');
+        if (!value.length) {
+            setFromSuggestions([]);
+            return;
+        }
+        setFromSuggestions(
+            cityList.filter((e) => e[0].startsWith(value))
+        );
+    };
+
+    const handleToCityChange = (e) => {
+        const value = e.target.value.toUpperCase();
+        handleNewFlightChange(e, 'DestID');
+        if (!value.length) {
+            setToSuggestions([]);
+            return;
+        }
+        setToSuggestions(
+            cityList.filter((e) => e[0].startsWith(value))
+        );
+    };
+
     if (!token) {
         return <Navigate to="/adminLogin" />;
     }
@@ -207,25 +262,53 @@ const AdminFlights = () => {
                             className="mt-1 p-2 w-full border rounded-md"
                         />
                     </div>
-                    <div className="mb-4">
+                    <div className="mb-4 relative" ref={fromInputRef}>
                         <label className="block text-gray-700">Departure ID:</label>
                         <input
                             type="text"
                             value={newFlight.DepID}
-                            onChange={(e) => handleNewFlightChange(e, 'DepID')}
+                            onChange={handleFromCityChange}
                             required
                             className="mt-1 p-2 w-full border rounded-md"
                         />
+                        {fromSuggestions.length > 0 && (
+                            <ul className="absolute z-10 w-full bg-white border rounded-md mt-1 max-h-60 overflow-auto">
+                                {fromSuggestions.map((city, index) => (
+                                    <li
+                                        key={index}
+                                        className="p-2 hover:bg-gray-200 cursor-pointer"
+                                        onClick={() => handleSuggestionClick(city, 'DepID')}
+                                    >
+                                        <div className="font-bold">{city[0]}</div>
+                                        <div className="text-sm">{city[2]}</div>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
                     </div>
-                    <div className="mb-4">
+                    <div className="mb-4 relative" ref={toInputRef}>
                         <label className="block text-gray-700">Destination ID:</label>
                         <input
                             type="text"
                             value={newFlight.DestID}
-                            onChange={(e) => handleNewFlightChange(e, 'DestID')}
+                            onChange={handleToCityChange}
                             required
                             className="mt-1 p-2 w-full border rounded-md"
                         />
+                        {toSuggestions.length > 0 && (
+                            <ul className="absolute z-10 w-full bg-white border rounded-md mt-1 max-h-60 overflow-auto">
+                                {toSuggestions.map((city, index) => (
+                                    <li
+                                        key={index}
+                                        className="p-2 hover:bg-gray-200 cursor-pointer"
+                                        onClick={() => handleSuggestionClick(city, 'DestID')}
+                                    >
+                                        <div className="font-bold">{city[0]}</div>
+                                        <div className="text-sm">{city[2]}</div>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
                     </div>
                     <div className="mb-4">
                         <label className="block text-gray-700">Aircraft ID:</label>
