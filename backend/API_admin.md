@@ -16,6 +16,11 @@
   - [Create Aircraft](#create-aircraft)
 - [Statistics](#statistics)
   - [Tickets booked monthly in a year](#tickets-booked-monthly-in-a-year)
+  - [Income monthly in a year](#income-monthly-in-a-year)
+- [Banner](#banner)
+  - [Create Banner](#create-banner)
+  - [Get Banners](#get-banners)
+  - [Delete Banner](#delete-banner)
 
 ## Promotions
 ### Create Promotion
@@ -164,34 +169,84 @@
 ```json
 [
   {
-    "TicketID": "T328760",
+    "TicketID": "T746697",
     "Passenger": {
-      "DOB": "2015-05-01",
-      "PassID": "P16444",
-      "FirstName": "Jane",
-      "LastName": "Doe",
-      "Gender": "F",
-      "Email": null,
-      "PhoneNumber": null,
-      "Passport": null,
-      "SSN": null,
-      "GuardianID": "P001"
-    }
+      "DOB": "2024-12-02",
+      "PassID": "P249209",
+      "FirstName": "Quang",
+      "LastName": "Chu",
+      "Gender": "M",
+      "Email": "quangdtm2004@gmail.com",
+      "PhoneNumber": "0986168118",
+      "Passport": "01234567890123456789",
+      "SSN": "123456789012",
+      "GuardianID": null
+    },
+    "SeatClass": "Economy"
   },
   {
-    "TicketID": "T372183",
+    "TicketID": "T502580",
+    "Passenger": {
+      "DOB": "2024-12-02",
+      "PassID": "P736650",
+      "FirstName": "Quang",
+      "LastName": "Chu",
+      "Gender": "M",
+      "Email": "q@gmail.com",
+      "PhoneNumber": "0987654321",
+      "Passport": "09876543210987654321",
+      "SSN": "098765432109",
+      "GuardianID": null
+    },
+    "SeatClass": "Economy"
+  },
+  {
+    "TicketID": "T825696",
+    "Passenger": {
+      "DOB": "2024-12-02",
+      "PassID": "P686902",
+      "FirstName": "Quang",
+      "LastName": "Phuc",
+      "Gender": "M",
+      "Email": "p@gmail.com",
+      "PhoneNumber": "0987654321",
+      "Passport": "09876543210987654321",
+      "SSN": "098765432109",
+      "GuardianID": null
+    },
+    "SeatClass": "Economy"
+  },
+  {
+    "TicketID": "T761919",
+    "Passenger": {
+      "DOB": "2024-12-01",
+      "PassID": "P178666",
+      "FirstName": "a",
+      "LastName": "b",
+      "Gender": "M",
+      "Email": "abc@gmail.com",
+      "PhoneNumber": "0987654321",
+      "Passport": "09876543210987654321",
+      "SSN": "098765432109",
+      "GuardianID": null
+    },
+    "SeatClass": "Economy"
+  },
+  {
+    "TicketID": "T76623",
     "Passenger": {
       "DOB": "1985-07-23",
-      "PassID": "P001",
+      "PassID": "P547889",
       "FirstName": "John",
       "LastName": "Doe",
       "Gender": "M",
       "Email": "johndoe@example.com",
-      "PhoneNumber": "123456789",
-      "Passport": "B12345678",
-      "SSN": "123456789012",
+      "PhoneNumber": "123445789",
+      "Passport": "J12345678",
+      "SSN": "123457869012",
       "GuardianID": null
-    }
+    },
+    "SeatClass": "Business"
   }
 ]
 ```
@@ -298,5 +353,123 @@
       "bookingCount": 2
     }
   ]
+}
+```
+
+### Income monthly in a year
+- **Endpoint:** `/api/statistics/income/monthly`
+- **Method:** `GET`
+- **Query:** `year`
+- **Description:** Get the income monthly in a year.
+- **Response:** Income monthly in a year.
+- **Example:** `/api/statistics/income/monthly?year=2024`
+- **Response:**
+```json
+{
+  "year": "2024",
+  "monthlyStatistics": [
+    {
+      "month": 1,
+      "totalIncome": 0
+    },
+    {
+      "month": 2,
+      "totalIncome": 0
+    },
+    {
+      "month": 3,
+      "totalIncome": 0
+    },
+    {
+      "month": 4,
+      "totalIncome": 0
+    },
+    {
+      "month": 5,
+      "totalIncome": 0
+    },
+    {
+      "month": 6,
+      "totalIncome": 0
+    },
+    {
+      "month": 7,
+      "totalIncome": 0
+    },
+    {
+      "month": 8,
+      "totalIncome": 0
+    },
+    {
+      "month": 9,
+      "totalIncome": 0
+    },
+    {
+      "month": 10,
+      "totalIncome": 0
+    },
+    {
+      "month": 11,
+      "totalIncome": 0
+    },
+    {
+      "month": 12,
+      "totalIncome": 3700
+    }
+  ]
+}
+```
+
+## Banner
+### Create Banner
+- **Endpoint:** `/api/banners/create`
+- **Method:** `POST`
+- **POST Body:** JSON object with banner details.
+- **Description:** Creates a banner.
+- **Response:** Confirmation of banner creation.
+- **Example:** `/api/banners/create`  
+![img_1.png](img_1.png)
+
+### Get Banners
+- **Endpoint:** `/api/banners/list`
+- **Method:** `GET`
+- **Query:** `bannerIds` (optional)
+- **Description:** Get all banners.
+- **Response:** List of banners.
+- **Example:** `/api/banners/list?bannerIds=BNV5FK8UAU,BNI5MC7EMB`
+- **Response:**
+```json
+{
+  "banners": [
+    {
+      "BannerID": "BNV5FK8UAU",
+      "Title": "Beijing",
+      "Description": "Beijing Desc",
+      "ImageURL": "https://mnmeanwagbiimebjrsgm.supabase.co/storage/v1/object/public/banner-files/BNV5FK8UAU/Screenshot%20from%202023-12-13%2001-47-28.png",
+      "DiscountTitle": "Discover Beijing with 20% off",
+      "DiscountDescription": "Auth 20%"
+    },
+    {
+      "BannerID": "BNI5MC7EMB",
+      "Title": "Beijing2",
+      "Description": "Beijing Desc",
+      "ImageURL": "https://mnmeanwagbiimebjrsgm.supabase.co/storage/v1/object/public/banner-files/BNI5MC7EMB/Screenshot%20from%202024-12-13%2001-47-28.png",
+      "DiscountTitle": "Discover Beijing with 20% off",
+      "DiscountDescription": "Auth 20%"
+    }
+  ]
+}
+```
+
+### Delete Banner
+- **Endpoint:** `/api/banners/delete/:BannerID`
+- **Method:** `DELETE`
+- **Description:** Deletes a banner.
+- **Response:** Confirmation of banner deletion.
+- **Example:** `/api/banners/delete/BNV5FK8UAU`
+- **Response:**
+```json
+{
+  "message": "Banner deleted successfully"
 }
 ```

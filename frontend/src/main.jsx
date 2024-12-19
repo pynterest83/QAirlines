@@ -17,6 +17,10 @@ import AdminNotification from './admin/AdminNotification.jsx';
 import AdminFlights from './admin/AdminFlights.jsx';
 import AdminBanner from './admin/AdminBanner.jsx';
 import Aircrafts from "./pages/Aircrafts.jsx";
+import BannerPage from './pages/BannerPage.jsx';
+import Discounts from './pages/Discounts.jsx';
+import Network from './pages/Network.jsx';
+import Classes from "./pages/Classes.jsx";
 
 const router = createBrowserRouter([
     {
@@ -99,6 +103,22 @@ const router = createBrowserRouter([
             </ProtectedRoute>
         ),
     },
+    {
+        path: '/banner',
+        element: <BannerPage />
+    },
+    {
+        path: '/discount',
+        element: <Discounts />
+    },
+    {
+        path: '/network',
+        element: <Network />
+    },
+    {
+        path: '/classes',
+        element: <Classes/>
+    }
 ]);
 
 createRoot(document.getElementById('root')).render(

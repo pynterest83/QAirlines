@@ -7,7 +7,8 @@ const { monthlyBookingStatisticsSchema} = require("../../validations/statisticVa
 
 const router = express.Router();
 
-// API thống kê số lượng vé đặt theo từng tháng trong năm
+
 router.get('/booking/monthly', authenticateUser, checkAdmin, validate(monthlyBookingStatisticsSchema, 'query'), statisticController.handleMonthlyBooking);
+router.get('/income/monthly', authenticateUser, checkAdmin, validate(monthlyBookingStatisticsSchema, 'query'), statisticController.handleMonthlyIncome);
 
 module.exports = router;

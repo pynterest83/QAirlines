@@ -143,8 +143,11 @@ function Navigation(props) {
                                 } slide-from-up bg-white shadow-md border border-gray-200 w-full lg:absolute lg:top-full lg:left-0 lg:mt-1 lg:w-64 p-4 lg:p-2`}
                             >
                                 <ul>
-                                    <li className="py-2 hover:border-b-2 hover:border-[#6d24cf] cursor-pointer">
-                                        Travel Policies
+                                    <li 
+                                        className="py-2 hover:border-b-2 hover:border-[#6d24cf] cursor-pointer"
+                                        onClick={() => nav("/discount")}
+                                    >
+                                        Discount
                                     </li>
                                     <li className="py-2 hover:border-b-2 hover:border-[#6d24cf] cursor-pointer">
                                         Baggage Info
@@ -167,7 +170,7 @@ function Navigation(props) {
                             onMouseLeave={() => toggleDropdown(null)}
                             onClick={() => toggleDropdown("help")}
                         >
-                            <div>Help</div>
+                            <div>About Us</div>
                             {/* Dropdown */}
                             <div
                                 className={`${
@@ -177,14 +180,22 @@ function Navigation(props) {
                                 } slide-from-up bg-white shadow-md border border-gray-200 w-full lg:absolute lg:top-full lg:left-0 lg:mt-1 lg:w-64 p-4 lg:p-2`}
                             >
                                 <ul>
-                                    <li className="py-2 hover:border-b-2 hover:border-[#6d24cf] cursor-pointer">
-                                        FAQs
+                                    <li 
+                                        className="py-2 hover:border-b-2 hover:border-[#6d24cf] cursor-pointer"
+                                        onClick={() => nav("/aircrafts")}
+                                    >
+                                        Aircraft Fleet
                                     </li>
-                                    <li className="py-2 hover:border-b-2 hover:border-[#6d24cf] cursor-pointer">
-                                        Contact Support
+                                    <li 
+                                        className="py-2 hover:border-b-2 hover:border-[#6d24cf] cursor-pointer"
+                                        onClick={() => nav("/network")}
+                                    >
+                                        Flights Network
                                     </li>
-                                    <li className="py-2 hover:border-b-2 hover:border-[#6d24cf] cursor-pointer">
-                                        Feedback
+                                    <li className="py-2 hover:border-b-2 hover:border-[#6d24cf] cursor-pointer"
+                                        onClick={() => nav("/classes")}
+                                    >
+                                        Flight Classes
                                     </li>
                                 </ul>
                             </div>

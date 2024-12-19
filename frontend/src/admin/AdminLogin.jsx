@@ -2,6 +2,7 @@ import {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
 import { Server } from '../Server';
+import ScrollToTop from "../scroll.jsx";
 
 const AdminLogin = () => {
     const navigate = useNavigate();
@@ -37,6 +38,7 @@ const AdminLogin = () => {
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-50">
+            <ScrollToTop />
             <div className="z-10 w-full max-w-md bg-white rounded-lg shadow-md p-6">
                 <div className="mb-6">
                 <img alt=""

@@ -7,10 +7,11 @@ import {HiArrowNarrowRight} from "react-icons/hi";
 import {HiArrowsRightLeft } from "react-icons/hi2";
 import {FaCalendarAlt} from "react-icons/fa";
 import DateSelect from "../components/Search/DateSelect.jsx"
+import ScrollToTop from "../scroll.jsx";
 
 function Search() {
     const props = useLocation().state
-    const [flights, setFlights] = useState(null)
+    const [flights, setFlights] = useState(undefined)
     const [from, setFrom] = useState(props.fromCity)
     const [to, setTo] = useState(props.toCity)
     const [departureDate, setDepartureDate] = useState(props.departureDate)
@@ -25,6 +26,7 @@ function Search() {
     const departureInput = useRef(null)
     const returnInput = useRef(null)
     const [chosenTrip, choose] = useState([])
+    const [loading, load] = useState(true)
     const toggleClassBox = () => {
         setShowClassBox(!showClassBox);
     }
@@ -38,6 +40,7 @@ function Search() {
         }), {
             method: 'GET'
         }).then(r => {
+            load(false)
             if (r.ok) r.json().then(data => {
                 setFlights(data.flights)
             })
@@ -45,6 +48,7 @@ function Search() {
         })
     }, []);
     function Search() {
+        load(true)
         fetch(Server + "offers/one-way?" + new URLSearchParams({
             departure: from,
             destination: to,
@@ -56,6 +60,7 @@ function Search() {
                 setFlights(data.flights)
             })
             else setFlights(undefined)
+            load(false)
         })
     }
     let startDate = useRef(null)
@@ -127,6 +132,7 @@ function Search() {
     }
     return (
         <div className="relative">
+            <ScrollToTop/>
             <Navigation selecting={"booking"}/>
 
             <div
@@ -182,7 +188,7 @@ function Search() {
                 <div className="py-4 md:py-0 w-full md:w-auto flex items-center">
                     <div onClick={togglePassengerBox} className="cursor-pointer">
                         <p className="text-sm text-gray-500">Passenger(s)</p>
-                        <p className="font-semibold border-b border-gray-300 pb-2 hover:border-[#6d24cf]">
+                        <p className="border-b border-gray-300 pb-2 hover:border-[#6d24cf]">
                             {adults} Adult{adults > 1 ? "s" : ""}, {children} Child
                             {children > 1 ? "ren" : ""}
                         </p>
@@ -197,7 +203,7 @@ function Search() {
                                     {/* Adults */}
                                     <div className="flex items-center justify-between">
                                         <div>
-                                            <p className="text-lg font-semibold">Adults</p>
+                                            <p className="text-lg">Adults</p>
                                             <p className="text-sm text-gray-500">12+ years</p>
                                         </div>
                                         <div className="flex items-center space-x-4">
@@ -221,7 +227,7 @@ function Search() {
                                     {/* Children */}
                                     <div className="flex items-center justify-between">
                                         <div>
-                                            <p className="text-lg font-semibold">Children</p>
+                                            <p className="text-lg">Children</p>
                                             <p className="text-sm text-gray-500">2-11 years</p>
                                         </div>
                                         <div className="flex items-center space-x-4">
@@ -281,7 +287,7 @@ function Search() {
                                     }}
                                     className={`w-full p-3 border rounded-md text-left ${
                                         cabinClass === "Economy"
-                                            ? "bg-[#ffe06f] text-[#6d24cf] font-semibold border-[#6d24cf]"
+                                            ? "bg-[#ffe06f] text-[#6d24cf] border-[#6d24cf]"
                                             : "text-gray-700 hover:bg-[#ffe06f]"
                                     }`}
                                 >
@@ -294,7 +300,7 @@ function Search() {
                                     }}
                                     className={`w-full p-3 border rounded-md text-left ${
                                         cabinClass === "Business"
-                                            ? "bg-[#ffe06f] text-[#6d24cf] font-semibold border-[#6d24cf]"
+                                            ? "bg-[#ffe06f] text-[#6d24cf] border-[#6d24cf]"
                                             : "text-gray-700 hover:bg-[#ffe06f]"
                                     }`}
                                 >
@@ -307,7 +313,7 @@ function Search() {
                                     }}
                                     className={`w-full p-3 border rounded-md text-left ${
                                         cabinClass === "First"
-                                            ? "bg-[#ffe06f] text-[#6d24cf] font-semibold border-[#6d24cf]"
+                                            ? "bg-[#ffe06f] text-[#6d24cf] border-[#6d24cf]"
                                             : "text-gray-700 hover:bg-[#ffe06f]"
                                     }`}
                                 >
@@ -330,7 +336,7 @@ function Search() {
                 <div className="py-4 md:py-0 w-full md:w-auto flex items-center">
                     <div onClick={toggleClassBox} className="cursor-pointer">
                         <p className="text-sm text-gray-500">Cabin Class</p>
-                        <p className="font-semibold border-b border-gray-300 pb-2 hover:border-[#6d24cf]">
+                        <p className="border-b border-gray-300 pb-2 hover:border-[#6d24cf]">
                             {cabinClass}
                         </p>
                     </div>
@@ -338,7 +344,7 @@ function Search() {
             </div>
 
             <DateSelect from={from} to={to} classType={cabinClass} setDep={setDepartureDate} date={departureDate}/>
-            {flights !== null && <Flights numberOfPeople={adults + children} confirm={Confirm} from={from} to={to} flights={flights}/>}
+            <Flights loading={loading} numberOfPeople={adults + children} confirm={Confirm} from={from} to={to} flights={flights}/>
         </div>
     )
 }

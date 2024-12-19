@@ -1,34 +1,29 @@
 const Joi = require('joi');
-
-// Schema kiểm tra tất cả các chỗ ngồi
 const allSeatsSchema = Joi.object({
     flightID: Joi.string()
         .max(10)
         .required()
         .messages({
-            'string.max': 'Mã chuyến bay không được vượt quá 10 ký tự',
-            'any.required': 'Mã chuyến bay là bắt buộc'
+            'string.max': 'Flight ID must not exceed 10 characters',
+            'any.required': 'Flight ID is required'
         }),
 });
-
-// Schema kiểm tra các chỗ ngồi trống theo hạng ghế
 const availableSeatsSchema = Joi.object({
     flightID: Joi.string()
         .max(10)
         .required()
         .messages({
-            'string.max': 'Mã chuyến bay không được vượt quá 10 ký tự',
-            'any.required': 'Mã chuyến bay là bắt buộc'
+            'string.max': 'Flight ID must not exceed 10 characters',
+            'any.required': 'Flight ID is required'
         }),
     class: Joi.string()
         .valid('Economy', 'Business', 'First')
         .required()
         .messages({
-            'any.only': 'Hạng ghế phải là "Economy", "Business", hoặc "First"',
-            'any.required': 'Hạng ghế là bắt buộc'
+            'any.only': 'Class must be "Economy", "Business", or "First"',
+            'any.required': 'Class is required'
         }),
 });
-
 module.exports = {
     allSeatsSchema,
     availableSeatsSchema,

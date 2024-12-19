@@ -24,8 +24,6 @@ async function createAircraft(aircraft, svgFile, jsonFile, relatedImages) {
         let svgUrl = null;
         let jsonUrl = null;
         let seatData = [];
-
-        // Upload SVG nếu có
         if (svgFile) {
             const svgPath = `${aircraft.AircraftID}/${svgFile.name}`;
             const svgUpload = await supabase.storage
@@ -37,8 +35,6 @@ async function createAircraft(aircraft, svgFile, jsonFile, relatedImages) {
             if (svgUpload.error) throw svgUpload.error;
             svgUrl = supabase.storage.from('aircraft-files').getPublicUrl(svgPath).data.publicUrl;
         }
-
-        // Upload JSON nếu có
         if (jsonFile) {
             const jsonPath = `${aircraft.AircraftID}/${jsonFile.name}`;
             const jsonUpload = await supabase.storage
@@ -57,8 +53,6 @@ async function createAircraft(aircraft, svgFile, jsonFile, relatedImages) {
                 Class: seat[2].includes('First Class') ? 'First' : seat[2].includes('Business') ? 'Business' : 'Economy',
             }));
         }
-
-        // Upload các ảnh liên quan
         let relatedImageUrls = "";
         for (const image of relatedImages) {
             const imagePath = `${aircraft.AircraftID}/related-images/${image.name}`;
@@ -69,14 +63,12 @@ async function createAircraft(aircraft, svgFile, jsonFile, relatedImages) {
                     upsert: true,
                 });
             if (imageUpload.error) throw imageUpload.error;
-
             const imageUrl = supabase.storage.from('aircraft-files').getPublicUrl(imagePath).data.publicUrl;
             relatedImageUrls += imageUrl + ",";
         }
         if (relatedImageUrls.length === 0) relatedImageUrls = null;
         else relatedImageUrls = relatedImageUrls.slice(0, -1);
 
-        // Tạo Aircraft
         await Aircraft.create(
             {
                 AircraftID: aircraft.AircraftID,
@@ -93,7 +85,6 @@ async function createAircraft(aircraft, svgFile, jsonFile, relatedImages) {
 
         await Seat.bulkCreate(seatData, { transaction });
 
-        // Commit transaction
         await transaction.commit();
     } catch (error) {
         await transaction.rollback();

@@ -1,4 +1,3 @@
-// models/Airport.js
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../db');
 
@@ -13,11 +12,11 @@ const Airport = sequelize.define('Airport', {
     },
     City: {
         type: DataTypes.STRING(50),
-        allowNull: false,
+        allowNull: true,
     },
     Country: {
         type: DataTypes.STRING(50),
-        allowNull: false,
+        allowNull: true,
     },
 }, {
     timestamps: false,

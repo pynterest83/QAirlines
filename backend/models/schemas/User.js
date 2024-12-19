@@ -4,7 +4,7 @@ const sequelize = require('../../db');
 const User = sequelize.define('User', {
     UserID: {
         type: DataTypes.STRING,
-        primaryKey: true // Khóa chính
+        primaryKey: true 
     },
     Username: {
         type: DataTypes.STRING(50),
@@ -17,7 +17,7 @@ const User = sequelize.define('User', {
     Role: {
         type: DataTypes.STRING,
         allowNull: false,
-        defaultValue: 'User' // Mặc định là User
+        defaultValue: 'User' 
     }
 });
 
