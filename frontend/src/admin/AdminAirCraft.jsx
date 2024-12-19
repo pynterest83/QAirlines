@@ -3,6 +3,7 @@ import { Navigate } from "react-router-dom";
 import { Server } from "../Server";
 import AdminNavigation from "./components/AdminNavigation";
 import airplaneLoader from '../assets/images/airplaneLoader.gif'; // Import the loading GIF
+import ScrollToTop from "../scroll.jsx";
 
 const AdminAircraft = () => {
     const token = localStorage.getItem("token");
@@ -82,6 +83,7 @@ const AdminAircraft = () => {
     }
     return (
         <div className="relative">
+            <ScrollToTop />
             <AdminNavigation />
             <div className="p-6 bg-gray-100 min-h-screen">
                 <h2 className="text-xl font-bold mb-6">Create New Aircraft</h2>

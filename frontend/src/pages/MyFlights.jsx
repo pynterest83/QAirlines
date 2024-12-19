@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Ticket from "../components/MyFlight/Ticket.jsx";
 import ErrorBox from "../components/MyFlight/ErrorBox.jsx";
+import ScrollToTop from "../scroll.jsx";
 
 function MyFlights() {
   const props = useLocation().state;
@@ -56,6 +57,7 @@ function MyFlights() {
 
   return (
     <div className="relative">
+      <ScrollToTop />
       <Navigation selecting={"info"} />
       <div className="sticky top-[78px] px-4 md:px-0 border-[#000000] border flex-col md:flex-row py-2 w-[95%] md:w-4/6 bg-white rounded-lg md:rounded-lg mx-auto my-6 flex justify-evenly items-stretch be-vietnam-pro-bold">
         <div className="cursor-pointer">

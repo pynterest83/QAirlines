@@ -1,6 +1,7 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Navigation from "../components/Navigation.jsx";
+import ScrollToTop from "../scroll.jsx";
 
 const BannerPage = () => {
   const location = useLocation();
@@ -14,6 +15,7 @@ const BannerPage = () => {
 
   return (
     <div className="relative">
+      <ScrollToTop />
       <Navigation selecting="info" />
       {data ? (
         <div>
