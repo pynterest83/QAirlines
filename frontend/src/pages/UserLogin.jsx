@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode'; // Use named import
 import { Server } from '../Server';
@@ -6,6 +6,7 @@ import ScrollToTop from "../scroll.jsx";
 
 const UserLogin = () => {
     const navigate = useNavigate();
+    const [error, loginError] = useState(null);
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -26,6 +27,7 @@ const UserLogin = () => {
             console.log('Decoded token:', decodedToken);
             if (decodedToken.Role !== 'User') {
                 console.error('Access denied: Not a user');
+                loginError('Access denied: Not a user');
                 return;
             }
             // Store the token in localStorage
@@ -36,6 +38,7 @@ const UserLogin = () => {
         } else {
             // Handle login error
             console.error('User login error:', data.error);
+            loginError(data.error);
         }
     };
 
@@ -59,7 +62,7 @@ const UserLogin = () => {
                         >
                             Username
                         </label>
-                        <input
+                        <input onChange={() => { if (error) loginError(null) }}
                             type="text"
                             name="username"
                             className="w-full border-b border-gray-300 focus:border-blue-500 focus:outline-none py-2"
@@ -71,7 +74,7 @@ const UserLogin = () => {
                             Password
                         </label>
                         <div className="relative">
-                            <input
+                            <input onChange={() => { if (error) loginError(null) }}
                                 type="password"
                                 name="password"
                                 className="w-full border-b border-gray-300 focus:border-blue-500 focus:outline-none py-2 pr-10"
@@ -84,6 +87,7 @@ const UserLogin = () => {
                             </button>
                         </div>
                     </div>
+                    {error && <div className="text-red-600">{error}</div>}
                     <div className="flex justify-between text-sm text-[#6d24cf]">
                         <Link to="/signup" className="hover:underline">
                             Sign-up
