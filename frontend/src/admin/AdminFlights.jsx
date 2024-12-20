@@ -153,8 +153,8 @@ const AdminFlights = () => {
 
     const formatDateTime = (dateTime) => {
         const date = new Date(dateTime);
-        const formattedDate = date.toLocaleDateString();
-        const formattedTime = date.toLocaleTimeString();
+        const formattedDate = date.toISOString().split('T')[0]; // Keep the original date format
+        const formattedTime = date.toLocaleTimeString('en-GB', { timeZone: 'UTC' }); // Convert time to GMT+0
         return { formattedDate, formattedTime };
     };
 

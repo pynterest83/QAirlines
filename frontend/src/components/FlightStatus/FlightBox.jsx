@@ -17,13 +17,10 @@ const FlightBox = (props) => {
   const DestID = props.DestID;
 
   const formatDate = (date) => {
-    return date.toLocaleString('en-US', {
-      weekday: 'short',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    });
+    const originalDate = new Date(date);
+    const formattedDate = originalDate.toISOString().split('T')[0]; // Keep the original date format
+    const formattedTime = originalDate.toISOString().split('T')[1].slice(0, 5); // Extract time in HH:MM format
+    return `${formattedDate} ${formattedTime}`;
   };
 
   const getPlanePosition = () => {
