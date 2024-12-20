@@ -42,7 +42,7 @@ async function bookTicket(flightID, seatNo, passID) {
     const flight = await Flight.findByPk(flightID);
     if (!flight) throw new Error('Flight not found');
 
-    const ticketID = `T${Math.floor(Math.random() * 1000000)}`;
+    const ticketID = `T${Math.floor(Math.random() * 100000)}`;
     const cancellationDeadline = new Date(new Date(flight.DepTime).getTime() - 72 * 60 * 60 * 1000);
 
     const ticket = await Ticket.create({
