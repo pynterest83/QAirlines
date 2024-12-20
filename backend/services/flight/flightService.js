@@ -6,9 +6,9 @@ async function updateFlight(flightID, updates) {
     if (!flight) {
         throw new Error('Flight not found');
     }
-    if (updates.DepTime && !flight.OriginalDepTime) flight.OriginalDepTime = flight.DepTime;
-    if (updates.ArrTime && !flight.OriginalArrTime) flight.OriginalArrTime = flight.ArrTime;
-    if (updates.BoardingTime && !flight.OriginalBoardingTime) flight.OriginalBoardingTime = flight.BoardingTime;
+    if (updates.DepTime && flight.OriginalDepTime !== updates.DepTime) flight.OriginalDepTime = flight.DepTime;
+    if (updates.ArrTime && flight.OriginalArrTime !== updates.ArrTime) flight.OriginalArrTime = flight.ArrTime;
+    if (updates.BoardingTime && flight.OriginalBoardingTime !== updates.BoardingTime) flight.OriginalBoardingTime = flight.BoardingTime;
     Object.keys(updates).forEach(key => {
         if (updates[key] !== undefined) {
             flight[key] = updates[key];
