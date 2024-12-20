@@ -102,16 +102,30 @@ const AdminFlights = () => {
     };
 
     const handleEditSave = () => {
-        const updatedFlight = {
-            flightID: editFlight.FlightID,
-            DepTime: editFlight.DepTime,
-            BoardingTime: editFlight.BoardingTime,
-            Status: editFlight.Status,
-            DestID: editFlight.DestID,
-            ArrTime: editFlight.ArrTime,
-            DepID: editFlight.DepID,
-            AircraftID: editFlight.AircraftID
-        };
+        const updatedFlight = {};
+        if (editFlight.DepTime !== flights.find(flight => flight.FlightID === editFlight.FlightID).DepTime) {
+            updatedFlight.DepTime = editFlight.DepTime;
+        }
+        if (editFlight.BoardingTime !== flights.find(flight => flight.FlightID === editFlight.FlightID).BoardingTime) {
+            updatedFlight.BoardingTime = editFlight.BoardingTime;
+        }
+        if (editFlight.Status !== flights.find(flight => flight.FlightID === editFlight.FlightID).Status) {
+            updatedFlight.Status = editFlight.Status;
+        }
+        if (editFlight.DestID !== flights.find(flight => flight.FlightID === editFlight.FlightID).DestID) {
+            updatedFlight.DestID = editFlight.DestID;
+        }
+        if (editFlight.ArrTime !== flights.find(flight => flight.FlightID === editFlight.FlightID).ArrTime) {
+            updatedFlight.ArrTime = editFlight.ArrTime;
+        }
+        if (editFlight.DepID !== flights.find(flight => flight.FlightID === editFlight.FlightID).DepID) {
+            updatedFlight.DepID = editFlight.DepID;
+        }
+        if (editFlight.AircraftID !== flights.find(flight => flight.FlightID === editFlight.FlightID).AircraftID) {
+            updatedFlight.AircraftID = editFlight.AircraftID;
+        }
+        updatedFlight.flightID = editFlight.FlightID;
+
         updateFlight(updatedFlight).then(() => {
             window.location.reload(); 
         });
