@@ -1,10 +1,6 @@
-export const AirportData = {
-    'FROM': 'From City',
-    'TO': 'To City',
-    'HAN': 'Hanoi',
-    'SGN': 'Ho Chi Minh City',
-    'DAD': 'Da Nang',
-    'CXR': 'Nha Trang',
-    'PQC': 'Phu Quoc',
-    'LAX': 'Los Angeles'
-};
+import airports from '../../airports.json';
+
+export const AirportData = airports.reduce((acc, airport) => {
+    acc[airport[0]] = airport[2];
+    return acc;
+}, {});
