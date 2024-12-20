@@ -94,21 +94,6 @@ const AdminFlights = () => {
         }
     };
 
-    const handleDelete = async (id) => {
-        const response = await fetch(`${Server}flights/delete/${id}`, {
-            method: 'DELETE',
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
-
-        if (response.ok) {
-            setFlights(flights.filter(flight => flight.FlightID !== id));
-        } else {
-            console.error('Failed to delete flight:', response.statusText);
-        }
-    };
-
     const handleEditChange = (e, field) => {
         setEditFlight({
             ...editFlight,
@@ -468,12 +453,6 @@ const AdminFlights = () => {
                                                     Edit
                                                 </button>
                                             )}
-                                            <button
-                                                onClick={() => handleDelete(flight.FlightID)}
-                                                className="bg-red-500 text-white px-2 py-1 rounded-md"
-                                            >
-                                                Delete
-                                            </button>
                                         </td>
                                     </tr>
                                 );
