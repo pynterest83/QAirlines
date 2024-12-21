@@ -13,7 +13,7 @@
     ```
 3. **Set up the database**
 - Create database qairline in your database (PostgreSQL)
-- Import the [qairline_backup.sql](qairline_backup.sql) file to qairline
+- Import the [qairline_backup.sql](../qairline_backup.sql) file to qairline
    
 ## Usage
 **Start the server:**
