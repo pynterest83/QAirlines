@@ -60,6 +60,8 @@ QAirlines is a comprehensive flight management platform designed to streamline t
 
 Check out the live demo of QAirlines here: [Demo Link](https://qairlines.vercel.app/)  
 
+Note for the project here: [Working Note](https://boiling-rodent-bb9.notion.site/QAirline-project-12e2b2b5f06d8028ac9bf117dd4aec11?pvs=4)
+
 > **Note:** The demo is for demonstration purposes only and may not include all features or real-time updates.
 
 ---  
