@@ -12,10 +12,8 @@
     npm install
     ```
 3. **Set up the database**
-- Create database qairline in your database (MySQL)
-- Import the [qairline-database.sql](qairline-database.sql) file to qairline
-- Configure the database connection in the [db.js](db.js)
-  file
+- Create database qairline in your database (PostgreSQL)
+- Import the [qairline_backup.sql](qairline_backup.sql) file to qairline
    
 ## Usage
 **Start the server:**
