@@ -35,8 +35,8 @@ QAirlines is a comprehensive flight management platform designed to streamline t
 ### Steps
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-repo/qairlines.git
-   cd qairlines
+   git clone https://github.com/pynterest83/QAirlines.git
+   cd QAirlines
    ```
 2. Set up the environment variables:
    Create a `.env` file in the root directory and config as the `.env.example`
